@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "Gotham-Light";
+  src: local("Gotham-Light"),
+    url("../Fonts/Gotham-Light.woff") format("truetype");
+}
+@font-face {
+  font-family: "MaisonNeue-Light";
+  src: local("MaisonNeue-Light"),
+    url("../Fonts/MaisonNeue-Light.woff") format("truetype");
+}
+
+@font-face {
+  font-family: "PerpetuaStd";
+  src: local("PerpetuaStd"), url("../Fonts/PerpetuaStd.woff") format("truetype");
+}
+
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400&display=swap");
