@@ -1,0 +1,68 @@
+{
+  "item": [
+    {
+      "id": 0,
+      "thumnail": "https://www.lahanhotels.com/upfile/images/offer/63712c3c-edd9-490f-aa0c-fded7f046909.jpg",
+      "year": 2020,
+      "detail": "01.22 - 2020.03.22",
+      "title": "Fresh Strawberry Promotion",
+      "place": "Ulsan"
+    },
+    {
+      "id": 1,
+      "thumnail": "https://www.lahanhotels.com/upfile/images/offer/a9e64ccf-11cf-412d-8428-aec9107d5fa3.jpg",
+      "year": 2020,
+      "detail": "02.01 - 2020.12.31",
+      "title": "라한호텔 포항 하우스웨딩",
+      "place": "Pohang"
+    },
+    {
+      "id": 2,
+      "thumnail": "https://www.lahanhotels.com/upfile/images/offer/2dc74b22-ac1a-4233-8516-49133bd3bfbe.jpg",
+      "year": 2020,
+      "detail": "02.10 - 2020.04.10",
+      "title": "칼스버그 4+1 프로모션",
+      "place": "Ulsan"
+    },
+    {
+      "id": 3,
+      "thumnail": "https://www.lahanhotels.com/upfile/images/offer/bbe79709-b0ca-4fbc-add5-612bfa8faca1.jpg",
+      "year": 2020,
+      "detail": "02.20 - 2020.03.15",
+      "title": "피트니스센터 가입 프로모션",
+      "place": "Gyeongju"
+    },
+    {
+      "id": 4,
+      "thumnail": "https://www.lahanhotels.com/upfile/images/offer/b95bbbd8-1ced-4a0f-a689-78e5ab777d75.jpg",
+      "year": 2020,
+      "detail": "03.01 - 2020.05.31",
+      "title": "[봄] WELCOME SPRING 패키지",
+      "place": "Mokpo"
+    },
+    {
+      "id": 5,
+      "thumnail": "https://www.lahanhotels.com/upfile/images/offer/b95bbbd8-1ced-4a0f-a689-78e5ab777d75.jpg",
+      "year": 2020,
+      "detail": "03.01 - 2020.05.31",
+      "title": "[봄] WELCOME SPRING 패키지",
+      "place": "Ulsan"
+    },
+    {
+      "id": 6,
+      "thumnail": "https://www.lahanhotels.com/upfile/images/offer/a6870c1b-2bf9-4f52-8eec-1d6384acf128.jpg",
+      "year": 2020,
+      "detail": "03.09 - 2020.04.01",
+      "title": "[한정특가] SELECT YOUR STAY 패키지",
+      "place": "Ulsan"
+    },
+    {
+      "id": 7,
+      "thumnail": "https://www.lahanhotels.com/upfile/images/offer/b3e3cc49-e2cc-47fe-9812-f14b51a9bee6.jpg",
+      "year": 2020,
+      "detail": "01.01 - 2020.12.31",
+      "title": "[키즈] Oh My Baby 패키지",
+      "place": "Mokpo"
+    }
+  ]
+}
