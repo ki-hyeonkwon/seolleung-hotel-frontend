@@ -49,7 +49,7 @@ export default class Calendar extends Component {
                 textAlign: "center",
                 fontSize: "22px",
                 width: "140px",
-                display: "hidden",
+                overflow: "hidden",
                 zIndex: "3",
                 marginLeft: "10px",
                 color: "white"
