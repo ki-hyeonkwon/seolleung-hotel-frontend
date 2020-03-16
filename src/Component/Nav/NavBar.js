@@ -55,15 +55,17 @@ const RowList = styled.div`
 
 // 각 CSS
 const NavWrapper = styled.header`
-  position: absolute;
+  position: fixed;
   top: 60px;
-  width: 100vw;
+  right: 100px;
+  width: 340px;
   height: 117px;
+  z-index: 100;
 `;
 
 const Pad = styled.div`
   position: relative;
-  width: 60vw;
+  width: 340px;
   height: 117px;
   margin: 0 auto;
 `;
@@ -95,6 +97,7 @@ const NavBoxLi = styled.div`
   height: 44px;
   margin: 0 auto;
   position: relative;
+  cursor: pointer;
 `;
 
 const DropDownTitle = styled(Center.withComponent("div"))`
