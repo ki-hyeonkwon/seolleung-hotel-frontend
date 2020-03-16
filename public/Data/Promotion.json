@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "id": "0",
+      "image": "https://www.lahanhotels.com//upfile/images/stay/70ef43b5-668e-4dd8-a462-e25a9e8ee9a6.jpg",
+      "content": "월넛 브라운톤 인테리어가 돋보이는 디럭스룸에서는 아늑한 휴식을 선사합니다. 한국적인 요소를 부여해 온화하고 단아한 무드가 느껴지는 디럭스룸에서 완벽한 휴식을 누려보십시오.",
+      "name": "DELUXE TWIN",
+      "capacity": "3인 (최대 4인)",
+      "rooms": "침실, 욕실, 화장실",
+      "bed": "더블 1, 싱글 1"
+    },
+    {
+      "id": "1",
+      "image": "https://www.lahanhotels.com//upfile/images/stay/d48957ca-1fb4-4319-b86d-cb9820ff07f4.jpg",
+      "content": "월넛 브라운톤 인테리어가 돋보이는 디럭스룸에서는 아늑한 휴식을 선사합니다. 한국적인 요소를 부여해 온화하고 단아한 무드가 느껴지는 디럭스룸에서 완벽한 휴식을 누려보십시오.",
+      "name": "DELUXE DOUBLE",
+      "capacity": "4인 (최대 6인)",
+      "rooms": "침실, 욕실, 화장실",
+      "bed": "더블 2, 싱글 1"
+    },
+    {
+      "id": "2",
+      "image": "https://www.lahanhotels.com//upfile/images/stay/48d3ea8b-c878-4f37-900c-242cadb3f9dd.jpg",
+      "content": "월넛 브라운톤 인테리어가 돋보이는 디럭스룸에서는 아늑한 휴식을 선사합니다. 한국적인 요소를 부여해 온화하고 단아한 무드가 느껴지는 디럭스룸에서 완벽한 휴식을 누려보십시오.",
+      "name": "DELUXE DOUBLE",
+      "capacity": "4인 (최대 6인)",
+      "rooms": "침실, 욕실, 화장실",
+      "bed": "더블 2, 싱글 1"
+    }
+  ]
+}

@@ -1,12 +1,14 @@
 import React, { Component, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
 import BookList from "Component/Book/BookList.js";
+import Calendar from "Component/Book/Calendar.js";
 
 const Booking = () => {
   return (
     <BookingAreaWrapper>
       <BookingArea>
         <BookingOn>
+          <Calendar />
           <BookList
             listTitle="ROOM"
             firstList="DELUXE"
@@ -45,7 +47,7 @@ export default Booking;
 
 const BookingAreaWrapper = styled.div`
   position: absolute;
-  bottom: 25%;
+  bottom: 20%;
   left: 10%;
 `;
 const BookingArea = styled.div`
@@ -62,5 +64,5 @@ const BookingOn = styled.div`
   align-items: center;
   flex-direction: column;
   position: absolute;
-  bottom: -323px;
+  bottom: -322px;
 `;

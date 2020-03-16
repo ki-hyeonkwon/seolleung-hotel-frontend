@@ -22,7 +22,7 @@ const BookList = props => {
   return (
     <BookBox>
       <BookButton for="roomKind" name="room" onClick={openList}>
-        {props.fix}&nbsp;&nbsp;
+        {props.fix}
         {item}
       </BookButton>
       <BookUl open={open}>
@@ -66,7 +66,7 @@ const BookButton = styled.button`
   outline: none;
   color: white;
   background-color: transparent;
-  font-family: PerpetuaStd;
+  font-family: "PerpetuaStd";
   text-align: left;
   font-size: 22px;
   font-weight: 200;
@@ -82,8 +82,8 @@ const BookUl = styled.ul`
   list-style: none;
   color: #ada2a4;
   background-color: transparent;
-  bottom: 0;
-  z-index: 2;
+  bottom: 0px;
+  z-index: 5;
 `;
 
 const BookLi = styled.li`
@@ -98,11 +98,9 @@ const BookLi = styled.li`
   padding-left: 5px;
   /* opacity: 0.7; */
   transition: 0.3s;
-  font-weight:300;
-  z-index: 2;
+  font-weight: 300;
   &:hover {
     opacity: 1;
     background-color: rgb(166, 129, 100);
-    z-index: 2;
   }
 `;
