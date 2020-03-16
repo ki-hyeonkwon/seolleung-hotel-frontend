@@ -39,6 +39,7 @@ const Booking = () => {
             sixthList="6"
           />
         </BookingOn>
+        <BookButton>Book Now</BookButton>
       </BookingArea>
     </BookingAreaWrapper>
   );
@@ -65,4 +66,15 @@ const BookingOn = styled.div`
   flex-direction: column;
   position: absolute;
   bottom: -322px;
+`;
+
+const BookButton = styled.div`
+  position: absolute;
+  width: 130px;
+  height: 28px;
+  right: 0;
+  bottom: 10px;
+  color: white;
+  font-size: 22px;
+  font-weight: 200;
 `;
