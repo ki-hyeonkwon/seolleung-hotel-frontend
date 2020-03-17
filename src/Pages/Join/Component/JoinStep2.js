@@ -1,14 +1,12 @@
 /* eslint-disable no-unused-expressions */
+
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
 import styled from "styled-components";
-import JoinTitle from "./Component/JoinTitle";
-import JoinSubTitle from "./Component/JoinSubTitle";
-import JoinLink from "./Component/JoinLink";
-import * as URL from "../../config";
+import * as URL from "../../../config";
 
-class JoinContentStep2 extends Component {
+class JoinStep2 extends Component {
   constructor(props) {
     super(props);
 
@@ -24,7 +22,10 @@ class JoinContentStep2 extends Component {
       gender: "2",
       cpNum: "",
       pNum: "",
+      authOpen: false,
+      authRes: "",
       authNum: "",
+      authBl: false,
       zipCode: "",
       realAddress: "",
       detailAddress: "",
@@ -42,35 +43,17 @@ class JoinContentStep2 extends Component {
         pNum: "",
         authNum: "",
         mail: ""
-      },
-      titleFirst: "pass",
-      titleSecond: "active",
-      subTitle: 2,
-      buttonText: "가입완료"
+      }
     };
-
-    this.handleAuth=this.handleAuth.bind(this);
-    this.handleInput=this.handleInput.bind(this);
   }
 
-  componentDidMount() {
-    //this._ismounted = true;
-
-    let marketingCheck = window.sessionStorage.getItem("marketingCheck");
-    let marketingReportCheck = window.sessionStorage.getItem(
-      "marketingReportCheck"
-    );
-
-    if ((marketingCheck && marketingReportCheck) === null) {
-      this.props.history.push({
-        pathname: "/joinStep1"
-      });
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      this.props.onKeyUp(this.state);
+      this.props.onClick(this.state);
+      this.props.onChange(this.state);
     }
   }
-
-  /*componentWillUnmount() {
-    this._ismounted = false;
-  }*/
 
   handleChange = e => {
     this.setState({
@@ -79,43 +62,45 @@ class JoinContentStep2 extends Component {
   };
 
   handleAuth = e => {
-    if (this.state.pNum.length < 10) {
+    if (this.state.cpNum.length < 11) {
       alert("휴대폰 번호를 입력하세요.");
+
+      this.setState({
+        authOpen: false
+      });
     } else {
       this.setState({
         authOpen: true
       });
 
-      console.log(this.state.cpNum)
-
-
-      //this.state.pNum
-      fetch(URL.SMS_URL, {
+      fetch(`${URL.SMS_URL}/sms-auth`, {
         method: "POST",
         body: JSON.stringify({
-          mobile: this.state.cpNum,
-        }),
+          mobile: this.state.cpNum
+        })
       })
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res =>
+          this.setState({
+            authRes: res.AUTHENTICATION
+          })
+        );
     }
   };
 
   hadnleAuthComplete = e => {
-    const server_id = "123";
-    const messageId = "111";
+    alert(
+      this.state.authNum === `${this.state.authRes}`
+        ? "인증완료되었습니다."
+        : "인증실패하였으니 다시 입력해주십시오."
+    );
 
-    fetch(`URL.SMS_URL/${server_id}/messages/${this.state.pNum}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-ncp-apigw-timestamp": "{내용이??}",
-        "x-ncp-iam-access-key": "{내용이??}",
-        "x-ncp-apigw-signature-v2": "{내용이??}"
-      }
-    })
-      .then(res => res.json)
-      .then(res => console.log(res));
+    this.setState(previousState => {
+      return {
+        authBl:
+          previousState.authNum === `${previousState.authRes}` ? true : false
+      };
+    });
   };
 
   handleAddressClick = e => {
@@ -182,7 +167,7 @@ class JoinContentStep2 extends Component {
           : "영어로 정확하게 입력해주세요.";
         break;
       case "birthDate":
-        error.birthDate = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/.test(
+        error.birthDate = /^(19[0-9][0-9]|20\d{2})[\/\-](0[0-9]|1[0-2])[\/\-](0[1-9]|[1-2][0-9]|3[0-1])$/.test(
           target.value
         )
           ? ""
@@ -260,10 +245,15 @@ class JoinContentStep2 extends Component {
         even: false
       });
 
-      const idDuplicateCheck = await fetch(`${URL.SERVER_URL}/id-verification`);
-
       this.setState({
         even: true
+      });
+
+      const idDuplicateCheck = await fetch(`${URL.SMS_URL}/id-verification`, {
+        method: "POST",
+        body: JSON.stringify({
+          account: param
+        })
       });
 
       return {
@@ -287,56 +277,6 @@ class JoinContentStep2 extends Component {
     this.props.history.push({
       pathname: "/joinStep1"
     });
-  };
-
-  handleJoinSubmit = e => {
-    e.preventDefault();
-    const {
-      id,
-      pwd,
-      pwdCheck,
-      koreanName,
-      englishName,
-      birthDate,
-      cpNum,
-      pNum,
-      authNum,
-      zipCode,
-      realAddress,
-      detailAddress,
-      mail,
-      selectValue,
-      error
-    } = this.state;
-
-    const idBl = error.id === "사용가능한 아이디입니다." && id.length > 0;
-    const pwdBl = error.pwd.length === 0 && pwd.length > 0;
-    const pwdCheckBl = error.pwdCheck.length === 0 && pwdCheck.length > 0;
-    const koreanNameBl = error.koreanName.length === 0 && koreanName.length > 0;
-    const englishNameBl =
-      error.englishName.length === 0 && englishName.length > 0;
-    const birthDateBl = error.birthDate.length === 0 && birthDate.length > 0;
-    const cpNumBl = error.cpNum.length === 0 && cpNum.length > 0;
-    const pNumBl = error.pNum.length === 0 && pNum.length > 0;
-    const authNumBl = error.authNum.length === 0 && authNum.length > 0;
-    const addresssBl = zipCode.length > 0 && realAddress.length > 0;
-    const mailBl = error.mail.length > 0 && mail.lnegth > 0;
-
-    if (
-      idBl &&
-      pwdBl &&
-      pwdCheckBl &&
-      koreanNameBl &&
-      englishNameBl &&
-      birthDateBl &&
-      cpNumBl &&
-      pNumBl &&
-      authNumBl &&
-      addresssBl &&
-      mailBl
-    ) {
-      console.log("a");
-    }
   };
 
   render() {
@@ -426,12 +366,12 @@ class JoinContentStep2 extends Component {
               <SectionInput
                 onKeyUp={this.handleInput}
                 defaultValue={birthDate}
-                maxLength="8"
+                maxLength="10"
                 name="birthDate"
-                placeholder="생년월일"
+                placeholder="생년월일(YYYY-MM-DD 형식)"
                 type="text"
               />
-              <p>{this.state.error.birthDate}</p>
+              <SectionInputText>{this.state.error.birthDate}</SectionInputText>
             </SectionInputBox_v2_InputBox>
             <SectionInputBox_v2_CheckboxBox>
               <SectionInputBox_v2_Checkbox
@@ -466,7 +406,7 @@ class JoinContentStep2 extends Component {
           </SectionInputBox_v2>
           <SectionInputBox>
             <SectionInput
-              onKeyUp={e => this.handleInput(e)}
+              onKeyUp={this.handleInput}
               defaultValue={cpNum}
               maxLength="11"
               name="cpNum"
@@ -556,6 +496,18 @@ class JoinContentStep2 extends Component {
               value={selectValue}
             >
               <option value="">직업(선택)</option>
+              <option value="1">개발자</option>
+              <option value="2">관리자</option>
+              <option value="3">전문가 및 관련 종사자</option>
+              <option value="4">사무 종사자</option>
+              <option value="5">서비스 종사자</option>
+              <option value="6">판매 종사자</option>
+              <option value="7">농림어업 숙련 종사자</option>
+              <option value="8">기능원 및 관련 기능 종사자</option>
+              <option value="9">장치, 기계 조작 및 조립 종사자</option>
+              <option value="10">단순 노무 종사자</option>
+              <option value="11">군인</option>
+              <option value="12">기타</option>
             </SectionSelect>
           </div>
         </SectionInputContainer>
@@ -685,9 +637,10 @@ const SectionSelect = styled.select`
   }
 `;
 
-export default JoinContentStep2;
+export default JoinStep2;
 
 /*
+
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import * as URL from "../../../config";
@@ -901,6 +854,7 @@ const statusId = styled.p`
   color: red;
 `;
 
-export default JoinContentStep2;
+export default JoinStep2;
+
 
 */

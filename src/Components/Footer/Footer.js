@@ -40,6 +40,29 @@ export default class Footer extends Component {
                     />
                   </li>
                 </ul>
+                <FooterSelectBox>
+                  <button>Family Site</button>
+                  <ul>
+                    <li>
+                      <a href="">LAHAN</a>
+                    </li>
+                    <li>
+                      <a href="">Gyeongju</a>
+                    </li>
+                    <li>
+                      <a href="">Ulsan</a>
+                    </li>
+                    <li>
+                      <a href="">Mokpo</a>
+                    </li>
+                    <li>
+                      <a href="">Pohang</a>
+                    </li>
+                    <li>
+                      <a href="">Seamarg</a>
+                    </li>
+                  </ul>
+                </FooterSelectBox>
               </FooterRight>
             </FooterCnt>
           </FooterWrap>
@@ -92,7 +115,7 @@ const FooterCnt = styled.div`
 const FooterRight = styled.div`
   width: 100px;
   position: relative;
-  ul {
+  > ul {
     position: absolute;
     right: 20px;
     top: 10px;
@@ -106,5 +129,35 @@ const FooterRight = styled.div`
         transform: rotate(90deg);
       }
     }
+  }
+`;
+
+const FooterSelectBox = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 172px;
+
+  button {
+    width: 100%;
+    padding: 8px 0;
+    font-size: 13px;
+    color: #fff;
+    background-color: #161e27;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+  }
+
+  ul {
+    position: absolute;
+    right: 0;
+    bottom: 38px;
+    width: 100%;
+    background-color: #fff;
+  }
+
+  li {
+    padding-left: 10px;
+    text-align: left;
   }
 `;
