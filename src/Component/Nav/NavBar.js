@@ -3,7 +3,16 @@ import DropDownNav from "../Nav/DropDownNav";
 import styled from "styled-components";
 
 export default class NavBar extends Component {
+  constructor() {
+    super();
+    this.test = React.createRef();
+    this.state = {
+      place: ["경주", "울산", "목포", "포항", "진주", "seanarQ"],
+      other: ["맴버십 소개", "로그인", "가입"]
+    };
+  }
   render() {
+    const { place, other } = this.state;
     return (
       <NavWrapper>
         <Pad>
@@ -18,18 +27,11 @@ export default class NavBar extends Component {
             </LogoBox>
             <NavBox>
               <NavBoxUl>
-                <DropDownNav
-                  menu1="경주"
-                  menu2="울산"
-                  menu3="목포"
-                  menu4="포항"
-                  menu5="진주"
-                  menu6="seanarQ"
-                />
+                <DropDownNav menu={place} />
                 <NavBoxLi>
                   <DropDownTitle>Brand story</DropDownTitle>
                 </NavBoxLi>
-                <DropDownNav menu1="맴버십 소개" menu2="로그인" menu3="가입" />
+                <DropDownNav menu={other} />
               </NavBoxUl>
             </NavBox>
           </TopRightMenu>

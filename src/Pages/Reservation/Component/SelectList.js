@@ -9,16 +9,13 @@ const SelectList = props => {
   const onChangeItem = e => {
     setItem(e.target.innerText);
     setOpen(!open);
+    // props.getNumPeo(e);
   };
 
   const openList = e => {
     console.log("open :", open);
     setOpen(!open);
   };
-
-  // useEffect(() => {
-  //   openList();
-  // });
 
   return (
     <BookBox>
@@ -86,7 +83,7 @@ const BookUl = styled.ul`
   position: relative;
   width: 340px;
   list-style: none;
-  color: #ada2a4;
+  color: #a8bae6;
   background-color: transparent;
   bottom: 0px;
   z-index: 15;
@@ -99,7 +96,6 @@ const BookLi = styled.li`
   font-size: 14px;
   line-height: 60px;
   text-align: left;
-  color: black;
   background-color: #fff;
   padding-left: 5px;
   color:#a8bae6;
@@ -110,7 +106,7 @@ const BookLi = styled.li`
     opacity: 1;
     background-color: #a8bae6;
     /* rgb(166, 129, 100); */
-    color:#fff;
+    color:#5c4a72;
     font-size: 15px;
   }
 `;

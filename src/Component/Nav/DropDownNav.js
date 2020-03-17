@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import styled, { css, keyframes } from "styled-components";
 
 export default class DropDownNav extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       mouseToggle: false
     };
@@ -15,16 +15,15 @@ export default class DropDownNav extends Component {
   };
 
   render() {
+    console.log("hi", this.props.menu);
+
     return (
       <NavBoxLi onMouseEnter={this.mouseOn} onMouseLeave={this.mouseOn}>
         <DropDownTitle>Find hotel</DropDownTitle>
         <DropDownUl hotel onOff={this.state.mouseToggle}>
-          <DropDownLi>{this.props.menu1 && this.props.menu1}</DropDownLi>
-          <DropDownLi>{this.props.menu2 && this.props.menu2}</DropDownLi>
-          <DropDownLi>{this.props.menu3 && this.props.menu3}</DropDownLi>
-          <DropDownLi>{this.props.menu4 && this.props.menu4}</DropDownLi>
-          <DropDownLi>{this.props.menu5 && this.props.menu5}</DropDownLi>
-          <DropDownLi>{this.props.menu6 && this.props.menu6}</DropDownLi>
+          {this.props.menu.map((list, i) => {
+            return <DropDownLi key={i}>{list}</DropDownLi>;
+          })}
         </DropDownUl>
       </NavBoxLi>
     );

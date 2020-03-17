@@ -1,7 +1,8 @@
 import React, { Component, useState } from "react";
 import styled from "styled-components";
 import SelectList from "Pages/Reservation/Component/SelectList.js";
-// import BookButton from "Pages/Reservation/Component/BookButton.js";
+import RoomList from "Pages/Reservation/Component/RoomList";
+import BookModal from "Pages/Reservation/Component/BookModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
@@ -15,23 +16,54 @@ export default class extends Component {
     this.test = React.createRef();
     this.state = {
       date: new Date(),
-      checkIn: false
+      checkIn: false,
+      checkInDay: "",
+      checkOutDay: "",
+      checkInMonth: "",
+      checkOutMonth: "",
+      place: "",
+      roomKind: "",
+      numPeo: ""
+      // modalClose: true
     };
   }
-  handleClick = () => {
+  handleClick = e => {
     this.refs.refDatePicker.flatpickr.clear();
+    // console.log(e);
   };
-  handleCheckIn = () => {
-    this.setState({ checkIn: !this.state.checkIn });
+  handelCheckBox = e => {
+    const checkInDate = Object.values(e)[0];
+    const checkOutDate = Object.values(e)[1];
+    if (checkInDate !== undefined && checkOutDate !== undefined) {
+      this.setState({ checkInDay: checkInDate.getDate() });
+      this.setState({ checkOutDay: checkOutDate.getDate() });
+      this.setState({ checkInMonth: checkInDate.getMonth() + 1 });
+      this.setState({ checkOutMonth: checkOutDate.getMonth() + 1 });
+    }
   };
+
+  handlePlace = place => {
+    this.setState({ place: place });
+  };
+
+  handleRoomKind = roomKind => {
+    this.setState({ roomKind: roomKind });
+  };
+
+  handleNumPeo = peo => {
+    this.setState({ numPeo: peo });
+  };
+
   render() {
-    const { date } = this.state;
+    const { date, modalClose } = this.state;
+    // const Nights = {{this.state.previousDays} + {this.state.nextDays}!==0 && this.state.previousDays + this.state.nextDays}
     return (
       <ReservationWrapper>
         <ReservationContainer>
           <OpacityBox></OpacityBox>
           <FinalBookOpacity></FinalBookOpacity>
           <HotelsOpacity></HotelsOpacity>
+          <RoomLsitOpacity></RoomLsitOpacity>
           <ReservationBox>
             <CalenderContainer>
               <CalenderBox>
@@ -51,8 +83,10 @@ export default class extends Component {
                   value={date}
                   onChange={date => {
                     this.setState({ date });
+                    // this.handelCheckBox();
                   }}
-                  onChange={this.handleCheckIn}
+                  // eslint-disable-next-line react/jsx-no-duplicate-props
+                  onChange={this.handelCheckBox}
                   style={{
                     position: "absolute",
                     left: "62px",
@@ -76,9 +110,10 @@ export default class extends Component {
                 <SecondRangeInput
                   onClick={this.handleClick}
                   className="secondRangeInput"
-                  // placeholder="Check out"
-                  onChange={this.handleCheckIn}
+                  // onChange={this.handleCheckIn}
                   placeholder="Check Out"
+                  // eslint-disable-next-line react/jsx-no-duplicate-props
+                  onChange={this.handelCheckInBox}
                 />
               </CalenderBox>
             </CalenderContainer>
@@ -86,6 +121,7 @@ export default class extends Component {
             <HotelContainer>
               <HotelBox>
                 <SelectList
+                  getPlace={this.handlePlace}
                   listTitle="Hotel Lahan"
                   firstList="Gyeongju"
                   secondList="Ulsan"
@@ -100,6 +136,7 @@ export default class extends Component {
               <RoomSelectBox>
                 {/* <RoomSelect> */}
                 <SelectList
+                  getRoomKind={this.handleRoomKind}
                   listTitle="Rooms"
                   firstList="HILL SIDE DELUXE DOUBLE"
                   secondList="HILL SIDE DELUXE TWIN"
@@ -114,6 +151,7 @@ export default class extends Component {
               <AdultBox>
                 {/* <Adult> */}
                 <SelectList
+                  getNumPeo={this.handleNumPeo}
                   listTitle="Number of people"
                   firstList="1"
                   secondList="2"
@@ -125,9 +163,13 @@ export default class extends Component {
                 {/* </Adult> */}
               </AdultBox>
             </AdultContainer>
-            <BookNowButtonContainer>Book Now</BookNowButtonContainer>
+            <BookNowButtonContainer onClick={this.handleBookdays}>
+              Book Now
+            </BookNowButtonContainer>
           </ReservationBox>
+          <RoomList />
         </ReservationContainer>
+        <BookModal />
       </ReservationWrapper>
     );
   }
@@ -152,7 +194,7 @@ const ReservationContainer = styled.div`
   position: relative;
 `;
 
-const ReservationBox = styled.div`
+const ReservationBox = styled.section`
   width: 395px;
   height: 477px;
   /* background-color: #e0c3af; */
@@ -163,8 +205,9 @@ const ReservationBox = styled.div`
   position: relative;
 `;
 
+// 20.5vw
 const OpacityBox = styled.div`
-  width: vw;
+  width: 20.5vw;
   height: 477px;
   background-color: #9ba2b3;
   opacity: 0.6;
@@ -199,7 +242,7 @@ const SecondRangeInput = styled.input`
   color: white;
   position: absolute;
   left: 254px;
-  font-family: PerpetuaStd;
+  font-family: "PerpetuaStd";
   cursor: pointer;
   ::placeholder {
     color: white;
@@ -263,8 +306,6 @@ const AdultBox = styled.div`
   height: 100%;
 `;
 
-/*경희님 한테 여쭤보고 만들자*/
-
 const BookNowButtonContainer = styled.button`
   position: absolute;
   font-family: "PerpetuaStd";
@@ -286,16 +327,18 @@ const BookNowButtonContainer = styled.button`
   z-index: 10;
   padding-left: 15px;
   padding-bottom: 49px;
+  background-color: rgba(168, 186, 230, 0.4);
   :hover {
     color: #a8bae6;
     font-weight: 500;
-    border: #a8bae6;
+    border: 1px solid #a8bae6;
+    background-color: transparent;
   }
 `;
 
-// 컴포넌트로 분리하기
+// 컴포넌트로 분리하기, realative 가지는 div 하나 넣기
 const FinalBookOpacity = styled.div`
-  width: vw;
+  width: 20.5vw;
   height: 120px;
   background-color: #9ba2b3;
   opacity: 0.6;
@@ -309,6 +352,10 @@ const FinalBookOpacity = styled.div`
 const HotelsOpacity = styled.div`
   width: 390px;
   height: 120px;
+`;
+const RoomLsitOpacity = styled.div`
+  width: 60vw;
+  height: 670px;
   background-color: #9ba2b3;
   opacity: 0.6;
   border-radius: 5px;
