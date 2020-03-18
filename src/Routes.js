@@ -8,6 +8,7 @@ import Join from "Pages/Join/Join";
 import JoinStep1 from "Pages/Join/JoinStep1";
 import JoinStep2 from "Pages/Join/JoinStep2";
 import JoinStep3 from "Pages/Join/JoinStep3";
+import Reservation from "Pages/Reservation/Reservation";
 import Contact from "Pages/Contact/Contact";
 
 class Routes extends React.Component {
@@ -17,12 +18,16 @@ class Routes extends React.Component {
         <Switch>
           <Route exact path="/nav" component={NavBar} />
           <Route exact path="/book" component={BookEnter} />
-          <Route exact path="/" component={Main} />
+          <Route exact path="/" component={Reservation} />
+          {/*<Route exact path="/" component={Main} /> */}
+          {/* <Route exact path="/" component={Main} /> */}
           <Route exact path="/mypage" component={Mypage} />
           <Route exact path="/join" component={Join} />
+          <Route exact path="/" component={Reservation} />
           <Route exact path="/joinStep1" component={JoinStep1} />
           <Route exact path="/JoinStep2" component={JoinStep2} />
           <Route exact path="/JoinStep3" component={JoinStep3} />
+          <Route exact path="/reservation" component={Reservation} />
           <Route exact path="/contact" component={Contact} />
         </Switch>
       </Router>

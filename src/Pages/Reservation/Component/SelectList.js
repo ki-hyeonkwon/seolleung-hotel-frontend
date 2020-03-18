@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import styled, { css, keyframes } from "styled-components";
 
-const BookList = props => {
+const SelectList = props => {
   const [item, setItem] = useState(props.listTitle);
   const [open, setOpen] = useState(false);
   const [color, setColor] = useState(true);
@@ -9,16 +9,13 @@ const BookList = props => {
   const onChangeItem = e => {
     setItem(e.target.innerText);
     setOpen(!open);
+    // props.getNumPeo(e);
   };
 
   const openList = e => {
     console.log("open :", open);
     setOpen(!open);
   };
-
-  // useEffect(() => {
-  //   openList();
-  // });
 
   return (
     <BookBox>
@@ -42,26 +39,26 @@ const BookList = props => {
         <BookLi open={open} onClick={onChangeItem}>
           {props.fifthList && props.fifthList}
         </BookLi>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.sixthList && props.sixthList}
-        </BookLi>
       </BookUl>
     </BookBox>
   );
 };
 
-export default BookList;
+export default SelectList;
 
 const BookBox = styled.div`
-  width: 280px;
-  height: 60px;
+  /* background-color: #9ba2b3; */
+  position: absolute;
+  left: 20px;
+  width: 89%;
+  height: 100%;
 `;
 
 const BookButton = styled.button`
   position: relative;
   display: block;
-  width: 280px;
-  height: 60px;
+  width: 340px;
+  height: 50px;
   border: none;
   border-bottom: 2px solid white;
   outline: none;
@@ -74,17 +71,22 @@ const BookButton = styled.button`
   line-height: 60px;
   margin-bottom: 15px;
   cursor: pointer;
-  z-index: 1;
+  z-index: 10;
+  padding-left: 10px;
+  :hover {
+    color: #a8bae6;
+    border-bottom: 2px #a8bae6 solid;
+  }
 `;
 
 const BookUl = styled.ul`
   position: relative;
-  width: 280px;
+  width: 340px;
   list-style: none;
-  color: #ada2a4;
+  color: #a8bae6;
   background-color: transparent;
   bottom: 0px;
-  z-index: 5;
+  z-index: 15;
 `;
 
 const BookLi = styled.li`
@@ -94,14 +96,17 @@ const BookLi = styled.li`
   font-size: 14px;
   line-height: 60px;
   text-align: left;
-  color: black;
   background-color: #fff;
   padding-left: 5px;
+  color:#a8bae6;
   /* opacity: 0.7; */
   transition: 0.3s;
-  font-weight: 300;
+  /* font-weight: 300; */
   &:hover {
     opacity: 1;
-    background-color: rgb(166, 129, 100);
+    background-color: #a8bae6;
+    /* rgb(166, 129, 100); */
+    color:#5c4a72;
+    font-size: 15px;
   }
 `;
