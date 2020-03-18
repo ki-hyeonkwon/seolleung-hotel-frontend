@@ -9,6 +9,7 @@ import JoinStep1 from "Pages/Join/JoinStep1";
 import JoinStep2 from "Pages/Join/JoinStep2";
 import JoinStep3 from "Pages/Join/JoinStep3";
 import Reservation from "Pages/Reservation/Reservation";
+import Contact from "Pages/Contact/Contact";
 
 class Routes extends React.Component {
   render() {
@@ -27,6 +28,7 @@ class Routes extends React.Component {
           <Route exact path="/JoinStep2" component={JoinStep2} />
           <Route exact path="/JoinStep3" component={JoinStep3} />
           <Route exact path="/reservation" component={Reservation} />
+          <Route exact path="/contact" component={Contact} />
         </Switch>
       </Router>
     );

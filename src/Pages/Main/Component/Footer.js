@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export default class Footer extends Component {
   constructor(props) {
@@ -257,6 +257,15 @@ const FamilySite = styled.div`
 }
 `;
 
+const boxShow = keyframes`
+  from {
+    height: 0;
+  }
+  to {
+    height: 200px;
+  }
+`;
+
 const SelectBox = styled.ul`
     position: absolute;
     background-color: #fff;
@@ -264,10 +273,13 @@ const SelectBox = styled.ul`
     bottom: 100%;
     left: 0;
     right: 0;
+    height: 190px;
     margin-bottom: 10px;
     line-height: 25px;
     padding: 15px 20px;
     color: #232937;
+    animation: ${boxShow} 1s 1;
+    z-index: -1;
 
     li {
         font-size: 10px;
@@ -282,6 +294,7 @@ const Select = styled.div`
     line-height: 33px;
     font-size: 13px;
     cursor: pointer;
+    z-index: 100;
 
     span {
     position: absolute;

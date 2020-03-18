@@ -1,93 +1,127 @@
 import React, { Component } from "react";
-import Subnav from "./Component/Subnav";
+import NavBar from "Component/Nav/NavBar";
 import Mainvisual from "./Component/Mainvisual";
-import Ourhotels from "./Component/Ourhotels";
+import Ourhotels2 from "./Component/Ourhotels2";
 import Offers from "./Component/Offers";
 import Instagram from "./Component/Instagram";
 import Footer from "./Component/Footer";
+import { SubnavData } from "./Component/SubnavData";
+import "fullpage.js/vendors/scrolloverflow";
+import styled, { css } from "styled-components";
 
 export default class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.section1 = React.createRef();
-    this.section2 = React.createRef();
-    this.section3 = React.createRef();
-    this.section4 = React.createRef();
-    this.section5 = React.createRef();
-
-    this.state = {
-      section: [
-        this.section1,
-        this.section2,
-        this.section3,
-        this.section4,
-        this.section5
-      ]
-    };
-  }
-
-  handleClick = e => {
-    if (e.target.props) {
-      console.log(e.target.props.section);
-    }
-    console.log("hi");
-    // var section = document.getElementsByClassName("Instagram");
-    // if (section.current) {
-    //   section.scrollIntoView({
-    //     block: "start",
-    //     behavior: "smooth"
-    //   });
+  handleClick = id => {
+    id === 0 &&
+      this.section0.scrollIntoView({ block: "start", behavior: "smooth" });
+    id === 1 &&
+      this.section1.scrollIntoView({ block: "start", behavior: "smooth" });
+    id === 2 &&
+      this.section2.scrollIntoView({ block: "start", behavior: "smooth" });
+    id === 3 &&
+      this.section3.scrollIntoView({ block: "start", behavior: "smooth" });
+    id === 4 &&
+      this.section4.scrollIntoView({ block: "start", behavior: "smooth" });
   };
-
-  // this.state.section[0].current.scrollIntoView({ block: "start" });
-  // console.dir(e.target);
-  // console.log(this.state.section);
-  // console.log(this.props.section[0].current);
-  // this.state.section.scrollIntoView({
-  //   block: "start",
-  //   behavior: "smooth"
-  // });
-  // if (this.props.section.current.offsetTop === 1000) {
-  //   this.props.onChange();
-  // } else {
-  //   this.props.onChange("move-section");
-  // }
-  // };
-
-  // componentDidMount() {
-  //   console.log("kk", this.section1.current.props.ref);
-  // }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener("scroll", this.onScroll);
-  // }
-
-  // onScroll = e => {
-  //   const scrollTop = ("scroll", e.srcElement.scrollingElement.scrollTop);
-  //   scrollTop &&
-  //     this.setState({
-  //       Page: scrollTop
-  //     });
-  // };
 
   render() {
     console.log(window.offsetTop);
-    const { section } = this.state;
+    // const { section } = this.state;
     return (
       <>
-        <Mainvisual>
-          <div ref={this.section1}></div>
-        </Mainvisual>
-
-        <Ourhotels ref={this.section2} />
-        <div ref={this.section3}>
+        <NavBar />
+        <div ref={ref => (this.section0 = ref)}>
+          <Mainvisual />
+        </div>
+        <div ref={ref => (this.section1 = ref)}>
+          <Ourhotels2 />
+        </div>
+        <div ref={ref => (this.section2 = ref)}>
           <Offers />
         </div>
-
-        <Instagram ref={this.section4} />
-        <Footer ref={this.section5} />
-        <Subnav handleClick={this.handleClick} section={section} />
+        <div ref={ref => (this.section3 = ref)}>
+          <Instagram />
+        </div>
+        <div ref={ref => (this.section4 = ref)}>
+          <Footer />
+        </div>
+        <SubnavContainer>
+          <Inner>
+            <Deco></Deco>
+            <SubnavCtn>
+              {SubnavData.map((el, i) => (
+                <li
+                  key={i}
+                  onClick={() => {
+                    this.handleClick(i);
+                  }}
+                >
+                  {el.title}
+                </li>
+              ))}
+            </SubnavCtn>
+          </Inner>
+        </SubnavContainer>
       </>
     );
   }
 }
+
+const SubnavContainer = styled.div`
+  position: fixed;
+  left: 60px;
+  right: 60px;
+  bottom: 30px;
+  z-index: 100;
+`;
+
+const Inner = styled.div`
+  position: relative;
+  max-width: 1480px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const Deco = styled.div`
+  position: absolute;
+  left: -20px;
+  right: -20px;
+  bottom: 0;
+  border-bottom: solid 1px #fff;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 35px;
+    border-left: solid 1px #fff;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: rgb(255, 255, 255);
+  }
+`;
+
+const SubnavCtn = styled.ul`
+  position: absolute;
+  left: 0;
+  bottom: 35px;
+  text-align: left;
+  -webkit-transition: bottom 0.5s;
+  transition: bottom 0.5s;
+
+  li {
+    font-size: 22px;
+    line-height: 35px;
+    cursor: pointer;
+    ${props => {
+      if (props.color) {
+        return css`
+          color: #333;
+        `;
+      } else {
+        return css`
+          color: #fff;
+        `;
+      }
+    }}
+  }
+`;

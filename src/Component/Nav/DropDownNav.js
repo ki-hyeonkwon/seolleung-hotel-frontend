@@ -44,6 +44,7 @@ const NavBoxLi = styled.div`
   height: 44px;
   margin: 0 auto;
   position: relative;
+  cursor: pointer;
 `;
 
 const DropDownTitle = styled(Center.withComponent("div"))`

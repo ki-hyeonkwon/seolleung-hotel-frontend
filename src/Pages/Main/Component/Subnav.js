@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import NavList from "./NavList";
 import { SubnavData } from "./SubnavData";
 import styled, { css } from "styled-components";
 
@@ -10,19 +9,14 @@ export default class Subnav extends Component {
   //     index: 0
   //   };
   // }
-  // handleClick = e => {
-  //   // console.log(this.props.section[0].current);
-  //   this.props.section.current &&
-  //     this.props.section.current.scrollIntoView({
+  // handleClick = () => {
+  //   console.log(this.props.example);
+
+  //   this.props.example &&
+  //     this.props.example.scrollIntoView({
   //       block: "start",
   //       behavior: "smooth"
   //     });
-
-  // if (this.props.section.current.offsetTop === 1000) {
-  //   this.props.onChange();
-  // } else {
-  //   this.props.onChange("move-section");
-  // }
   // };
 
   render() {
@@ -35,7 +29,7 @@ export default class Subnav extends Component {
               <li
                 key={i}
                 section={this.props.section[i]}
-                onClick={e => this.props.handleClick(e)}
+                onClick={this.handleClick}
               >
                 {el.title}
               </li>
@@ -75,9 +69,6 @@ const Deco = styled.div`
     bottom: 0;
     height: 35px;
     border-left: solid 1px #fff;
-    border-left-width: 1px;
-    border-left-style: solid;
-    border-left-color: rgb(255, 255, 255);
   }
 `;
 

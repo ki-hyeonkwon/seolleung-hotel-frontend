@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import NavBar from "Component/Nav/NavBar";
 import LeftArea from "./Component/LeftArea";
 import RightArea from "./Component/RightArea";
 import styled from "styled-components";
@@ -8,6 +9,7 @@ export default class Mypage extends Component {
     return (
       <>
         <MypageContainer>
+          <NavBar />
           <MypageContent>
             <MypageBox>
               <LeftArea></LeftArea>

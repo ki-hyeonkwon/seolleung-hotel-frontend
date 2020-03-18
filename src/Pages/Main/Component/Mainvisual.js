@@ -1,25 +1,34 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export default class Mainvisual extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     slicIdx: 1,
+  //     autoSlic: setInterval(this.handlerSlic, 3000)
+  //   };
+  // }
+
+  // handlerSlic = () => {
+  //   this.state.slicIdx !== 3
+  //     ? this.setState({ slicIdx: this.state.slicIdx + 1 })
+  //     : this.setState({ slicIdx: 1 });
+  // };
+
+  // componentWillUnmount = () => {
+  //   clearInterval(this.state.autoSlic);
+  // };
+
   render() {
+    //const { slicIdx } = this.state;
     return (
       <MainvisualContainer>
-        {this.props.children}
         <MainvisualCnt>
           <MainvisualImg>
-            <img
-              src="https://www.lahanhotels.com/intro/images/kv-1.jpg"
-              alt="비주얼배경1"
-            />
-            <img
-              src="https://www.lahanhotels.com/intro/images/kv-2.jpg"
-              alt="비주얼배경2"
-            />
-            <img
-              src="https://www.lahanhotels.com/intro/images/kv-3.jpg"
-              alt="비주얼배경3"
-            />
+            <Slide1></Slide1>
+            <Slide2></Slide2>
+            <Slide3></Slide3>
           </MainvisualImg>
           <MainvisualTxt>
             <img
@@ -52,20 +61,72 @@ const MainvisualCnt = styled.div`
   z-index: 1;
 `;
 const MainvisualImg = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
   width: 100%;
   height: 100%;
-  img {
-    position: absolute;
-    min-width: 100%;
-    max-width: 100%;
-    min-height: 100%;
-    background-color: transparent;
-    width: auto;
-    height: auto;
+`;
+
+const fade1 = keyframes`
+  0% {
+    opacity: 1;
   }
+  25% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+const fade2 = keyframes`
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+
+const fade3 = keyframes`
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+const Slide1 = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("https://www.lahanhotels.com/intro/images/kv-1.jpg");
+  animation: ${fade1} 8s infinite;
+`;
+
+const Slide2 = styled(Slide1.withComponent("div"))`
+  background-image: url("https://www.lahanhotels.com/intro/images/kv-2.jpg");
+  animation: ${fade2} 8s infinite;
+`;
+
+const Slide3 = styled(Slide1.withComponent("div"))`
+  background-image: url("https://www.lahanhotels.com/intro/images/kv-3.jpg");
+  animation: ${fade3} 8s infinite;
 `;
 
 const MainvisualTxt = styled.div`
