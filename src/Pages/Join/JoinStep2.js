@@ -49,7 +49,8 @@ class JoinContentStep2 extends Component {
       buttonText: "가입완료"
     };
 
-    this.handleInput.bind(this);
+    this.handleAuth=this.handleAuth.bind(this);
+    this.handleInput=this.handleInput.bind(this);
   }
 
   componentDidMount() {
@@ -81,23 +82,22 @@ class JoinContentStep2 extends Component {
     if (this.state.pNum.length < 10) {
       alert("휴대폰 번호를 입력하세요.");
     } else {
-      const server_id = "123";
-
-      fetch(`URL.SMS_URL/${server_id}/messages`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-ncp-apigw-timestamp": "{내용이??}",
-          "x-ncp-iam-access-key": "{내용이??}",
-          "x-ncp-apigw-signature-v2": "{내용이??}"
-        },
-        body: {
-          type: "sms",
-          from: "번호 입력",
-          to: this.state.pNum
-          //"content": type이 sms인 경우, 80바이트 이내의 string, lms인 경우, 2000바이트 내의 string
-        }
+      this.setState({
+        authOpen: true
       });
+
+      console.log(this.state.cpNum)
+
+
+      //this.state.pNum
+      fetch(URL.SMS_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          mobile: this.state.cpNum,
+        }),
+      })
+        .then(res => res.json())
+        .then(res => console.log(res))
     }
   };
 
@@ -260,7 +260,7 @@ class JoinContentStep2 extends Component {
         even: false
       });
 
-      const idDuplicateCheck = await fetch(`${URL.SERVER_URL}/dataId.json`);
+      const idDuplicateCheck = await fetch(`${URL.SERVER_URL}/id-verification`);
 
       this.setState({
         even: true
@@ -360,234 +360,206 @@ class JoinContentStep2 extends Component {
     } = this.state;
 
     return (
-      <Section>
-        <JoinTitle
-          titleFirst={this.state.titleFirst}
-          titleSecond={this.state.titleSecond}
-        />
-        <SectionCont>
-          <SectionBox>
-            <JoinSubTitle pageNum={this.state.subTitle} />
-            <SectionInputBoxCont>
-              <SectionInputContainer>
-                <SectionInputTitle>멤버십 정보</SectionInputTitle>
-                <div>
-                  <SectionInput
-                    onKeyUp={e => this.handleInput(e)}
-                    name="id"
-                    defaultValue={id}
-                    maxLength="20"
-                    placeholder="아이디"
-                    type="text"
-                  />
-                  <SectionInputTextId color={error.idColor}>
-                    {error.id}
-                  </SectionInputTextId>
-                </div>
-                <div>
-                  <SectionInput
-                    defaultValue={pwd}
-                    onKeyUp={this.handleInput}
-                    maxLength="20"
-                    name="pwd"
-                    placeholder="비밀번호"
-                    type="password"
-                  />
-                  <SectionInputText>{this.state.error.pwd}</SectionInputText>
-                </div>
-                <div>
-                  <SectionInput
-                    onKeyUp={this.handleInput}
-                    defaultValue={pwdCheck}
-                    maxLength="20"
-                    name="pwdCheck"
-                    placeholder="비밀번호 확인"
-                    type="password"
-                  />
-                  <SectionInputText>
-                    {this.state.error.pwdCheck}
-                  </SectionInputText>
-                </div>
-              </SectionInputContainer>
-              <SectionInputContainer>
-                <SectionInputTitle>개인 정보</SectionInputTitle>
-                <div>
-                  <SectionInput
-                    onKeyUp={this.handleInput}
-                    defaultValue={koreanName}
-                    name="koreanName"
-                    placeholder="성함"
-                    type="text"
-                  />
-                  <SectionInputText>
-                    {this.state.error.koreanName}
-                  </SectionInputText>
-                </div>
-                <div>
-                  <SectionInput
-                    onKeyUp={this.handleInput}
-                    defaultValue={englishName}
-                    name="englishName"
-                    placeholder="성함(영문)"
-                    type="text"
-                  />
-                  <SectionInputText>
-                    {this.state.error.englishName}
-                  </SectionInputText>
-                </div>
-                <SectionInputBox_v2>
-                  <SectionInputBox_v2_InputBox>
-                    <SectionInput
-                      onKeyUp={this.handleInput}
-                      defaultValue={birthDate}
-                      maxLength="8"
-                      name="birthDate"
-                      placeholder="생년월일"
-                      type="text"
-                    />
-                    <p>{this.state.error.birthDate}</p>
-                  </SectionInputBox_v2_InputBox>
-                  <SectionInputBox_v2_CheckboxBox>
-                    <SectionInputBox_v2_Checkbox
-                      onChange={e => this.handleChange(e)}
-                      value={"2"}
-                      checked={this.state.gender === "2"}
-                      id="gender_male"
-                      name="gender"
-                      type="radio"
-                    />
-                    <label htmlFor="gender_male">
-                      <SectionInputBox_v2_CheckboxIcon>
-                        checkbox
-                      </SectionInputBox_v2_CheckboxIcon>
-                      남자
-                    </label>
-                    <SectionInputBox_v2_Checkbox
-                      onChange={e => this.handleChange(e)}
-                      value={"1"}
-                      checked={this.state.gender === "1"}
-                      id="gender_female"
-                      name="gender"
-                      type="radio"
-                    />
-                    <label htmlFor="gender_female">
-                      <SectionInputBox_v2_CheckboxIcon>
-                        checkbox
-                      </SectionInputBox_v2_CheckboxIcon>
-                      여자
-                    </label>
-                  </SectionInputBox_v2_CheckboxBox>
-                </SectionInputBox_v2>
-                <SectionInputBox>
-                  <SectionInput
-                    onKeyUp={this.handleInput}
-                    defaultValue={cpNum}
-                    maxLength="11"
-                    name="cpNum"
-                    placeholder="휴대전화번호 11자"
-                    type="text"
-                  />
-                  <SectionInputButton type="button" onClick={this.handleAuth}>
-                    인증
-                  </SectionInputButton>
-                  <SectionInputText>{this.state.error.cpNum}</SectionInputText>
-                </SectionInputBox>
-                <SectionInputBox>
-                  <SectionInput
-                    onKeyUp={this.handleInput}
-                    defaultValue={authNum}
-                    name="authNum"
-                    maxLength="6"
-                    placeholder="인증번호 6자리"
-                    type="text"
-                  />
-                  <SectionInputButton
-                    type="button"
-                    onClick={this.hadnleAuthComplete}
-                  >
-                    확인
-                  </SectionInputButton>
-                  <SectionInputText>
-                    {this.state.error.authNum}
-                  </SectionInputText>
-                </SectionInputBox>
-                <div>
-                  <SectionInput
-                    onKeyUp={this.handleInput}
-                    defaultValue={pNum}
-                    name="pNum"
-                    placeholder="유선전화"
-                    type="text"
-                  />
-                  <SectionInputText>{this.state.error.pNum}</SectionInputText>
-                </div>
-                <SectionInputBox>
-                  <SectionInput
-                    placeholder="우편번호"
-                    value={zipCode}
-                    readOnly
-                    type="text"
-                  />
-                  <SectionInputButton
-                    type="button"
-                    onClick={this.handleAddressClick}
-                  >
-                    주소 찾기
-                  </SectionInputButton>
-                </SectionInputBox>
-                {open && (
-                  <DaumPostcode
-                    onComplete={this.handleAddress}
-                    autoClose={true}
-                  />
-                )}
-                <div>
-                  <SectionInput
-                    value={realAddress}
-                    placeholder="기본 주소"
-                    readOnly
-                    type="text"
-                  />
-                </div>
-                <div>
-                  <SectionInput
-                    onKeyUp={this.handleInput}
-                    defaultValue={detailAddress}
-                    name="detailAddress"
-                    placeholder="상세 주소(선택)"
-                    type="text"
-                  />
-                </div>
-                <div>
-                  <SectionInput
-                    onKeyUp={this.handleInput}
-                    defaultValue={mail}
-                    name="mail"
-                    placeholder="이메일"
-                    type="text"
-                  />
-                  <SectionInputText>{this.state.error.mail}</SectionInputText>
-                </div>
-                <div>
-                  <SectionSelect
-                    name=""
-                    id=""
-                    onChange={this.handleSelect}
-                    value={selectValue}
-                  >
-                    <option value="">직업(선택)</option>
-                  </SectionSelect>
-                </div>
-              </SectionInputContainer>
-            </SectionInputBoxCont>
-          </SectionBox>
-          <JoinLink
-            buttonText={this.state.buttonText}
-            buttonCancel={this.hanldeCancel}
-            buttonSubmit={this.handleJoinSubmit.bind(this)}
-          />
-        </SectionCont>
-      </Section>
+      <SectionInputBoxCont>
+        <SectionInputContainer>
+          <SectionInputTitle>멤버십 정보</SectionInputTitle>
+          <div>
+            <SectionInput
+              onKeyUp={e => this.handleInput(e)}
+              name="id"
+              defaultValue={id}
+              maxLength="20"
+              placeholder="아이디"
+              type="text"
+            />
+            <SectionInputTextId color={error.idColor}>
+              {error.id}
+            </SectionInputTextId>
+          </div>
+          <div>
+            <SectionInput
+              defaultValue={pwd}
+              onKeyUp={this.handleInput}
+              maxLength="20"
+              name="pwd"
+              placeholder="비밀번호"
+              type="password"
+            />
+            <SectionInputText>{this.state.error.pwd}</SectionInputText>
+          </div>
+          <div>
+            <SectionInput
+              onKeyUp={this.handleInput}
+              defaultValue={pwdCheck}
+              maxLength="20"
+              name="pwdCheck"
+              placeholder="비밀번호 확인"
+              type="password"
+            />
+            <SectionInputText>{this.state.error.pwdCheck}</SectionInputText>
+          </div>
+        </SectionInputContainer>
+        <SectionInputContainer>
+          <SectionInputTitle>개인 정보</SectionInputTitle>
+          <div>
+            <SectionInput
+              onKeyUp={this.handleInput}
+              defaultValue={koreanName}
+              name="koreanName"
+              placeholder="성함"
+              type="text"
+            />
+            <SectionInputText>{this.state.error.koreanName}</SectionInputText>
+          </div>
+          <div>
+            <SectionInput
+              onKeyUp={this.handleInput}
+              defaultValue={englishName}
+              name="englishName"
+              placeholder="성함(영문)"
+              type="text"
+            />
+            <SectionInputText>{this.state.error.englishName}</SectionInputText>
+          </div>
+          <SectionInputBox_v2>
+            <SectionInputBox_v2_InputBox>
+              <SectionInput
+                onKeyUp={this.handleInput}
+                defaultValue={birthDate}
+                maxLength="8"
+                name="birthDate"
+                placeholder="생년월일"
+                type="text"
+              />
+              <p>{this.state.error.birthDate}</p>
+            </SectionInputBox_v2_InputBox>
+            <SectionInputBox_v2_CheckboxBox>
+              <SectionInputBox_v2_Checkbox
+                onChange={e => this.handleChange(e)}
+                value={"2"}
+                checked={this.state.gender === "2"}
+                id="gender_male"
+                name="gender"
+                type="radio"
+              />
+              <label htmlFor="gender_male">
+                <SectionInputBox_v2_CheckboxIcon>
+                  checkbox
+                </SectionInputBox_v2_CheckboxIcon>
+                남자
+              </label>
+              <SectionInputBox_v2_Checkbox
+                onChange={e => this.handleChange(e)}
+                value={"1"}
+                checked={this.state.gender === "1"}
+                id="gender_female"
+                name="gender"
+                type="radio"
+              />
+              <label htmlFor="gender_female">
+                <SectionInputBox_v2_CheckboxIcon>
+                  checkbox
+                </SectionInputBox_v2_CheckboxIcon>
+                여자
+              </label>
+            </SectionInputBox_v2_CheckboxBox>
+          </SectionInputBox_v2>
+          <SectionInputBox>
+            <SectionInput
+              onKeyUp={e => this.handleInput(e)}
+              defaultValue={cpNum}
+              maxLength="11"
+              name="cpNum"
+              placeholder="휴대전화번호 11자"
+              type="text"
+            />
+            <SectionInputButton type="button" onClick={this.handleAuth}>
+              인증
+            </SectionInputButton>
+            <SectionInputText>{this.state.error.cpNum}</SectionInputText>
+          </SectionInputBox>
+          {this.state.authOpen && (
+            <SectionInputBox>
+              <SectionInput
+                onKeyUp={this.handleInput}
+                defaultValue={authNum}
+                name="authNum"
+                maxLength="6"
+                placeholder="인증번호 6자리"
+                type="text"
+              />
+              <SectionInputButton
+                type="button"
+                onClick={this.hadnleAuthComplete}
+              >
+                확인
+              </SectionInputButton>
+              <SectionInputText>{this.state.error.authNum}</SectionInputText>
+            </SectionInputBox>
+          )}
+          <div>
+            <SectionInput
+              onKeyUp={this.handleInput}
+              defaultValue={pNum}
+              name="pNum"
+              placeholder="유선전화"
+              type="text"
+            />
+            <SectionInputText>{this.state.error.pNum}</SectionInputText>
+          </div>
+          <SectionInputBox>
+            <SectionInput
+              placeholder="우편번호"
+              value={zipCode}
+              readOnly
+              type="text"
+            />
+            <SectionInputButton type="button" onClick={this.handleAddressClick}>
+              주소 찾기
+            </SectionInputButton>
+          </SectionInputBox>
+          {open && (
+            <DaumPostcode onComplete={this.handleAddress} autoClose={true} />
+          )}
+          <div>
+            <SectionInput
+              value={realAddress}
+              placeholder="기본 주소"
+              readOnly
+              type="text"
+            />
+          </div>
+          <div>
+            <SectionInput
+              onKeyUp={this.handleInput}
+              defaultValue={detailAddress}
+              name="detailAddress"
+              placeholder="상세 주소(선택)"
+              type="text"
+            />
+          </div>
+          <div>
+            <SectionInput
+              onKeyUp={this.handleInput}
+              defaultValue={mail}
+              name="mail"
+              placeholder="이메일"
+              type="text"
+            />
+            <SectionInputText>{this.state.error.mail}</SectionInputText>
+          </div>
+          <div>
+            <SectionSelect
+              name=""
+              id=""
+              onChange={this.handleSelect}
+              value={selectValue}
+            >
+              <option value="">직업(선택)</option>
+            </SectionSelect>
+          </div>
+        </SectionInputContainer>
+      </SectionInputBoxCont>
     );
   }
 }
