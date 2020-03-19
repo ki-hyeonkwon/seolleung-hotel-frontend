@@ -1,0 +1,60 @@
+{
+  "qna_list": [
+    {
+      "id": 0,
+      "title": "조식가격",
+      "comment": "조식가격 얼만가요",
+      "place": "전주",
+      "promotion": "프로모션"
+    },
+    {
+      "id": 1,
+      "title": "조식가격",
+      "comment": "조식가격 얼만가요",
+      "place": "전주",
+      "promotion": "프로모션"
+    },
+    {
+      "id": 2,
+      "title": "조식가격",
+      "comment": "조식가격 얼만가요",
+      "place": "전주",
+      "promotion": "프로모션"
+    },
+    {
+      "id": 3,
+      "title": "조식가격",
+      "comment": "조식가격 얼만가요",
+      "place": "전주",
+      "promotion": "프로모션"
+    },
+    {
+      "id": 4,
+      "title": "조식가격",
+      "comment": "조식가격 얼만가요",
+      "place": "전주",
+      "promotion": "프로모션"
+    },
+    {
+      "id": 5,
+      "title": "조식가격",
+      "comment": "조식가격 얼만가요",
+      "place": "전주",
+      "promotion": "프로모션"
+    },
+    {
+      "id": 6,
+      "title": "조식가격",
+      "comment": "조식가격 얼만가요",
+      "place": "전주",
+      "promotion": "프로모션"
+    },
+    {
+      "id": 7,
+      "title": "조식가격",
+      "comment": "조식가격 얼만가요",
+      "place": "전주",
+      "promotion": "프로모션"
+    }
+  ]
+}

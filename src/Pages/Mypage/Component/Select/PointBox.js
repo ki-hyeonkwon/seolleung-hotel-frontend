@@ -49,8 +49,11 @@ export default class PointBox extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr colspan="4">
-                    <td>조회 결과가 없습니다.</td>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>

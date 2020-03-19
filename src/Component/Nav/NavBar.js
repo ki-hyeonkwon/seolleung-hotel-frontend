@@ -63,6 +63,8 @@ const NavWrapper = styled.header`
   width: 340px;
   height: 117px;
   z-index: 100;
+  border: solid 1px #232937;
+  background: #fff;
 `;
 
 const Pad = styled.div`
@@ -88,7 +90,15 @@ const LahanLogo = styled.img`
   height: 40px;
 `;
 
-const NavBox = styled.div``;
+const NavBox = styled.div`
+  border-top: 1px solid #232937;
+  background: #fff;
+  transition: background 0.5s;
+
+  &:hover {
+    background: #232937;
+  }
+`;
 
 const NavBoxUl = styled(RowList.withComponent("ul"))``;
 
@@ -108,7 +118,7 @@ const DropDownTitle = styled(Center.withComponent("div"))`
   text-align: center;
   font-size: 14px;
   background-color: transparent;
-  color: white;
+  color: #181a1c;
   &:hover {
     color: rgb(166, 129, 100);
   }

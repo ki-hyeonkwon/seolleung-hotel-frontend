@@ -1,17 +1,40 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 export default class Instagram extends Component {
+  state = {
+    movePX: 0,
+    moveTitle: false,
+    moveList: false
+  };
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll = e => {
+    const scrollTop = ("scroll", e.srcElement.scrollingElement.scrollTop);
+    if (scrollTop > 3000) {
+      this.setState({ moveTitle: true });
+      this.setState({ moveList: true });
+    } else {
+      this.setState({ moveList: false });
+      this.setState({ moveTitle: false });
+    }
+  };
   render() {
     return (
       <SnsContainer className="Instagram">
         <Sns>
-          <Title>
+          <Title movetitle={this.state.moveTitle}>
             <h3>@lahan_hotel</h3>
             <button>Follow</button>
           </Title>
           <Panel>
-            <ItemList>
+            <ItemList moveImg={this.state.moveList}>
               <img
                 src="https://www.lahanhotels.com/intro/images/sns_img-1.jpg"
                 alt=""
@@ -44,6 +67,19 @@ export default class Instagram extends Component {
   }
 }
 
+const moveTitle = keyframes`
+  from { margin-top: 100px; }
+      to   { margin-top: 0; }
+`;
+const moveList = keyframes`
+  from { margin-top: 0vh; }
+      to   { margin-top: 5vh; }
+`;
+const fadeout = keyframes`
+  from { opacity: 0; }
+      to   { opacity: 1; }
+`;
+
 const SnsContainer = styled.div`
   width: 100vw;
   height: 100vh;
@@ -60,6 +96,16 @@ const Sns = styled.div`
 const Title = styled.div`
   padding-top: 14vw;
   text-align: center;
+
+  ${props => {
+    if (props.movetitle) {
+      return css`
+        animation-name: ${moveTitle}, ${fadeout};
+        animation-duration: 2s;
+        animation-iteration-count: linear infinite;
+      `;
+    }
+  }}
 
   h3 {
     font-size: 32px;
@@ -105,6 +151,17 @@ const Panel = styled.div`
 `;
 
 const ItemList = styled.div`
+  opacity: 0;
+  ${props => {
+    if (props.moveImg) {
+      return css`
+        animation-name: ${fadeout};
+        animation-duration: 4s;
+        animation-iteration-count: linear infinite;
+      `;
+    }
+  }}
+
   margin-top: 5vh;
 
   img {

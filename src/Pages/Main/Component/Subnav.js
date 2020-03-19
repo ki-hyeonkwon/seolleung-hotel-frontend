@@ -19,14 +19,41 @@ export default class Subnav extends Component {
   //     });
   // };
 
+  state = {
+    movePX: 0,
+    moveTitle: false,
+    moveList: false
+  };
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll = e => {
+    const scrollTop = ("scroll", e.srcElement.scrollingElement.scrollTop);
+    console.log(scrollTop);
+    if (scrollTop > 3000) {
+      console.log("in");
+      this.setState({ moveTitle: true });
+      this.setState({ moveList: true });
+    } else {
+      console.log("in");
+      this.setState({ moveList: false });
+      this.setState({ moveTitle: false });
+    }
+  };
   render() {
     return (
       <SubnavContainer>
         <Inner>
-          <Deco></Deco>
+          <Deco changeColor={this.state.moveTitle}></Deco>
           <SubnavCtn>
             {SubnavData.map((el, i) => (
               <li
+                changeColor={this.state.moveTitle}
                 key={i}
                 section={this.props.section[i]}
                 onClick={this.handleClick}
@@ -62,6 +89,14 @@ const Deco = styled.div`
   right: -20px;
   bottom: 0;
   border-bottom: solid 1px #fff;
+
+  ${props => {
+    if (props.changeColor) {
+      return css`
+        border-bottom: solid 1px #232937;
+      `;
+    }
+  }}
   &:before {
     content: "";
     position: absolute;
@@ -84,16 +119,13 @@ const SubnavCtn = styled.ul`
     font-size: 22px;
     line-height: 35px;
     cursor: pointer;
-    ${props => {
-      if (props.color) {
-        return css`
-          color: #333;
-        `;
-      } else {
-        return css`
-          color: #fff;
-        `;
-      }
-    }}
+    color: #fff
+      ${props => {
+        if (props.changeColor) {
+          return css`
+            color: #232937;
+          `;
+        }
+      }};
   }
 `;

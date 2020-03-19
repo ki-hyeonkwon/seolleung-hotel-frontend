@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 export default class Gyeongju extends Component {
-  //     constructor(props) {
-  //     super(props);
-  //     this.state = {
-  //       place: gyeongju
-  //     };
-  //   }
+  constructor(props) {
+    super(props);
+    this.state = {
+      imgShow: true
+    };
+  }
 
   render() {
     return (
       <GyeongjuContainer>
         <FirstWord>
-          <Word gyeongju></Word>
+          <Word gyeongju fadeImg></Word>
         </FirstWord>
         <HotelsTxt>
           <HotelIntro>
@@ -36,7 +36,7 @@ export default class Gyeongju extends Component {
           </ImgSet>
         </HotelsImg>
         <SecondWord>
-          <Word2 gyeongju></Word2>
+          <Word2 gyeongju fadeImg></Word2>
         </SecondWord>
       </GyeongjuContainer>
     );
@@ -61,17 +61,10 @@ const FirstWord = styled.div`
   margin-top: -150px;
 `;
 
-// const down = keyframes`
-// 0% {
-//   height: 0;
-// }
-// 50% {
-//   height: 50%;
-// }
-// 100% {
-//   height: 100%;
-// }
-// `;
+const moveText = keyframes`
+  from { height: 0; }
+      to   { height: 250px; }
+`;
 
 const Word = styled.div`
   position: absolute;
@@ -90,6 +83,14 @@ const Word = styled.div`
       : props.seamarq
       ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-4-1.png"})`
       : "none"};
+
+  ${props => {
+    if (props.fadeImg) {
+      return css`
+        animation: ${moveText} 2s 1;
+      `;
+    }
+  }}
 `;
 
 const HotelsTxt = styled(FirstWord.withComponent("div"))`
@@ -193,4 +194,12 @@ const Word2 = styled.div`
       : props.seamarq
       ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-4-2.png"})`
       : "none"};
+
+  ${props => {
+    if (props.fadeImg) {
+      return css`
+        animation: ${moveText} 2s 1;
+      `;
+    }
+  }}
 `;

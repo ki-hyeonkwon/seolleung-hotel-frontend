@@ -2,26 +2,7 @@ import React, { Component } from "react";
 import styled, { keyframes } from "styled-components";
 
 export default class Mainvisual extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     slicIdx: 1,
-  //     autoSlic: setInterval(this.handlerSlic, 3000)
-  //   };
-  // }
-
-  // handlerSlic = () => {
-  //   this.state.slicIdx !== 3
-  //     ? this.setState({ slicIdx: this.state.slicIdx + 1 })
-  //     : this.setState({ slicIdx: 1 });
-  // };
-
-  // componentWillUnmount = () => {
-  //   clearInterval(this.state.autoSlic);
-  // };
-
   render() {
-    //const { slicIdx } = this.state;
     return (
       <MainvisualContainer>
         <MainvisualCnt>
@@ -143,7 +124,7 @@ const MainvisualTxt = styled.div`
 
   h3 {
     font-size: 42px;
-    font-family: "GothamLight";
+    font-family: "Gotham-Light";
     line-height: 54px;
     margin-top: 40px;
     margin-bottom: 40px;

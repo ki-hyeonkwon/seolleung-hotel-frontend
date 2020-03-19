@@ -95,8 +95,7 @@ const SecondRangeInput = styled.input`
   text-align: center;
   width: 75px;
   font-size: 13px;
-  color: #ccc;
   ::placeholder {
-    color: #c7c7c7;
+    color: "#757575";
   }
 `;

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import SelectList from "./SelectList";
-import { post } from "axios";
 import styled from "styled-components";
 
 export default class Qna extends Component {
@@ -8,52 +7,65 @@ export default class Qna extends Component {
     super();
     this.state = {
       title: "",
-      comments: ""
+      comments: "",
+      place: "",
+      promotion: ""
     };
-
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.handleValueChange = this.handleValueChange.bind(this);
   }
 
-  handleFormSubmit(e) {
-    e.preventDefault();
-
-    this.addCustomer().then(response => {
-      console.log(response.data);
+  isSelected = selected => {
+    console.log("selectedPlace", selected);
+    this.setState({
+      place: selected,
+      promotion: selected
     });
-  }
+  };
 
-  handleValueChange(e) {
-    let nextState = {};
+  handleValueChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+  handleItem = place => {
+    this.setState(
+      {
+        place: place
+      },
+      () => console.log("place", place)
+    );
+  };
 
-    nextState[e.target.name] = e.target.value;
-
-    this.setState(nextState);
-    console.log(e.target);
-  }
-
-  addQna() {
-    const url = "/api/customers";
-    const formData = new FormData();
-    formData.append("name", this.state.title);
-    formData.append("birthday", this.state.comments);
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data"
-      }
-    };
-
-    return post(url, formData, config);
-  }
+  // onSubmit = () => {
+  //   fetch(, {
+  //     method: "post",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: localStorage.getItem("wtw-token")
+  //     },
+  //     body: JSON.stringify({
+  //       content: this.state.title,
+  //       rating: this.state.grade.toFixed(1)
+  //     })
+  //   })
+  //     // .then(res => res.json())
+  //     .then(res => {
+  //       console.log(res);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  //     // 에러나면 알려주는 거
+  // };
 
   render() {
+    const { title, comments } = this.state;
+    const { isSelected, handleValueChange, onSubmit } = this;
     return (
       <Container>
         <h3>Q&A</h3>
         <ContentsBody>
-          <Form onSubmit={this.handleFormSubmit}>
+          <Form>
             <ListContainer>
               <SelectList
+                onChangeItem={place => isSelected(place)}
                 listTitle="지점"
                 firstList="경주"
                 secondList="울산"
@@ -63,6 +75,7 @@ export default class Qna extends Component {
                 sixthList="Seamarq"
               />
               <SelectList
+                onChangeItem={promotion => isSelected(promotion)}
                 listTitle="프로모션"
                 firstList="멤버십"
                 secondList="프로모션"
@@ -75,21 +88,23 @@ export default class Qna extends Component {
               <input
                 type="text"
                 placeholder="제목"
-                onChange={this.handleValueChange}
+                onChange={handleValueChange}
                 name="title"
-                value={this.state.title}
+                value={title}
               />
             </Title>
             <Content>
               <textarea
                 placeholder="내용"
-                onChange={this.handleValueChange}
+                onChange={handleValueChange}
                 name="comments"
-                value={this.state.comments}
+                value={comments}
               ></textarea>
             </Content>
 
-            <Button type="submit">Send</Button>
+            <Button type="submit" onClick={onSubmit}>
+              Send
+            </Button>
           </Form>
         </ContentsBody>
       </Container>

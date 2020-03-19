@@ -262,7 +262,7 @@ const boxShow = keyframes`
     height: 0;
   }
   to {
-    height: 200px;
+    height: 170px;
   }
 `;
 
@@ -273,7 +273,7 @@ const SelectBox = styled.ul`
     bottom: 100%;
     left: 0;
     right: 0;
-    height: 190px;
+    height: 170px;
     margin-bottom: 10px;
     line-height: 25px;
     padding: 15px 20px;

@@ -2,33 +2,121 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 export default class ChangePassword extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     underline: false
-  //   };
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      passwordShow: "",
+      password: "",
+      pwd: "",
+      pwdCheck: "",
+      error: {
+        password: "",
+        pwd: "",
+        pwdCheck: ""
+      }
+    };
+  }
 
-  // ShowLine = () => {
-  //   this.setState({
-  //     underline: !this.state.underline
-  //   });
-  // };
+  handleInput = e => {
+    const target = e.target;
+    const name = target.name;
+    const error = this.state.error;
+    const { password, pwd, pwdCheck } = this.state;
+
+    // console.log(URL.SERVER_URL + "/dataId.json");
+    console.log("첫번쨰", e.target.value);
+
+    switch (name) {
+      case "password":
+        error.password =
+          /^(?=.*[a-z])(?=.*[0-9]).{8,20}/.test(target.value) === false
+            ? "현재 비밀번호와 일치하지 않습니다."
+            : "";
+
+        break;
+      case "pwd":
+        error.pwd =
+          /^(?=.*[a-z])(?=.*[0-9]).{8,20}/.test(target.value) === false
+            ? "8~20자의 영문과 숫자를 혼용하여 입력주세요."
+            : "";
+
+        break;
+      case "pwdCheck":
+        error.pwdCheck =
+          pwd === target.value
+            ? ""
+            : pwd.length > 0 && "비밀번호가 일치하지 않습니다.";
+
+        break;
+
+      default:
+        break;
+    }
+    this.setState({
+      [target.name]: target.value,
+      error
+    });
+  };
+
   render() {
+    const { password, pwd, pwdCheck } = this.state;
+    const { handleInput, onSubmit } = this;
     return (
       <Container>
         <Form>
           <InputContainer>
-            <input type="password" placeholder="현재 비밀번호" />
+            <input
+              type="password"
+              placeholder="현재 비밀번호"
+              onChange={handleInput}
+              name="password"
+              value={password}
+            />
           </InputContainer>
           <InputContainer>
-            <input type="password" placeholder="새 비밀번호" />
+            <input
+              defaultValue={pwd}
+              onKeyUp={handleInput}
+              maxLength="20"
+              name="pwd"
+              placeholder="비밀번호"
+              type="password"
+            />
+            <ErrorMsg>{this.state.error.pwd}</ErrorMsg>
+          </InputContainer>
+
+          <InputContainer>
+            <input
+              onKeyUp={handleInput}
+              defaultValue={pwdCheck}
+              maxLength="20"
+              name="pwdCheck"
+              placeholder="비밀번호 확인"
+              type="password"
+            />
+            <ErrorMsg>{this.state.error.pwdCheck}</ErrorMsg>
+          </InputContainer>
+
+          {/* <InputContainer>
+            <input
+              type="password"
+              placeholder="새 비밀번호"
+              onChange={handleValueChange}
+              name="changePassword"
+              value={changePassword}
+            />
           </InputContainer>
           <InputContainer>
-            <input type="password" placeholder="새 비밀번호 확인" />
-          </InputContainer>
+            <input
+              type="password"
+              placeholder="새 비밀번호 확인"
+              onChange={handleValueChange}
+              name="reCheckPassword"
+              value={reCheckPassword}
+            />
+          </InputContainer> */}
         </Form>
-        <Button>
+        <Button type="submit" onClick={onSubmit}>
           <span>변경 완료</span>
         </Button>
       </Container>
@@ -89,6 +177,13 @@ const InputContainer = styled.div`
 
     
 }
+`;
+
+const ErrorMsg = styled.p`
+  position: absolute;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #dd1717;
 `;
 
 const Button = styled.button`

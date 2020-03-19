@@ -1,12 +1,18 @@
 import React, { Component, useState, useEffect } from "react";
 import styled, { css, keyframes } from "styled-components";
+
 const SelectList = props => {
   const [item, setItem] = useState(props.listTitle);
   const [open, setOpen] = useState(false);
+
   const onChangeItem = e => {
+    // console.log(e.);
     setItem(e.target.innerText);
     setOpen(!open);
+    console.log(e.target.innerText);
+    props.onChangeItem(e.target.innerText);
   };
+
   const openList = e => {
     console.log("open :", open);
     setOpen(!open);

@@ -53,7 +53,7 @@ const DropDownTitle = styled(Center.withComponent("div"))`
   text-align: center;
   font-size: 14px;
   background-color: transparent;
-  color: white;
+  color: #181a1c;
   &:hover {
     color: rgb(166, 129, 100);
   }
@@ -62,11 +62,12 @@ const DropDownUl = styled.ul`
   position: absolute;
   display: flex;
   justify-content: flex-start;
+  box-sizing: border-box;
   width: 112px;
-  top: 30px;
-  padding: 25px 0 20px 50px;
+  top: 45px;
+  padding: 25px 0 20px 30px;
   font-size: 14px;
-  background-color: transparent;
+  background-color: #fff;
   display: ${props => (props.onOff ? "block" : "none")};
   ${props => {
     if (props.hotel) {
@@ -88,6 +89,6 @@ from{
   top: 64px;
 }to{
   opacity:1;
-  top: 30px;
+  top: 45px;
 }
 `;
