@@ -49,6 +49,7 @@ export default class Offers extends Component {
 }
 
 const OfferContainer = styled.div`
+  scroll-snap-align: start;
   width: 100vw;
   height: 100vh;
 `;

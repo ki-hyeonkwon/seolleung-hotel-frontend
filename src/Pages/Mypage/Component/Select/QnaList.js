@@ -8,15 +8,45 @@ export default class QnaList extends Component {
   constructor() {
     super();
     this.state = {
-      toggleClose: true
+      toggleClose: true,
+      posts: []
     };
   }
+
+  componentWillMount() {
+    fetch("https://jsonplaceholder.typicode.com/posts")
+      .then(res => res.json())
+      .then(data =>
+        this.setState({
+          posts: data
+        })
+      );
+  }
+
+  // getDate = date => {
+  //   var year = date.getFullYear(); //yyyy
+  //   var month = 1 + date.getMonth(); //M
+  //   month = month >= 10 ? month : "0" + month; //month 두자리로 저장
+  //   var day = date.getDate(); //d
+  //   day = day >= 10 ? day : "0" + day; //day 두자리로 저장
+  //   return year + "" + month + "" + day;
+
+  //   date = new Date();
+  // };
 
   ToggleClose = () => {
     this.setState({ toggleClose: !this.state.toggleClose });
   };
 
   render() {
+    const { posts, toggleClose } = this.state;
+    const postsList = posts.map(post => (
+      <tr onClick={this.ToggleClose} key={post.id} id={post.id}>
+        <Td1>2020.02.22</Td1>
+        <Td2>{post.title}</Td2>
+        <Td3>{post.body}</Td3>
+      </tr>
+    ));
     return (
       <>
         <Container>
@@ -31,19 +61,13 @@ export default class QnaList extends Component {
                     <Th3>문의 유형</Th3>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr onClick={this.ToggleClose}>
-                    <Td1>2020.03.01</Td1>
-                    <Td2>포항</Td2>
-                    <Td3>프로모션</Td3>
-                  </tr>
-                </tbody>
+                <tbody>{postsList}</tbody>
               </table>
             </Mid>
           </QnaTable>
         </Container>
 
-        <Bg style={{ display: !this.state.toggleClose ? "block" : "none" }}>
+        <Bg style={{ display: !toggleClose ? "block" : "none" }}>
           <Modal>
             <ModalContainer>
               <Form>
@@ -125,6 +149,7 @@ height: 350px;
 border-top: 1px solid #dbd6d2;
 border-bottom: 1px solid #dbd6d2;
 font-size: 12px;
+overflow: scroll;
 
 
 table {

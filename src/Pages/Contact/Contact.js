@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import ContactList from "./Component/ContactList";
 import Qna from "./Component/Qna";
+import Footer from "Components/Footer/Footer";
+import logo from "Images/logo_b.svg";
 import styled from "styled-components";
 
 export default class Mypage extends Component {
@@ -28,12 +30,7 @@ export default class Mypage extends Component {
       <Container>
         <Header>
           <span>Book now</span>
-          <h1>
-            <img
-              src="https://www.lahanhotels.com/intro/images/hero_logo.png"
-              alt=""
-            />
-          </h1>
+          <img src={logo} alt="로고이미지" />
         </Header>
         <ContactContainer>
           <TitleContainer>
@@ -61,9 +58,7 @@ export default class Mypage extends Component {
           </TitleContainer>
           <Contents>{obj[stage]}</Contents>
         </ContactContainer>
-        <FooterContainer>
-          <Footer></Footer>
-        </FooterContainer>
+        <Footer></Footer>
       </Container>
     );
   }
@@ -80,20 +75,28 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 50px;
+  padding: 30px 50px 20px;
   top: 0;
   width: 100%;
-  height: 87px;
   background: #fff;
   border-bottom: 1px solid #f1eeee;
   z-index: 10;
+
+  span {
+    font-family: "PerpetuaStd";
+    font-size: 27px;
+  }
+  img {
+    position: absolute;
+    right: 150px;
+  }
 `;
 
 const ContactContainer = styled.div`
   position: relative;
-  top: 87px;
   width: 100vw;
   display: flex;
+  box-sizing: border-box;
 `;
 
 const TitleContainer = styled.div`
@@ -105,6 +108,7 @@ const Title = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
+  top: 78px;
   padding-top: 100px;
   padding-left: 11.25%;
   padding-bottom: 330px;
@@ -143,18 +147,4 @@ const Contents = styled.div`
   width: 50%;
   border-left: 1px solid #f1eeee;
   overflow-y: scroll;
-`;
-
-const FooterContainer = styled.div`
-  width: 100%;
-  height: 280px;
-  position: absolute;
-  background-color: #161e27;
-`;
-
-const Footer = styled.div`
-  width: 100%;
-  max-width: 1600px;
-  margin: 0 auto;
-  background: #161e27;
 `;

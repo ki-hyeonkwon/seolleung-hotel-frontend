@@ -99,7 +99,7 @@ const MypageList = styled.ul`
     li {
         margin-right: 20px;
         cursor: pointer;
-
+      letter-spacing:0.0001rem;
         &:last-child {
             margin-right: 0;
         }
