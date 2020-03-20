@@ -1,20 +1,20 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 export default class Pohang extends Component {
-  //     constructor(props) {
-  //     super(props);
-  //     this.state = {
-  //       place: gyeongju
-  //     };
-  //   }
+  constructor(props) {
+    super(props);
+    this.state = {
+      imgShow: true
+    };
+  }
 
   render() {
     return (
       <PohangContainer>
-        <FirstWord>
-          <Word pohang></Word>
-        </FirstWord>
+        <WordContainer firstword>
+          <Word pohang fadeImg></Word>
+        </WordContainer>
         <HotelsTxt>
           <HotelIntro>
             <p>Hotel Hyundai by Lahan</p>
@@ -35,30 +35,43 @@ export default class Pohang extends Component {
             />
           </ImgSet>
         </HotelsImg>
-        <SecondWord>
-          <Word2 pohang></Word2>
-        </SecondWord>
+        <WordContainer secondword>
+          <Word2 pohang fadeImg></Word2>
+        </WordContainer>
       </PohangContainer>
     );
   }
 }
 
 const PohangContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+  position: relative;
+  width: 60%;
+  height: 70%;
+  top: 50%;
+  transform: translate(0, -50%);
+  left: 25%;
 `;
 
-const FirstWord = styled.div`
+const WordContainer = styled.div`
   position: absolute;
-  left: 45vw;
-  top: 40vh;
-  width: 500px;
-  height: 300px;
-  margin-left: -250px;
-  margin-top: -150px;
+
+  ${props => {
+    if (props.firstword) {
+      return css`
+        left: 0;
+        top: 0;
+      `;
+    } else if (props.secondword) {
+      return css`
+        right: 40%;
+        top: 50%;
+      `;
+    }
+  }}
+`;
+const moveText = keyframes`
+  from { height: 0; }
+      to   { height: 250px; }
 `;
 
 const Word = styled.div`
@@ -78,10 +91,21 @@ const Word = styled.div`
       : props.seamarq
       ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-4-1.png"})`
       : "none"};
+
+  ${props => {
+    if (props.fadeImg) {
+      return css`
+        animation: ${moveText} 2s 1;
+      `;
+    }
+  }}
 `;
 
-const HotelsTxt = styled(FirstWord.withComponent("div"))`
-  left: 75vw;
+const HotelsTxt = styled.div`
+  position: absolute;
+  width: 380px;
+  height: 300px;
+  right: 0;
   &:before {
     content: "";
     position: absolute;
@@ -131,9 +155,10 @@ const HotelIntro = styled.div`
   }
 `;
 
-const HotelsImg = styled(FirstWord.withComponent("div"))`
-  left: 25vw;
-  top: 75vh;
+const HotelsImg = styled.div`
+  position: absolute;
+  left: 0;
+  top: 50%;
 `;
 
 const ImgSet = styled.div`
@@ -150,20 +175,13 @@ const PhImg1 = styled.img`
   width: 166px;
   height: 117px;
   z-index: 2;
-  right: 248px;
-  bottom: -236px;
+  top: 100px;
+  left: -100px;
 `;
 
 const PhImg2 = styled.img`
   width: 320px;
   height: 216px;
-  bottom: -236px;
-  right: 23px;
-`;
-
-const SecondWord = styled(FirstWord.withComponent("div"))`
-  left: 75vw;
-  top: 75vh;
 `;
 
 const Word2 = styled.div`
@@ -183,4 +201,12 @@ const Word2 = styled.div`
       : props.seamarq
       ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-4-2.png"})`
       : "none"};
+
+  ${props => {
+    if (props.fadeImg) {
+      return css`
+        animation: ${moveText} 2s 1;
+      `;
+    }
+  }}
 `;

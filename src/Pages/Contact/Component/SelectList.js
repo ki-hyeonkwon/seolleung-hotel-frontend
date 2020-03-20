@@ -5,14 +5,6 @@ const SelectList = props => {
   const [item, setItem] = useState(props.listTitle);
   const [open, setOpen] = useState(false);
 
-  const onChangeItem = e => {
-    // console.log(e.);
-    setItem(e.target.innerText);
-    setOpen(!open);
-    console.log(e.target.innerText);
-    props.onChangeItem(e.target.innerText);
-  };
-
   const openList = e => {
     console.log("open :", open);
     setOpen(!open);
@@ -20,30 +12,24 @@ const SelectList = props => {
   // useEffect(() => {
   //   openList();
   // });
+  console.log(open);
   return (
     <BookBox>
       <BookButton for="roomKind" name="room" onClick={openList}>
         {item}
       </BookButton>
       <BookUl open={open}>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.firstList && props.firstList}
-        </BookLi>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.secondList && props.secondList}
-        </BookLi>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.thirdList && props.thirdList}
-        </BookLi>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.forthList && props.forthList}
-        </BookLi>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.fifthList && props.fifthList}
-        </BookLi>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.sixthList && props.sixthList}
-        </BookLi>
+        {props.dropLists.map((list, i) => {
+          return (
+            <BookLi
+              open={open}
+              key={i}
+              onClick={() => props.onChangeItem(list.id, list.name)}
+            >
+              {list.name}
+            </BookLi>
+          );
+        })}
       </BookUl>
     </BookBox>
   );

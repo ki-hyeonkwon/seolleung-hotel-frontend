@@ -1,20 +1,41 @@
 import React, { Component } from "react";
 import NavBar from "Component/Nav/NavBar";
-import SlideRx from "./SlideRx";
+import Mainvisual from "./Component/Mainvisual";
+import Ourhotels2 from "./Component/Ourhotels2";
 import Offers from "./Component/Offers";
-import SlideRx2 from "./SlideRx2";
+import Instagram from "./Component/Instagram";
+import Subnav from "./Component/Subnav";
+import Footer from "./Component/Footer";
 import { SubnavData } from "./Component/SubnavData";
 import styled, { css } from "styled-components";
 
 export default class Main extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    movePX: 0,
+    moveTitle: false,
+    moveList: false
+  };
 
-    this.state = {
-      vIndex: 0,
-      moveTitle: false
-    };
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
   }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll = e => {
+    const scrollTop = ("scroll", e.srcElement.scrollingElement.scrollTop);
+    console.log(scrollTop);
+    if (scrollTop > 280 && scrollTop < 3400) {
+      console.log("in");
+      this.setState({ moveTitle: true });
+      this.setState({ moveList: true });
+    } else {
+      console.log("in");
+      this.setState({ moveList: false });
+      this.setState({ moveTitle: false });
+    }
+  };
 
   handleClick = id => {
     id === 0 &&
@@ -28,36 +49,28 @@ export default class Main extends Component {
     id === 4 &&
       this.section4.scrollIntoView({ block: "start", behavior: "smooth" });
   };
-  componentDidMount() {
-    window.addEventListener("scroll", this.handleScroll);
-  }
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
-  }
-
-  handleScroll = e => {
-    const scrollTop = ("scroll", e.srcElement.scrollingElement.scrollTop);
-    console.log(scrollTop);
-    if (scrollTop > 104 && scrollTop < 3367) {
-      console.log("in");
-      this.setState({ moveTitle: true });
-      this.setState({ moveList: true });
-    } else {
-      console.log("in");
-      this.setState({ moveList: false });
-      this.setState({ moveTitle: false });
-    }
-  };
 
   render() {
+    console.log(window.offsetTop);
+    // const { section } = this.state;
     return (
-      <div>
+      <Container>
         <NavBar />
-        <SlideRx></SlideRx>
+        <section ref={ref => (this.section0 = ref)}>
+          <Mainvisual />
+        </section>
+        <section ref={ref => (this.section1 = ref)}>
+          <Ourhotels2 />
+        </section>
         <section ref={ref => (this.section2 = ref)}>
           <Offers />
         </section>
-        <SlideRx2></SlideRx2>
+        <section ref={ref => (this.section3 = ref)}>
+          <Instagram />
+        </section>
+        <section ref={ref => (this.section4 = ref)}>
+          <Footer />
+        </section>
         <SubnavContainer>
           <Inner>
             <Deco changeColor={this.state.moveTitle}></Deco>
@@ -75,10 +88,22 @@ export default class Main extends Component {
             </SubnavCtn>
           </Inner>
         </SubnavContainer>
-      </div>
+      </Container>
     );
   }
 }
+
+const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+
+  section {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+  }
+`;
 
 const SubnavContainer = styled.div`
   position: fixed;
@@ -101,6 +126,7 @@ const Deco = styled.div`
   right: -20px;
   bottom: 0;
   border-bottom: solid 1px #fff;
+
   ${props => {
     if (props.changeColor) {
       return css`
@@ -108,6 +134,7 @@ const Deco = styled.div`
       `;
     }
   }}
+
   &:before {
     content: "";
     position: absolute;
@@ -115,10 +142,6 @@ const Deco = styled.div`
     bottom: 0;
     height: 35px;
     border-left: solid 1px #fff;
-    border-left-width: 1px;
-    border-left-style: solid;
-    border-left-color: rgb(255, 255, 255);
-
     ${props => {
       if (props.changeColor) {
         return css`
@@ -136,18 +159,18 @@ const SubnavCtn = styled.ul`
   text-align: left;
   -webkit-transition: bottom 0.5s;
   transition: bottom 0.5s;
-  color: #fff
-    ${props => {
-      if (props.changeColor) {
-        return css`
-          color: #232937;
-        `;
-      }
-    }};
 
   li {
     font-size: 22px;
     line-height: 35px;
     cursor: pointer;
+    color: #fff
+      ${props => {
+        if (props.changeColor) {
+          return css`
+            color: #232937;
+          `;
+        }
+      }};
   }
 `;

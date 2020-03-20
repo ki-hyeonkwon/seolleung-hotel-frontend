@@ -1,19 +1,26 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-export default class LeftArea extends Component {
+class LeftArea extends Component {
+  handleLogout = () => {
+    window.localStorage.clear();
+    this.props.history.push("/");
+    window.location.reload();
+  };
   render() {
     return (
       <LeftAreaContainer>
         <MyInfo>
           <p>My page</p>
           <h2>
-            백은미의 멤버십 번호는 <br /> <span>10147769</span> 입니다.
+            {this.props.user.name_kr}의 멤버십 번호는 <br />
+            <span>{this.props.user.account_number}</span> 입니다.
           </h2>
           <ul>
             <li>
               <Grade>멤버십 등급</Grade>
-              <GradeScore>Silver</GradeScore>
+              <GradeScore>{this.props.user.grade}</GradeScore>
             </li>
             <li>
               <AblePoint>적립 포인트</AblePoint>
@@ -23,7 +30,9 @@ export default class LeftArea extends Component {
         </MyInfo>
         <MyGrade>
           <p>
-            백은미님의 내년 예상 등급은 <span>SILVER</span> 입니다.
+            {this.props.user.name_kr}님의 내년 예상 등급은
+            <span>{this.props.user.grade}</span>
+            입니다.
           </p>
           <ul>
             <li>적립 포인트는 2020년 03월 11일 기준입니다.</li>
@@ -31,12 +40,13 @@ export default class LeftArea extends Component {
             <li>적립 포인트는 10,000P 부터 사용 가능합니다.</li>
           </ul>
         </MyGrade>
-        <Logout>로그아웃</Logout>
+        <Logout onClick={this.handleLogout}>로그아웃</Logout>
       </LeftAreaContainer>
     );
   }
 }
 
+export default withRouter(LeftArea);
 const LeftAreaContainer = styled.div`
     position:relative;
     float:left;
@@ -170,5 +180,6 @@ const Logout = styled.span`
    padding-left: 30px;
    background: url("https://www.lahanhotels.com/club/images/ico_my_logout.png") no-repeat left 0;
     background-size: 18px 15px;
+    cursor: pointer;
 }
 `;

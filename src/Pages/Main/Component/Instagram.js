@@ -71,10 +71,7 @@ const moveTitle = keyframes`
   from { margin-top: 100px; }
       to   { margin-top: 0; }
 `;
-const moveList = keyframes`
-  from { margin-top: 0vh; }
-      to   { margin-top: 5vh; }
-`;
+
 const fadeout = keyframes`
   from { opacity: 0; }
       to   { opacity: 1; }

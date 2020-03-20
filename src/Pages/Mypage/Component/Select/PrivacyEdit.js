@@ -1,22 +1,26 @@
 import React, { Component } from "react";
 import DaumPostcode from "react-daum-postcode";
 import styled from "styled-components";
+import { address } from "Config/config";
 
 export default class PrivacyEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userData: this.props.user,
       koreanName: "",
-      englishName: "",
+      englishName: this.props.user.name_eng,
       birthDate: "",
       gender: "2",
       cpNum: "",
-      pNum: "",
-      zipCode: "",
-      realAddress: "",
-      detailAddress: "",
-      mail: "",
+      pNum: this.props.user.telephone,
+      zipCode: this.props.user.zip_code,
+      realAddress: this.props.user.address,
+      detailAddress: this.props.user.detailed_address,
+      mail: this.props.user.email,
       selectValue: "",
+      marketingAgree: 1,
+      job: 1,
       error: {
         koreanName: "",
         englishName: "",
@@ -27,6 +31,34 @@ export default class PrivacyEdit extends Component {
       }
     };
   }
+
+  onSubmit = () => {
+    fetch(`${address}/users/userinfo/change`, {
+      method: "post",
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Indld2V3ZXdlQG5hdmVyLmNvbSJ9.OgipvAxXiiAXajjYKIOlG7o9Ujc2Y4jxGxVeW0GsShs"
+      },
+      body: JSON.stringify({
+        name_eng: this.state.englishName,
+        telephone: this.state.pNum,
+        zip_code: this.state.zipCode,
+        address: this.state.realAddress,
+        detailed_address: this.state.detailAddress,
+        email: this.state.mail,
+        job: this.state.job,
+        marketing_agree: this.state.marketingAgree
+      })
+    })
+      // .then(res => res.json())
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    // 에러나면 알려주는 거
+  };
 
   handleChange = e => {
     this.setState({
@@ -62,43 +94,21 @@ export default class PrivacyEdit extends Component {
     const { birthDate } = this.state;
 
     // console.log(URL.SERVER_URL + "/dataId.json");
-    console.log("첫번쨰", e.target.value);
+    console.log("첫번째", e.target.value);
 
     switch (name) {
-      case "koreanName":
-        error.koreanName = /^[가-힣]+$/.test(target.value)
-          ? ""
-          : "한글로 정확하게 입력해주세요.";
-        break;
-
       case "englishName":
         error.englishName = /^[a-zA-Z\s]+$/.test(target.value)
           ? ""
           : "영어로 정확하게 입력해주세요.";
         break;
+
       case "birthDate":
         error.birthDate = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/.test(
           target.value
         )
           ? ""
           : "생년월일을 정확하게 입력해주세요.";
-        break;
-
-      case "cpNum":
-        error.cpNum =
-          /(01[016789])(\d{4}|\d{3})\d{4}$/g.test(target.value) ||
-          target.value.length === 0
-            ? ""
-            : "핸드폰 번호를 입력해주세요.";
-
-        break;
-
-      case "authNum":
-        error.authNum =
-          /[^0-9]/g.test(target.value) || target.value.length === 0
-            ? "숫자를 입력해주세요."
-            : "";
-
         break;
 
       case "pNum":
@@ -153,21 +163,24 @@ export default class PrivacyEdit extends Component {
             <SectionInputTitle>개인 정보</SectionInputTitle>
             <div>
               <SectionInput
-                onKeyUp={this.handleInput}
+                onChange={this.handleInput}
                 defaultValue={koreanName}
                 name="koreanName"
                 placeholder="성함"
                 type="text"
+                value={this.props.user.name_kr}
+                readonly
               />
               <SectionInputText>{this.state.error.koreanName}</SectionInputText>
             </div>
             <div>
               <SectionInput
-                onKeyUp={this.handleInput}
+                onChange={this.handleInput}
                 defaultValue={englishName}
                 name="englishName"
                 placeholder="성함(영문)"
                 type="text"
+                value={this.state.englishName}
               />
               <SectionInputText>
                 {this.state.error.englishName}
@@ -176,20 +189,23 @@ export default class PrivacyEdit extends Component {
             <SectionInputBox_v2>
               <SectionInputBox_v2_InputBox>
                 <SectionInput
-                  onKeyUp={this.handleInput}
+                  onChange={this.handleInput}
                   defaultValue={birthDate}
-                  maxLength="8"
+                  maxLength="10"
                   name="birthDate"
                   placeholder="생년월일"
                   type="text"
+                  value={this.props.user.birth}
                 />
-                <p>{this.state.error.birthDate}</p>
+                <SectionInputText>
+                  {this.state.error.birthDate}
+                </SectionInputText>
               </SectionInputBox_v2_InputBox>
               <SectionInputBox_v2_CheckboxBox>
                 <SectionInputBox_v2_Checkbox
                   onChange={e => this.handleChange(e)}
                   value={"2"}
-                  checked={this.state.gender === "2"}
+                  checked={this.props.user.gender === "2"}
                   id="gender_male"
                   name="gender"
                   type="radio"
@@ -203,7 +219,7 @@ export default class PrivacyEdit extends Component {
                 <SectionInputBox_v2_Checkbox
                   onChange={e => this.handleChange(e)}
                   value={"1"}
-                  checked={this.state.gender === "1"}
+                  checked={this.props.user.gender === "1"}
                   id="gender_female"
                   name="gender"
                   type="radio"
@@ -218,29 +234,32 @@ export default class PrivacyEdit extends Component {
             </SectionInputBox_v2>
             <SectionInputBox>
               <SectionInput
-                onKeyUp={this.handleInput}
+                onChange={this.handleInput}
                 defaultValue={cpNum}
                 maxLength="11"
                 name="cpNum"
                 placeholder="휴대전화번호 11자"
                 type="text"
+                value={this.props.user.mobile}
+                readonly
               />
               <SectionInputText>{this.state.error.cpNum}</SectionInputText>
             </SectionInputBox>
             <div>
               <SectionInput
-                onKeyUp={this.handleInput}
+                onChange={this.handleInput}
                 defaultValue={pNum}
                 name="pNum"
                 placeholder="유선전화"
                 type="text"
+                value={this.state.pNum}
               />
               <SectionInputText>{this.state.error.pNum}</SectionInputText>
             </div>
             <SectionInputBox>
               <SectionInput
                 placeholder="우편번호"
-                value={zipCode}
+                value={this.state.zipCode}
                 readOnly
                 type="text"
               />
@@ -256,28 +275,28 @@ export default class PrivacyEdit extends Component {
             )}
             <div>
               <SectionInput
-                value={realAddress}
+                value={this.state.realAddress}
+                onChange={this.handleInput}
                 placeholder="기본 주소"
-                readOnly
                 type="text"
               />
             </div>
             <div>
               <SectionInput
-                onKeyUp={this.handleInput}
-                defaultValue={detailAddress}
+                onChange={this.handleInput}
                 name="detailAddress"
                 placeholder="상세 주소(선택)"
                 type="text"
+                value={this.state.detailAddress}
               />
             </div>
             <div>
               <SectionInput
-                onKeyUp={this.handleInput}
-                defaultValue={mail}
+                onChange={this.handleInput}
                 name="mail"
                 placeholder="이메일"
                 type="text"
+                value={this.state.mail}
               />
               <SectionInputText>{this.state.error.mail}</SectionInputText>
             </div>
@@ -293,7 +312,7 @@ export default class PrivacyEdit extends Component {
             </div>
           </SectionInputContainer>
         </Form>
-        <Button>
+        <Button onClick={this.onSubmit}>
           <span>변경 완료</span>
         </Button>
       </Container>
