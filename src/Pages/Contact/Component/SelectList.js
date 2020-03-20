@@ -12,10 +12,15 @@ const SelectList = props => {
   // useEffect(() => {
   //   openList();
   // });
-  console.log(open);
+  console.log(item);
   return (
     <BookBox>
-      <BookButton for="roomKind" name="room" onClick={openList}>
+      <BookButton
+        for="roomKind"
+        innerText={item}
+        name="room"
+        onClick={openList}
+      >
         {item}
       </BookButton>
       <BookUl open={open}>
@@ -24,7 +29,11 @@ const SelectList = props => {
             <BookLi
               open={open}
               key={i}
-              onClick={() => props.onChangeItem(list.id, list.name)}
+              onClick={() => {
+                props.onChangeItem(list.id, list.name);
+                setItem(list.name);
+                setOpen(!open);
+              }}
             >
               {list.name}
             </BookLi>

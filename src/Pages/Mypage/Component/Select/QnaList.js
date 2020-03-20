@@ -27,7 +27,7 @@ export default class QnaList extends Component {
   }
 
   getPlace = () => {
-    fetch(`${address}/users/branch`)
+    fetch(`${address}/room/branch`)
       .then(res => res.json())
       .then(res => {
         this.setState(
@@ -42,7 +42,7 @@ export default class QnaList extends Component {
   };
 
   getPromotion = () => {
-    fetch(`${address}/users/inquiry-type`)
+    fetch(`${address}/inquiry/type`)
       .then(res => res.json())
       .then(res => {
         this.setState(
@@ -58,10 +58,10 @@ export default class QnaList extends Component {
   };
 
   test = () => {
-    fetch(`${address}/users/inquiry`, {
+    fetch(`${address}/inquiry`, {
       headers: {
         Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoibWluamkxNDEyIn0.fd-R3LxjSZHw9mz5VrBAFCfeY6l1AZk6Gts31kdqmQQ"
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
       }
     })
       .then(res => res.json())
@@ -70,17 +70,17 @@ export default class QnaList extends Component {
           {
             user: res.data
           },
-          () => console.log("qna", res[0])
+          () => console.log("qna", res.data)
         )
       );
   };
 
   onSubmit = () => {
-    fetch(`${address}/users/inquiry-edit`, {
+    fetch(`${address}/inquiry/${this.state.user.id}`, {
       method: "post",
       headers: {
         Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoibWluamkxNDEyIn0.fd-R3LxjSZHw9mz5VrBAFCfeY6l1AZk6Gts31kdqmQQ"
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
       },
       body: JSON.stringify({
         id: this.state.id,
@@ -101,11 +101,11 @@ export default class QnaList extends Component {
   };
 
   onDelete = () => {
-    fetch(`${address}/users/inquiry`, {
+    fetch(`${address}/inquiry`, {
       method: "delete",
       headers: {
         Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoibWluamkxNDEyIn0.fd-R3LxjSZHw9mz5VrBAFCfeY6l1AZk6Gts31kdqmQQ"
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
       },
       body: JSON.stringify({
         id: this.state.id
@@ -155,15 +155,20 @@ export default class QnaList extends Component {
     // props.onChangeItem(e.target.innerText);
   };
 
-  openList = e => {};
-
-  ToggleClose = (title, content, id) => {
-    this.setState({
-      toggleClose: !this.state.toggleClose,
-      title: title,
-      content: content,
-      id: id
-    });
+  ToggleClose = (title, content, id, branch, typeId) => {
+    this.setState(
+      {
+        toggleClose: !this.state.toggleClose,
+        title: title,
+        content: content,
+        id: id,
+        placeName: branch,
+        promotionName: typeId
+      },
+      () => {
+        console.log(branch, typeId);
+      }
+    );
   };
 
   handleInput = e => {
@@ -194,7 +199,13 @@ export default class QnaList extends Component {
                     return (
                       <tr
                         onClick={() =>
-                          this.ToggleClose(user.title, user.content, user.id)
+                          this.ToggleClose(
+                            user.title,
+                            user.content,
+                            user.id,
+                            user.branch_id,
+                            user.inquiry_type_id
+                          )
                         }
                         key={user.id}
                         id={user.id}
@@ -227,20 +238,22 @@ export default class QnaList extends Component {
                   }}
                 />
                 <ListContainer>
-                  <SelectList
-                    onChangeItem={(placeId, placeName) =>
-                      this.onChangeItem(placeId, placeName)
-                    }
-                    listTitle="지점"
-                    dropLists={place}
-                    open={this.state.open}
-                    value={this.state.placeName}
-                  />
+                  {place.length > 0 && (
+                    <SelectList
+                      onChangeItem={(placeId, placeName) =>
+                        this.onChangeItem(placeId, placeName)
+                      }
+                      listTitle="경주"
+                      dropLists={place}
+                      open={this.state.open}
+                      value={this.state.placeName}
+                    />
+                  )}
                   <SelectList
                     onChangeItem={(promotionId, promotionName) =>
                       this.onChangeItem(promotionId, promotionName)
                     }
-                    listTitle="문의 유형"
+                    listTitle="프로모션"
                     dropLists={promotion}
                     open={this.state.open}
                     value={this.state.promotionName}

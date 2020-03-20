@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { address } from "Config/config";
 import styled from "styled-components";
-
 export default class ChangePassword extends Component {
   constructor(props) {
     super(props);
@@ -18,17 +17,15 @@ export default class ChangePassword extends Component {
       review_toggle: false
     };
   }
-
   reviewToggleClose = () => {
     this.setState({ review_toggle: false });
   };
-
   onSubmit = () => {
     fetch(`${address}/users/userpw`, {
       method: "post",
       headers: {
         Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoibWluamkxNDEyIn0.fd-R3LxjSZHw9mz5VrBAFCfeY6l1AZk6Gts31kdqmQQ"
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkxMjM0In0.G2kL2OT0royDbdIQCalgUIhYKsrcK1VB4unw4YV8umE"
       },
       body: JSON.stringify({
         password: this.state.pwd,
@@ -69,22 +66,18 @@ export default class ChangePassword extends Component {
       });
     // 에러나면 알려주는 거
   };
-
   handleInput = e => {
     const target = e.target;
     const name = target.name;
     const error = this.state.error;
     const { pwd, newPwd, newPwdCheck } = this.state;
-
     // console.log(URL.SERVER_URL + "/dataId.json");
     console.log("첫번쨰", e.target.value);
-
     this.setState({
       [target.name]: target.value,
       error
     });
   };
-
   render() {
     const { pwd, newPwd, newPwdCheck } = this.state;
     const { handleInput, onSubmit } = this;
@@ -114,7 +107,6 @@ export default class ChangePassword extends Component {
               />
               <ErrorMsg>{this.state.error.newPwd}</ErrorMsg>
             </InputContainer>
-
             <InputContainer>
               <input
                 onChange={handleInput}
@@ -143,17 +135,13 @@ export default class ChangePassword extends Component {
     );
   }
 }
-
 const Container = styled.div`
   margin-top: 179px;    
 }
 `;
-
 const Form = styled.div`
-
 }
 `;
-
 const InputContainer = styled.div`
   width:  100%;
   margin-top: 50px;
@@ -163,12 +151,10 @@ const InputContainer = styled.div`
       border: none;
       padding-bottom: 10px;
       font-size: 18px;
-      
       &::placeholder {
       color: #1d212a;
     }
     }
-
     &:before {
       position: absolute;
     content: '';
@@ -178,7 +164,6 @@ const InputContainer = styled.div`
     height: 1px;
     background: #dbd6d2;
     }
-
     &:after {
       position: absolute;
     content: '';
@@ -190,22 +175,17 @@ const InputContainer = styled.div`
     transition: width 0.3s ease;
     background: #1d212a;
     }
-
     &:hover:after {
       width: 100%;
     }
-
-    
 }
 `;
-
 const ErrorMsg = styled.p`
   position: absolute;
   margin-top: 5px;
   font-size: 12px;
   color: #dd1717;
 `;
-
 const Button = styled.button`
 margin-top: 50px;
     width: 140px;
@@ -215,7 +195,6 @@ margin-top: 50px;
     border: none;
    background: #a68164;
    position: relative;
-
    span {
     color: #000;
     transition: color 0.5s ease;
@@ -233,14 +212,12 @@ margin-top: 50px;
     transition: all 0.5s ease;
     z-index: -1;
    }
-
    &:hover:after {
     height: 100%;
     z-index: 1;
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
    }
-
    &:hover > span {
     z-index: 10;
     color: #fff;
@@ -249,7 +226,6 @@ margin-top: 50px;
    }
 }
 `;
-
 const Alert = styled.div`
   position: fixed;
   left: 0;
@@ -259,7 +235,6 @@ const Alert = styled.div`
   background: rgba(122, 122, 122, 0.5);
   z-index: 1000;
   overflow: hidden;
-
   div {
     position: absolute;
     left: 50%;

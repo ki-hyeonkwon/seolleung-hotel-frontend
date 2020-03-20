@@ -29,7 +29,7 @@ export default class Qna extends Component {
   };
 
   getPlace = () => {
-    fetch(`${address}/users/branch`)
+    fetch(`${address}/room/branch`)
       .then(res => res.json())
       .then(res => {
         this.setState(
@@ -45,7 +45,7 @@ export default class Qna extends Component {
   };
 
   getPromotion = () => {
-    fetch(`${address}/users/inquiry-type`)
+    fetch(`${address}/inquiry/type`)
       .then(res => res.json())
       .then(res => {
         this.setState(
@@ -65,11 +65,11 @@ export default class Qna extends Component {
     this.getPromotion();
   }
   onSubmit = () => {
-    fetch(`${address}/users/inquiry `, {
+    fetch(`${address}/inquiry`, {
       method: "post",
       headers: {
         Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IndlY29kZUBuYXZlci5jb20ifQ.zZp-9cQsHiHUgEVFHIDwkc129LONjRmW4QetuZ2AqqQ"
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
       },
       body: JSON.stringify({
         title: this.state.title,

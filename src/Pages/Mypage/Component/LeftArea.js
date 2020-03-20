@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 class LeftArea extends Component {
   handleLogout = () => {
-    window.localStorage.clear();
+    window.sessionStorage.clear();
     this.props.history.push("/");
     window.location.reload();
   };
@@ -30,8 +30,8 @@ class LeftArea extends Component {
         </MyInfo>
         <MyGrade>
           <p>
-            {this.props.user.name_kr}님의 내년 예상 등급은
-            <span>{this.props.user.grade}</span>
+            {this.props.user.name_kr} 님의 내년 예상 등급은
+            <span> {this.props.user.grade} </span>
             입니다.
           </p>
           <ul>
