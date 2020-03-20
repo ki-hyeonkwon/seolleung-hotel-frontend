@@ -31,7 +31,7 @@ export default class ReserveList extends Component {
   };
 
   reserveList = () => {
-    fetch("http://10.58.3.163:8000/reservation", {
+    fetch("http://52.79.185.94:8000/reservation", {
       headers: {
         Authorization:
           "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtheTEyMzRAZ21haWwuY29tIn0.kNDcEe5QCzZ4fC5gFI5ndz7l3_5OqGuy1kBxmWRaEpw"
@@ -45,33 +45,34 @@ export default class ReserveList extends Component {
             // promotion: res.
           },
           () => {
-            console.log("list", res.reservation_list);
+            console.log("listttttt", res.reservation_list);
           }
         );
       });
   };
 
   componentDidMount() {
-    //this.reserveList();
+    this.reserveList();
   }
 
   onDelete = () => {
-    fetch("http://10.58.3.122:8000/reservation", {
-      method: "delete",
-      headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtheTEyMzRAZ21haWwuY29tIn0.kNDcEe5QCzZ4fC5gFI5ndz7l3_5OqGuy1kBxmWRaEpw"
-      },
-      body: JSON.stringify({
-        user_id: this.state.userId
-      })
-    })
+    fetch(
+      `http://52.79.185.94:8000/reservation/${this.state.reserve.reservation_code}`,
+      {
+        method: "delete",
+        headers: {
+          Authorization:
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtheTEyMzRAZ21haWwuY29tIn0.kNDcEe5QCzZ4fC5gFI5ndz7l3_5OqGuy1kBxmWRaEpw"
+        }
+      }
+    )
       .then(res => {
         console.log(res);
         if (res.status === 200) {
           this.setState({
             toggleClose: true
           });
+          this.reserveList();
         }
       })
       .catch(error => {
@@ -103,7 +104,7 @@ export default class ReserveList extends Component {
                       <tr
                         onClick={() =>
                           this.ToggleClose(
-                            reserve.name,
+                            reserve.room_name,
                             reserve.price,
                             reserve.check_in,
                             reserve.stay_nights,
@@ -165,7 +166,7 @@ export default class ReserveList extends Component {
               </LayerHeader>
               <LayerBody>
                 <p>객실료</p>
-                <p>{this.state.price}</p>
+                <p>₩{Math.floor(this.state.price)}</p>
               </LayerBody>
               <Button onClick={this.onDelete}>취소 요청</Button>
             </Form>

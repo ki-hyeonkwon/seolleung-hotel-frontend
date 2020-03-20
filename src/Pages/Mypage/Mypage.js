@@ -21,7 +21,7 @@ export default class Mypage extends Component {
     fetch(`${address}/users/userinfo`, {
       headers: {
         Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Indld2V3ZXdlQG5hdmVyLmNvbSJ9.OgipvAxXiiAXajjYKIOlG7o9Ujc2Y4jxGxVeW0GsShs"
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkxMjM0In0.G2kL2OT0royDbdIQCalgUIhYKsrcK1VB4unw4YV8umE"
       }
     })
       .then(res => res.json())
