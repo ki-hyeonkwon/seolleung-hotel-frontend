@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import DaumPostcode from "react-daum-postcode";
 import styled from "styled-components";
 import { address } from "Config/config";
-
 export default class PrivacyEdit extends Component {
   constructor(props) {
     super(props);
@@ -11,7 +10,7 @@ export default class PrivacyEdit extends Component {
       koreanName: "",
       englishName: this.props.user.name_eng,
       birthDate: "",
-      gender: "2",
+      gender: "1",
       cpNum: "",
       pNum: this.props.user.telephone,
       zipCode: this.props.user.zip_code,
@@ -19,6 +18,7 @@ export default class PrivacyEdit extends Component {
       detailAddress: this.props.user.detailed_address,
       mail: this.props.user.email,
       selectValue: "",
+      selectArr: [],
       marketingAgree: 1,
       job: 1,
       error: {
@@ -31,13 +31,27 @@ export default class PrivacyEdit extends Component {
       }
     };
   }
-
+  componentDidMount() {
+    this.selectJob();
+  }
+  selectJob = async e => {
+    const selectFetch = await fetch(`${address}/users/job`, {
+      method: "GET"
+    });
+    console.log("sdlkfj", selectFetch);
+    const selectFetchJson = await selectFetch.json();
+    if (selectFetch.status === 200) {
+      this.setState({
+        selectArr: await selectFetchJson.jobDate
+      });
+    }
+  };
   onSubmit = () => {
     fetch(`${address}/users/userinfo/change`, {
       method: "post",
       headers: {
         Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Indld2V3ZXdlQG5hdmVyLmNvbSJ9.OgipvAxXiiAXajjYKIOlG7o9Ujc2Y4jxGxVeW0GsShs"
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
       },
       body: JSON.stringify({
         name_eng: this.state.englishName,
@@ -59,19 +73,16 @@ export default class PrivacyEdit extends Component {
       });
     // 에러나면 알려주는 거
   };
-
   handleChange = e => {
     this.setState({
       gender: e.target.value
     });
   };
-
   handleAddressClick = e => {
     this.setState({
       open: !this.state.open
     });
   };
-
   handleAddress = data => {
     this.setState({
       open: !this.state.open,
@@ -79,30 +90,24 @@ export default class PrivacyEdit extends Component {
       realAddress: data.roadAddress
     });
   };
-
   handleSelect = e => {
     this.setState({
       selectValue: e.target.value
     });
   };
-
   handleInput = e => {
     const target = e.target;
     const name = target.name;
     const error = this.state.error;
-
     const { birthDate } = this.state;
-
     // console.log(URL.SERVER_URL + "/dataId.json");
     console.log("첫번째", e.target.value);
-
     switch (name) {
       case "englishName":
         error.englishName = /^[a-zA-Z\s]+$/.test(target.value)
           ? ""
           : "영어로 정확하게 입력해주세요.";
         break;
-
       case "birthDate":
         error.birthDate = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/.test(
           target.value
@@ -110,16 +115,13 @@ export default class PrivacyEdit extends Component {
           ? ""
           : "생년월일을 정확하게 입력해주세요.";
         break;
-
       case "pNum":
         error.pNum = /^0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4])-?\d{3,4}-?\d{4}$/.test(
           target.value
         )
           ? ""
           : "전화번호를 입력해주세요.";
-
         break;
-
       case "mail":
         error.mail =
           target.length < 1
@@ -129,12 +131,10 @@ export default class PrivacyEdit extends Component {
               )
             ? ""
             : "이메일 형식을 다시 확인해주세요.";
-
         break;
       default:
         break;
     }
-
     this.setState({
       [target.name]: target.value,
       error
@@ -153,9 +153,9 @@ export default class PrivacyEdit extends Component {
       detailAddress,
       mail,
       selectValue,
-      error
+      error,
+      selectArr
     } = this.state;
-
     return (
       <Container>
         <Form>
@@ -205,7 +205,7 @@ export default class PrivacyEdit extends Component {
                 <SectionInputBox_v2_Checkbox
                   onChange={e => this.handleChange(e)}
                   value={"2"}
-                  checked={this.props.user.gender === "2"}
+                  checked={this.state.gender === "2"}
                   id="gender_male"
                   name="gender"
                   type="radio"
@@ -219,7 +219,7 @@ export default class PrivacyEdit extends Component {
                 <SectionInputBox_v2_Checkbox
                   onChange={e => this.handleChange(e)}
                   value={"1"}
-                  checked={this.props.user.gender === "1"}
+                  checked={this.state.gender === "1"}
                   id="gender_female"
                   name="gender"
                   type="radio"
@@ -308,6 +308,13 @@ export default class PrivacyEdit extends Component {
                 value={selectValue}
               >
                 <option value="">직업(선택)</option>
+                {selectArr.map((item, idx) => {
+                  return (
+                    <option key={idx} value={idx + 1}>
+                      {item.name}
+                    </option>
+                  );
+                })}
               </SectionSelect>
             </div>
           </SectionInputContainer>
@@ -324,52 +331,41 @@ const Container = styled.div`
   margin-top: 20px;    
 }
 `;
-
 const Form = styled.div`
     width: 100%;
     height: 500px;
     overflow: scroll;
 }
 `;
-
 const SectionInputContainer = styled.fieldset`
   display: block;
   margin-top: 70px;
 `;
-
 const SectionInputTitle = styled.legend`
   color: #826d67;
 `;
-
 const SectionInputBox = styled.div`
   position: relative;
 `;
-
 const SectionInputBox_v2 = styled.div`
   display: flex;
   align-items: flex-end;
 `;
-
 const SectionInputBox_v2_InputBox = styled.div`
   width: 50%;
 `;
-
 const SectionInputBox_v2_CheckboxBox = styled.div`
   margin-left: 30px;
 `;
-
 const SectionInputBox_v2_Checkbox = styled.input`
   display: none;
-
   &:checked + label > i {
     background-color: #000;
   }
-
   & + label {
     margin-right: 20px;
   }
 `;
-
 const SectionInputBox_v2_CheckboxIcon = styled.i`
   display: inline-block;
   width: 10px;
@@ -381,7 +377,6 @@ const SectionInputBox_v2_CheckboxIcon = styled.i`
   border-radius: 50%;
   vertical-align: middle;
 `;
-
 const SectionInput = styled.input`
   width: calc(100% - 10px);
   margin-top: 30px;
@@ -395,7 +390,6 @@ const SectionInput = styled.input`
     color: #1d212a;
   }
 `;
-
 const SectionInputButton = styled.button`
   position: absolute;
   bottom: 8px;
@@ -405,14 +399,12 @@ const SectionInputButton = styled.button`
   outline: 0;
   border: 0;
 `;
-
 const SectionInputText = styled.p`
   padding-top: 5px;
   padding-left: 10px;
   font-size: 13px;
   color: #dd1717;
 `;
-
 const SectionSelect = styled.select`
   width: 100%;
   margin-top: 30px;
@@ -426,12 +418,10 @@ const SectionSelect = styled.select`
   -moz-appearance: none;
   appearance: none;
   border-radius: 0;
-
   &::-ms-expand {
     display: none;
   }
 `;
-
 const Button = styled.button`
 margin-top: 50px;
     width: 140px;
@@ -441,7 +431,6 @@ margin-top: 50px;
     border: none;
    background: #a68164;
    position: relative;
-
    span {
     color: #000;
     transition: color 0.5s ease;
@@ -459,14 +448,12 @@ margin-top: 50px;
     transition: all 0.5s ease;
     z-index: -1;
    }
-
    &:hover:after {
     height: 100%;
     z-index: 1;
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
    }
-
    &:hover > span {
     z-index: 10;
     color: #fff;

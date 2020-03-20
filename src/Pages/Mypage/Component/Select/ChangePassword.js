@@ -41,7 +41,27 @@ export default class ChangePassword extends Component {
         if (res.status === 200) {
           this.setState({ review_toggle: true });
         } else {
-          alert("비밀번호 틀렸어요");
+          this.setState(previousState => {
+            return {
+              error: {
+                pwd:
+                  /^(?=.*[a-z])(?=.*[0-9]).{8,20}/.test(previousState.pwd) ===
+                  false
+                    ? "현재 비밀번호와 일치하지 않습니다."
+                    : "",
+                newPwd:
+                  /^(?=.*[a-z])(?=.*[0-9]).{8,20}/.test(
+                    previousState.newPwd
+                  ) === false
+                    ? "8~20자의 영문과 숫자를 혼용하여 입력주세요."
+                    : "",
+                newPwdCheck:
+                  previousState.newPwd === previousState.newPwdCheck
+                    ? ""
+                    : "비밀번호가 일치하지 않습니다."
+              }
+            };
+          });
         }
       })
       .catch(error => {
@@ -59,32 +79,6 @@ export default class ChangePassword extends Component {
     // console.log(URL.SERVER_URL + "/dataId.json");
     console.log("첫번쨰", e.target.value);
 
-    switch (name) {
-      case "pwd":
-        error.pwd =
-          /^(?=.*[a-z])(?=.*[0-9]).{8,20}/.test(target.value) === false
-            ? "현재 비밀번호와 일치하지 않습니다."
-            : "";
-
-        break;
-      case "newPwd":
-        error.newPwd =
-          /^(?=.*[a-z])(?=.*[0-9]).{8,20}/.test(target.value) === false
-            ? "8~20자의 영문과 숫자를 혼용하여 입력주세요."
-            : "";
-
-        break;
-      case "newPwdCheck":
-        error.newPwd =
-          newPwdCheck === target.value
-            ? ""
-            : pwd.length > 0 && "비밀번호가 일치하지 않습니다.";
-
-        break;
-
-      default:
-        break;
-    }
     this.setState({
       [target.name]: target.value,
       error
@@ -107,6 +101,7 @@ export default class ChangePassword extends Component {
                 name="pwd"
                 value={pwd}
               />
+              <ErrorMsg>{this.state.error.pwd}</ErrorMsg>
             </InputContainer>
             <InputContainer>
               <input
@@ -117,7 +112,7 @@ export default class ChangePassword extends Component {
                 placeholder="비밀번호"
                 type="password"
               />
-              <ErrorMsg>{this.state.error.rePwd}</ErrorMsg>
+              <ErrorMsg>{this.state.error.newPwd}</ErrorMsg>
             </InputContainer>
 
             <InputContainer>
@@ -129,9 +124,7 @@ export default class ChangePassword extends Component {
                 placeholder="비밀번호 확인"
                 type="password"
               />
-              {this.state.err ? (
-                <ErrorMsg>{this.state.error.rePwdCheck}</ErrorMsg>
-              ) : null}
+              <ErrorMsg>{this.state.error.newPwdCheck}</ErrorMsg>
             </InputContainer>
           </Form>
           <Button type="submit" onClick={onSubmit}>
