@@ -13,6 +13,15 @@ export default class NavBar extends Component {
       clubLahan: "Club Lahan"
     };
   }
+
+  componentDidMount() {
+    this.setState({
+      other: window.sessionStorage.getItem("Authorization")
+        ? ["맴버십 소개", "마이페이지"]
+        : ["맴버십 소개", "로그인", "가입"]
+    });
+  }
+
   render() {
     const { place, other, findHotel, clubLahan } = this.state;
     return (
