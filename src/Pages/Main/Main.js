@@ -7,6 +7,7 @@ import Instagram from "./Component/Instagram";
 import Subnav from "./Component/Subnav";
 import Footer from "./Component/Footer";
 import { SubnavData } from "./Component/SubnavData";
+// import "fullpage.js/vendors/scrolloverflow";
 import styled, { css } from "styled-components";
 
 export default class Main extends Component {

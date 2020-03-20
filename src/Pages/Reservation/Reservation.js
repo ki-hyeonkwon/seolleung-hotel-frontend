@@ -1,179 +1,120 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import styled from "styled-components";
-import SelectList from "Pages/Reservation/Component/SelectList.js";
+import BookLeftTop from "Pages/Reservation/Component/BookLeftTop";
 import RoomList from "Pages/Reservation/Component/RoomList";
 import BookModal from "Pages/Reservation/Component/BookModal";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
-import "flatpickr/dist/themes/dark.css";
-import Flatpickr from "react-flatpickr";
-import rangePlugin from "flatpickr/dist/plugins/rangePlugin";
+import BookLeftBottom from "Pages/Reservation/Component/BookLeftBottom";
+import * as URL from "../../config";
 
-export default class extends Component {
-  constructor() {
-    super();
-    this.test = React.createRef();
-    this.state = {
-      date: new Date(),
-      checkIn: false,
-      checkInDay: "",
-      checkOutDay: "",
-      checkInMonth: "",
-      checkOutMonth: "",
-      place: "",
-      roomKind: "",
-      numPeo: ""
-      // modalClose: true
-    };
-  }
-  handleClick = e => {
-    this.refs.refDatePicker.flatpickr.clear();
-    // console.log(e);
+const Reservation = () => {
+  const [room, setRooms] = useState([]);
+  const [selectedRoom, setselectedRoom] = useState("");
+  const [modal, setModal] = useState(false);
+  const [roomId, setRoomId] = useState("");
+  const [date, setDate] = useState([]);
+  const [gotId, setGotId] = useState("");
+  const [gotPeo, setGotPeo] = useState("");
+  const [gotLocation, setGotLocation] = useState("");
+  const [dateData, setDateData] = useState([]);
+
+  const lookDate = (im, id, om, od) => {
+    setDateData([im, id, om, od]);
   };
-  handelCheckBox = e => {
-    const checkInDate = Object.values(e)[0];
-    const checkOutDate = Object.values(e)[1];
-    if (checkInDate !== undefined && checkOutDate !== undefined) {
-      this.setState({ checkInDay: checkInDate.getDate() });
-      this.setState({ checkOutDay: checkOutDate.getDate() });
-      this.setState({ checkInMonth: checkInDate.getMonth() + 1 });
-      this.setState({ checkOutMonth: checkOutDate.getMonth() + 1 });
-    }
+  const lookPeo = peo => {
+    setGotPeo(peo);
+    console.log("사람사람사람", peo);
   };
 
-  handlePlace = place => {
-    this.setState({ place: place });
+  const lookLocation = lo => {
+    setGotLocation(lo);
   };
 
-  handleRoomKind = roomKind => {
-    this.setState({ roomKind: roomKind });
+  const lookId = id => {
+    console.log("자식한테서 올라온 아이템 아이디", id);
+    setGotId(id);
   };
 
-  handleNumPeo = peo => {
-    this.setState({ numPeo: peo });
+  const getDate = (checkIn, checkOut) => {
+    setDate([checkIn, checkOut]);
   };
 
-  render() {
-    const { date, modalClose } = this.state;
-    // const Nights = {{this.state.previousDays} + {this.state.nextDays}!==0 && this.state.previousDays + this.state.nextDays}
-    return (
-      <ReservationWrapper>
-        <ReservationContainer>
-          <OpacityBox></OpacityBox>
-          <FinalBookOpacity></FinalBookOpacity>
-          <HotelsOpacity></HotelsOpacity>
-          <RoomLsitOpacity></RoomLsitOpacity>
-          <ReservationBox>
-            <CalenderContainer>
-              <CalenderBox>
-                <CalenderLogoBox>
-                  <FontAwesomeIcon
-                    icon={faCalendarAlt}
-                    style={{ color: "white", fontSize: "25px" }}
-                  />
-                </CalenderLogoBox>
-                <Flatpickr
-                  ref="refDatePicker"
-                  onClick={this.handleClick}
-                  date={date}
-                  options={{
-                    plugins: [new rangePlugin({ input: ".secondRangeInput" })]
-                  }}
-                  value={date}
-                  onChange={date => {
-                    this.setState({ date });
-                    // this.handelCheckBox();
-                  }}
-                  // eslint-disable-next-line react/jsx-no-duplicate-props
-                  onChange={this.handelCheckBox}
-                  style={{
-                    position: "absolute",
-                    left: "62px",
-                    border: "none",
-                    backgroundColor: "transparent",
-                    textAlign: "center",
-                    fontSize: "22px",
-                    width: "100px",
-                    overflow: "hidden",
-                    zIndex: "3",
-                    marginRight: "10px",
-                    cursor: "pointer",
-                    fontFamily: "PerpetuaStd",
-                    color: "white",
-                    padding: "0 2px 0 2px"
-                  }}
-                />
-                <ArrowBox>
-                  <FontAwesomeIcon icon={faLongArrowAltRight} />
-                </ArrowBox>
-                <SecondRangeInput
-                  onClick={this.handleClick}
-                  className="secondRangeInput"
-                  // onChange={this.handleCheckIn}
-                  placeholder="Check Out"
-                  // eslint-disable-next-line react/jsx-no-duplicate-props
-                  onChange={this.handelCheckInBox}
-                />
-              </CalenderBox>
-            </CalenderContainer>
-            {/* 여기에 다음거 형제로 */}
-            <HotelContainer>
-              <HotelBox>
-                <SelectList
-                  getPlace={this.handlePlace}
-                  listTitle="Hotel Lahan"
-                  firstList="Gyeongju"
-                  secondList="Ulsan"
-                  thirdList="Mokpo"
-                  forthList="Pohang"
-                  fifthList="Deagu"
-                  sixthList="Seamarq"
-                />
-              </HotelBox>
-            </HotelContainer>
-            <RoomSelectContainer>
-              <RoomSelectBox>
-                {/* <RoomSelect> */}
-                <SelectList
-                  getRoomKind={this.handleRoomKind}
-                  listTitle="Rooms"
-                  firstList="HILL SIDE DELUXE DOUBLE"
-                  secondList="HILL SIDE DELUXE TWIN"
-                  thirdList="LAKE SIDE DELUXE DOUBLE"
-                  forthList="HILL SIDE FAMILY TWIN"
-                  fifthList="LAKE SIDE PREMIUM SUITE"
-                />
-                {/* </RoomSelect> */}
-              </RoomSelectBox>
-            </RoomSelectContainer>
-            <AdultContainer>
-              <AdultBox>
-                {/* <Adult> */}
-                <SelectList
-                  getNumPeo={this.handleNumPeo}
-                  listTitle="Number of people"
-                  firstList="1"
-                  secondList="2"
-                  thirdList="3"
-                  forthList="4"
-                  fifthList="5"
-                  sixthList="6"
-                />
-                {/* </Adult> */}
-              </AdultBox>
-            </AdultContainer>
-            <BookNowButtonContainer onClick={this.handleBookdays}>
-              Book Now
-            </BookNowButtonContainer>
-          </ReservationBox>
-          <RoomList />
-        </ReservationContainer>
-        <BookModal />
-      </ReservationWrapper>
-    );
-  }
-}
+  //모달 onoff => RoomList.js와 연결됨
+  const modalOpen = (e, roomId) => {
+    console.log("reservation:", e);
+    setModal(e);
+    console.log("여기로 들어온다: ", roomId);
+    setRoomId(roomId);
+  };
+
+  // 모달 onoff => BookModal.js와 연결됨
+  const handleModal = (modalTog, roomId) => {
+    console.log("나는 부모:", modalTog);
+    // console.log("나는 룸 아이디: ", roomId);
+    setModal(modalTog);
+  };
+
+  // {모달창에 정보 전달용}
+  // const handleSelect = selectedSth => {
+  //   setselectedRoom(selectedSth);
+  //   setModal(!modal);
+  // };
+
+  useEffect(
+    () => {
+      fetch(
+        `http://10.58.3.163:8000/room?CheckIn=${date[0]}&CheckOut=${date[1]}`
+      )
+        // fetch("http://localhost:3000/Data/RoomList.json")
+        .then(res => res.json())
+        .then(res => {
+          setRooms(res.room_list);
+        });
+    },
+    // [date]);
+    [date]
+  );
+
+  return (
+    <ReservationWrapper>
+      {/* 여기에 홈으로 가는 라우터 연결 */}
+      <HomeIconBox></HomeIconBox>
+      <ReservationContainer>
+        <OpacityBox></OpacityBox>
+        <FinalBookOpacity></FinalBookOpacity>
+        {/* 얘는 뺄지 안뺄지 결정 x */}
+        {/* <RoomLsitOpacity></RoomLsitOpacity> */}
+
+        <BookLeftTop
+          getData={(checkIn, checkOut) => getDate(checkIn, checkOut)}
+          getPeo={peo => lookPeo(peo)}
+          getLo={lo => lookLocation(lo)}
+          getD={(im, id, om, od) => lookDate(im, id, om, od)}
+        />
+        <RoomList
+          room={room}
+          lookId={id => lookId(id)}
+          selectedId={gotId}
+          modalOpen={(tog, roomId) => modalOpen(tog, roomId)}
+          // id={room.id}
+        />
+        <BookLeftBottom
+          room={room}
+          pickRoomId={gotId}
+          gotPeo={gotPeo}
+          gotLocation={gotLocation}
+          dateData={dateData}
+        />
+      </ReservationContainer>
+      <BookModal
+        modal={modal}
+        roomId={roomId}
+        controlModal={tog => handleModal(tog)}
+      />
+    </ReservationWrapper>
+  );
+};
+
+export default Reservation;
 
 const ReservationWrapper = styled.div`
   width: 100vw;
@@ -194,15 +135,22 @@ const ReservationContainer = styled.div`
   position: relative;
 `;
 
-const ReservationBox = styled.section`
-  width: 395px;
-  height: 477px;
-  /* background-color: #e0c3af; */
-  /* opacity: 0.5; */
-  border-radius: 5px;
-  padding: 32px 32px 24px 32px;
-  z-index: 10;
-  position: relative;
+const HomeIconBox = styled.div`
+  width: 160px;
+  height: 70px;
+  background-image: url("https://www.lahanhotels.com/upfile/images/branch/e702cf14-4c1b-4185-8eff-29fd5ddd9ff6.png");
+  background-position: -30px;
+  background-repeat: none;
+  background-size: cover;
+  position: absolute;
+  /* top: 50%; */
+  /* transform: translateX(-50%); */
+  /* transform: rotate(-90deg); */
+  /* left: -50px; */
+  top: 20px;
+  right: 100px;
+  padding-right: 50px;
+  cursor: pointer;
 `;
 
 // 20.5vw
@@ -218,124 +166,6 @@ const OpacityBox = styled.div`
   left: 0;
 `;
 
-/*calender Box top :100px*/
-const CalenderContainer = styled.div`
-  position: absolute;
-  top: 60px;
-`;
-
-const CalenderBox = styled.div`
-  width: 400px;
-  height: 22px;
-  display: flex;
-  position: relative;
-  align-items: center;
-  z-index: 100;
-`;
-
-const SecondRangeInput = styled.input`
-  border: none;
-  background-color: transparent;
-  text-align: center;
-  width: 117px;
-  font-size: 22px;
-  color: white;
-  position: absolute;
-  left: 254px;
-  font-family: "PerpetuaStd";
-  cursor: pointer;
-  ::placeholder {
-    color: white;
-  }
-`;
-
-const CalenderLogoBox = styled.div`
-  position: absolute;
-  left: 20px;
-  top: -5px;
-`;
-const ArrowBox = styled.div`
-  position: absolute;
-  top: -10px;
-  font-size: 22px;
-  color: white;
-  left: 200px;
-`;
-
-/*Place*/
-
-const HotelContainer = styled.div`
-  position: absolute;
-  width: 400px;
-  height: 35px;
-  top: 140px;
-`;
-
-const HotelBox = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-`;
-
-/*Room Box*/
-const RoomSelectContainer = styled.div`
-  position: absolute;
-  width: 400px;
-  height: 35px;
-  top: 220px;
-`;
-
-const RoomSelectBox = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-`;
-
-/*Number of people*/
-
-const AdultContainer = styled.div`
-  position: absolute;
-  width: 400px;
-  height: 35px;
-  top: 300px;
-`;
-
-const AdultBox = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-`;
-
-const BookNowButtonContainer = styled.button`
-  position: absolute;
-  font-family: "PerpetuaStd";
-  display: block;
-  width: 340px;
-  height: 35px;
-  top: 450px;
-  left: 55px;
-  border: 1px solid white;
-  color: white;
-  background-color: transparent;
-  font-family: "PerpetuaStd";
-  text-align: left;
-  font-size: 22px;
-  font-weight: 200;
-  line-height: 60px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  z-index: 10;
-  padding-left: 15px;
-  padding-bottom: 49px;
-  background-color: rgba(168, 186, 230, 0.4);
-  :hover {
-    color: #a8bae6;
-    font-weight: 500;
-    border: 1px solid #a8bae6;
-    background-color: transparent;
-  }
-`;
-
 // 컴포넌트로 분리하기, realative 가지는 div 하나 넣기
 const FinalBookOpacity = styled.div`
   width: 20.5vw;
@@ -349,10 +179,11 @@ const FinalBookOpacity = styled.div`
   left: 0;
 `;
 
-const HotelsOpacity = styled.div`
-  width: 390px;
-  height: 120px;
-`;
+// const HotelsOpacity = styled.div`
+//   width: 500px;
+//   height: 120px;
+//   background-color: red;
+// `;
 const RoomLsitOpacity = styled.div`
   width: 60vw;
   height: 670px;

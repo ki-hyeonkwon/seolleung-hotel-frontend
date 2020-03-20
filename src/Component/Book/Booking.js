@@ -8,7 +8,7 @@ const Booking = () => {
     <BookingAreaWrapper>
       <BookingArea>
         <BookingOn>
-          <Calendar />
+          {/* <Calendar />
           <BookList
             listTitle="ROOM"
             firstList="DELUXE"
@@ -37,7 +37,7 @@ const Booking = () => {
             forthList="4"
             fifthList="5"
             sixthList="6"
-          />
+          /> */}
         </BookingOn>
         <BookButton>Book Now</BookButton>
       </BookingArea>
@@ -77,4 +77,5 @@ const BookButton = styled.div`
   color: white;
   font-size: 22px;
   font-weight: 200;
+  cursor: pointer;
 `;

@@ -20,7 +20,7 @@ body {
   font-family: Arial, Tahoma, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  letter-spacing:-1px
+  letter-spacing:-1px;
 }
 
 code {

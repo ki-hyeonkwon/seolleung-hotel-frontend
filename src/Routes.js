@@ -18,6 +18,7 @@ class Routes extends Component {
         <Switch>
           <Route exact path="/nav" component={NavBar} />
           <Route exact path="/book" component={BookEnter} />
+          <Route exact path="/reservation" component={Reservation} />
           <Route exact path="/" component={Main} />
           <Route exact path="/mypage" component={Mypage} />
           <Route exact path="/join" component={Join} />

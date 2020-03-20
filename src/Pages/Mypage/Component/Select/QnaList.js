@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SelectList from "Pages/Contact/Component/SelectList";
-import Qna from "Pages/Contact/Component/Qna";
+// import Qna from "Pages/Contact/Component/Qna";
 import { MdClose } from "react-icons/md";
 import styled from "styled-components";
 import { address } from "Config/config";
@@ -276,129 +276,111 @@ export default class QnaList extends Component {
 }
 
 const Container = styled.div`
-position:relative;
-top: 20px; 
-width: 100%;
-height: 500px;   
-}
+  position: relative;
+  top: 20px;
+  width: 100%;
+  height: 500px;
 `;
 
 const QnaTable = styled.div`
-position: absolute;
-width: 100%;
-top: 70px;
+  position: absolute;
+  width: 100%;
+  top: 70px;
 
   h2 {
     margin-top: 10px;
     font-family: "Gotham-Light";
     font-weight: normal;
   }
-
-}
 `;
 
 const Mid = styled.div`
-width: 100%;
-margin-top: 19px;
-padding: 10px 0;
-height: 350px;
-border-top: 1px solid #dbd6d2;
-border-bottom: 1px solid #dbd6d2;
-font-size: 12px;
-overflow: scroll;
+  width: 100%;
+  margin-top: 19px;
+  padding: 10px 0;
+  height: 350px;
+  border-top: 1px solid #dbd6d2;
+  border-bottom: 1px solid #dbd6d2;
+  font-size: 12px;
+  overflow: scroll;
 
-
-table {
+  table {
     width: 100%;
     text-align: center;
     thead {
-        tr {
-            th {
-                text-align: center;
-                padding: 10px 0;
-                font-weight: normal;
-            }
+      tr {
+        th {
+          text-align: center;
+          padding: 10px 0;
+          font-weight: normal;
         }
+      }
     }
 
     tbody {
-
-        tr {
-          cursor: pointer;
-            td {
-              background: #dcdcdc;
-              padding: 10px 0;
-            }
+      tr {
+        cursor: pointer;
+        td {
+          background: #dcdcdc;
+          padding: 10px 0;
         }
-        
+      }
     }
-}
-}
+  }
 `;
 
 const Th1 = styled.th`
-width: 25%;
-}
+  width: 25%;
 `;
 
 const Th2 = styled.th`
-width: 25%;
-}
+  width: 25%;
 `;
 
 const Th3 = styled.th`
-width: 50%;
-}
+  width: 50%;
 `;
 
 const Td1 = styled.td`
-width: 25%;
-}
+  width: 25%;
 `;
 
 const Td2 = styled.td`
-width: 25%;
-}
+  width: 25%;
 `;
 
 const Td3 = styled.td`
-width: 50%;
-}
+  width: 50%;
 `;
 
 const Bg = styled.td`
-position: fixed;
-left: 0;
-top: 0;
-width: 100vw;
-height: 100vh;
-background: rgba(122,122,122,0.5);
-z-index: 1000;
-overflow: hidden;
-}
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(122, 122, 122, 0.5);
+  z-index: 1000;
+  overflow: hidden;
 `;
 
 const Modal = styled.td`
-position: absolute;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
-width: 650px;
-height: 650px;
-background: #fff;
-display: flex;
-align-items: center;
-justify-content: center;
-
-}
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 650px;
+  height: 650px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ModalContainer = styled.td`
-width: 600px;
-height: 600px;
-border: 1px solid #cec2b8;
-
-}
+  width: 600px;
+  height: 600px;
+  border: 1px solid #cec2b8;
 `;
 
 const Form = styled.div`
