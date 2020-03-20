@@ -59,10 +59,11 @@ const Reservation = () => {
   //   setModal(!modal);
   // };
 
+  console.log(date[0]);
   useEffect(
     () => {
       fetch(
-        `http://10.58.3.163:8000/room?CheckIn=${date[0]}&CheckOut=${date[1]}`
+        `http://52.79.185.94:8000/room?CheckIn=${date[0]}&CheckOut=${date[1]}`
       )
         // fetch("http://localhost:3000/Data/RoomList.json")
         .then(res => res.json())

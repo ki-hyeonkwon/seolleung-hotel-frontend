@@ -45,20 +45,23 @@ const BookLeftBottom = props => {
   // console.log(props.room[0]);
   // console.log("인덱스 값:", Number(props.pickRoomId));
   return (
-    <FinalWrapper pickRoomId={props.pickRoomId}>
+    <FinalWrapper pickRoomId={props.pickRoomId && props.pickRoomId}>
       <FinalContainer>
         <FianlTop>
           <FinalTopLocaCon>Hotel :</FinalTopLocaCon>
-          <FinalTopLoca>{props.gotLocation}</FinalTopLoca>
+          <FinalTopLoca>{props.gotLocation && props.gotLocation}</FinalTopLoca>
           <FinalTopBoxCon>Room:</FinalTopBoxCon>
           <FinalTopBox>
-            {props.room[props.pickRoomId - 1] &&
-              props.room[props.pickRoomId - 1].name}
+            {props.room &&
+              props.room[props.pickRoomId] &&
+              props.pickRoomId &&
+              props.room[props.pickRoomId] &&
+              props.pickRoomId.name}
           </FinalTopBox>
         </FianlTop>
         <FianlMid>
           <FinalMidPeoCon>Number of People :</FinalMidPeoCon>
-          <FinalMidPeo>{props.gotPeo}</FinalMidPeo>
+          <FinalMidPeo>{props.gotPeo && props.gotPeo}</FinalMidPeo>
           <FinalMidDateCon>Date:</FinalMidDateCon>
           <FinalMidDate>
             2020.{props.dateData[0] && props.dateData[0]}.
@@ -70,15 +73,18 @@ const BookLeftBottom = props => {
         <FianlBottom>
           <DaysNightsCon>How many days :</DaysNightsCon>
           <DaysNights>
-            {props.room[props.pickRoomId - 1] &&
+            {props.room &&
+              props.room[props.pickRoomId - 1] &&
               props.room[props.pickRoomId - 1].stay_nights}{" "}
             -
-            {props.room[props.pickRoomId - 1] &&
+            {props.room &&
+              props.room[props.pickRoomId - 1] &&
               props.room[props.pickRoomId - 1].stay_nights + 1}
           </DaysNights>
           <MoneyCon>Fee :</MoneyCon>
           <Money>
-            {props.room[props.pickRoomId - 1] &&
+            {props.room &&
+              props.room[props.pickRoomId - 1] &&
               Math.floor(props.room[props.pickRoomId - 1].price) *
                 props.room[props.pickRoomId - 1].stay_nights}
           </Money>

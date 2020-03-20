@@ -18,10 +18,10 @@ const BookModal = props => {
   useEffect(() => {
     // props.roomId &&
     /* 여기는 http://localhost:8000/room/details/${props.roomId}로 주소 바꿔줘야함*/
-    fetch(`http://10.58.3.163:8000/room/detail/${props.roomId}`)
-      // fetch("http://localhost:3000/Data/ModalData.json")
+    fetch(`http://10.58.3.163:8000/room/detail/${props.roomId && props.roomId}`)
       .then(res => res.json())
       .then(res => {
+        console.log(res);
         setDetails(res.datails);
         setImages(res.details.images);
         // console.log("왔다왔다 내가 왔다.");

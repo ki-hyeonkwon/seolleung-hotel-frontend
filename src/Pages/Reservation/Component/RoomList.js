@@ -10,21 +10,22 @@ const RoomList = props => {
       <RoomListWrapper>
         <RoomListContainer>
           {/* 이 친구 맵돌려야된다 */}
-          {props.room.map((roomInfo, idx) => {
-            // const roomId = roomInfo.id;
-            return (
-              <RoomListItem
-                key={idx + 1}
-                roomName={roomInfo.name}
-                roomImage={roomInfo.image}
-                roomPrice={parseInt(Number(roomInfo.price))}
-                modalOpenMid={(tog, id) => props.modalOpen(tog, id)}
-                roomId={roomInfo.id}
-                lookIdMid={id => props.lookId(id)}
-                selectedId={props.selectedId}
-              />
-            );
-          })}
+          {props.room &&
+            props.room.map((roomInfo, idx) => {
+              // const roomId = roomInfo.id;
+              return (
+                <RoomListItem
+                  key={idx + 1}
+                  roomName={roomInfo.name}
+                  roomImage={roomInfo.image}
+                  roomPrice={parseInt(Number(roomInfo.price))}
+                  modalOpenMid={(tog, id) => props.modalOpen(tog, id)}
+                  roomId={roomInfo.id}
+                  lookIdMid={id => props.lookId(id)}
+                  selectedId={props.selectedId}
+                />
+              );
+            })}
         </RoomListContainer>
       </RoomListWrapper>
     </>
