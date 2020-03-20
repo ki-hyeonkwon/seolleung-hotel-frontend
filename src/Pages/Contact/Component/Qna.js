@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SelectList from "./SelectList";
 import styled from "styled-components";
+import { address } from "Config/config";
 
 export default class Qna extends Component {
   constructor() {
@@ -8,18 +9,12 @@ export default class Qna extends Component {
     this.state = {
       title: "",
       comments: "",
-      place: "",
-      promotion: ""
+      place: [],
+      promotion: [],
+      selectPlace: "",
+      selectPromotion: ""
     };
   }
-
-  isSelected = selected => {
-    console.log("selectedPlace", selected);
-    this.setState({
-      place: selected,
-      promotion: selected
-    });
-  };
 
   handleValueChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -33,30 +28,84 @@ export default class Qna extends Component {
     );
   };
 
-  // onSubmit = () => {
-  //   fetch(, {
-  //     method: "post",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: localStorage.getItem("wtw-token")
-  //     },
-  //     body: JSON.stringify({
-  //       content: this.state.title,
-  //       rating: this.state.grade.toFixed(1)
-  //     })
-  //   })
-  //     // .then(res => res.json())
-  //     .then(res => {
-  //       console.log(res);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  //     // 에러나면 알려주는 거
-  // };
+  getPlace = () => {
+    fetch(`${address}/users/branch`)
+      .then(res => res.json())
+      .then(res => {
+        this.setState(
+          {
+            place: res.Branch
+            // promotion: res.
+          },
+          () => {
+            console.log("list", res.Branch);
+          }
+        );
+      });
+  };
+
+  getPromotion = () => {
+    fetch(`${address}/users/inquiry-type`)
+      .then(res => res.json())
+      .then(res => {
+        this.setState(
+          {
+            promotion: res.Inquiry_type
+            // promotion: res.
+          },
+          () => {
+            console.log("list", res.Inquiry_type);
+          }
+        );
+      });
+  };
+
+  componentDidMount() {
+    this.getPlace();
+    this.getPromotion();
+  }
+  onSubmit = () => {
+    fetch(`${address}/users/inquiry `, {
+      method: "post",
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IndlY29kZUBuYXZlci5jb20ifQ.zZp-9cQsHiHUgEVFHIDwkc129LONjRmW4QetuZ2AqqQ"
+      },
+      body: JSON.stringify({
+        title: this.state.title,
+        content: this.state.comments,
+        branch: this.state.selectPlace,
+        inquiry_type: this.state.selectPromotion
+      })
+    })
+      // .then(res => res.json())
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    // 에러나면 알려주는 거
+  };
+
+  onChangeItem = selected => {
+    this.setState(
+      {
+        selectPlace: selected,
+        selectPromotion: selected
+        // setItem(e.target.innerText);
+        // setOpen(!open);
+        // console.log(e.target.innerText);
+        // props.onChangeItem(e.target.innerText);
+      },
+      () => {
+        console.log("selectPlace", selected);
+      }
+    );
+  };
 
   render() {
-    const { title, comments } = this.state;
+    const { title, comments, place, promotion } = this.state;
     const { isSelected, handleValueChange, onSubmit } = this;
     return (
       <Container>
@@ -65,23 +114,14 @@ export default class Qna extends Component {
           <Form>
             <ListContainer>
               <SelectList
-                onChangeItem={place => isSelected(place)}
+                onChangeItem={placeId => this.onChangeItem(placeId)}
                 listTitle="지점"
-                firstList="경주"
-                secondList="울산"
-                thirdList="목포"
-                forthList="포항"
-                fifthList="전주"
-                sixthList="Seamarq"
+                dropLists={place}
               />
               <SelectList
-                onChangeItem={promotion => isSelected(promotion)}
-                listTitle="프로모션"
-                firstList="멤버십"
-                secondList="프로모션"
-                thirdList="객실"
-                forthList="시설"
-                fifthList="기타"
+                onChangeItem={promotionId => this.onChangeItem(promotionId)}
+                listTitle="문의 유형"
+                dropLists={promotion}
               />
             </ListContainer>
             <Title>

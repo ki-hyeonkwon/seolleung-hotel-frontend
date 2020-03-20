@@ -12,9 +12,9 @@ export default class Gyeongju extends Component {
   render() {
     return (
       <GyeongjuContainer>
-        <FirstWord>
+        <WordContainer firstword>
           <Word gyeongju fadeImg></Word>
-        </FirstWord>
+        </WordContainer>
         <HotelsTxt>
           <HotelIntro>
             <p>Enjoy a wonderful experience</p>
@@ -35,30 +35,39 @@ export default class Gyeongju extends Component {
             />
           </ImgSet>
         </HotelsImg>
-        <SecondWord>
+        <WordContainer secondword>
           <Word2 gyeongju fadeImg></Word2>
-        </SecondWord>
+        </WordContainer>
       </GyeongjuContainer>
     );
   }
 }
 
 const GyeongjuContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+  position: relative;
+  width: 60%;
+  height: 70%;
+  top: 50%;
+  transform: translate(0, -50%);
+  left: 25%;
 `;
 
-const FirstWord = styled.div`
+const WordContainer = styled.div`
   position: absolute;
-  left: 45vw;
-  top: 40vh;
-  width: 500px;
-  height: 300px;
-  margin-left: -250px;
-  margin-top: -150px;
+
+  ${props => {
+    if (props.firstword) {
+      return css`
+        left: 0;
+        top: 0;
+      `;
+    } else if (props.secondword) {
+      return css`
+        right: 40%;
+        top: 50%;
+      `;
+    }
+  }}
 `;
 
 const moveText = keyframes`
@@ -93,8 +102,11 @@ const Word = styled.div`
   }}
 `;
 
-const HotelsTxt = styled(FirstWord.withComponent("div"))`
-  left: 75vw;
+const HotelsTxt = styled.div`
+  position: absolute;
+  width: 380px;
+  height: 300px;
+  right: 0;
   &:before {
     content: "";
     position: absolute;
@@ -144,9 +156,10 @@ const HotelIntro = styled.div`
   }
 `;
 
-const HotelsImg = styled(FirstWord.withComponent("div"))`
-  left: 25vw;
-  top: 75vh;
+const HotelsImg = styled.div`
+  position: absolute;
+  left: 0;
+  top: 50%;
 `;
 
 const ImgSet = styled.div`
@@ -162,19 +175,15 @@ const ImgSet = styled.div`
 const GjImg1 = styled.img`
   width: 247px;
   height: 174px;
-  bottom: -262px;
-  right: 112px;
+  left: -80px;
+  top: 96px;
+  z-index: 10;
 `;
 
 const GjImg2 = styled.img`
   width: 204px;
   height: 270px;
-  bottom: -262px;
-`;
-
-const SecondWord = styled(FirstWord.withComponent("div"))`
-  left: 75vw;
-  top: 75vh;
+  left: 60px;
 `;
 
 const Word2 = styled.div`

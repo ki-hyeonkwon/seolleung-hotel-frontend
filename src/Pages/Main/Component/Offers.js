@@ -49,7 +49,6 @@ export default class Offers extends Component {
 }
 
 const OfferContainer = styled.div`
-  scroll-snap-align: start;
   width: 100vw;
   height: 100vh;
 `;
@@ -74,12 +73,12 @@ const BgWrap = styled.div`
 
 const BackFace = styled.div`
   position: absolute;
-  bottom: 2px;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 0;
+  height: 100%;
   background-color: #232937;
-  opacity: 0;
+  opacity: 1;
   -webkit-transition: opacity 2.5s,
     height 0.9s cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: opacity 2.5s, height 0.9s cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -103,7 +102,7 @@ const OfferList = styled.div`
   line-height: 1;
   text-align: center;
   z-index: 82;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const Inner = styled.div`

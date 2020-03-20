@@ -1,20 +1,20 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 export default class Seamarq extends Component {
-  //     constructor(props) {
-  //     super(props);
-  //     this.state = {
-  //       place: gyeongju
-  //     };
-  //   }
+  constructor(props) {
+    super(props);
+    this.state = {
+      imgShow: true
+    };
+  }
 
   render() {
     return (
       <SeamarqContainer>
-        <FirstWord>
-          <Word seamarq></Word>
-        </FirstWord>
+        <WordContainer firstword>
+          <Word seamarq fadeImg></Word>
+        </WordContainer>
         <HotelsTxt>
           <HotelIntro>
             <p>A place where the comfort</p>
@@ -31,31 +31,45 @@ export default class Seamarq extends Component {
             />
           </ImgSet>
         </HotelsImg>
-        <Letter></Letter>
-        <SecondWord>
-          <Word2 seamarq></Word2>
-        </SecondWord>
+        <Letter fadeImg></Letter>
+        <WordContainer secondword>
+          <Word2 seamarq fadeImg></Word2>
+        </WordContainer>
       </SeamarqContainer>
     );
   }
 }
 
 const SeamarqContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+  position: relative;
+  width: 60%;
+  height: 70%;
+  top: 50%;
+  transform: translate(0, -50%);
+  left: 25%;
 `;
 
-const FirstWord = styled.div`
+const WordContainer = styled.div`
   position: absolute;
-  left: 45vw;
-  top: 40vh;
-  width: 500px;
-  height: 300px;
-  margin-left: -250px;
-  margin-top: -150px;
+
+  ${props => {
+    if (props.firstword) {
+      return css`
+        left: 0;
+        top: 0;
+      `;
+    } else if (props.secondword) {
+      return css`
+        right: 40%;
+        top: 50%;
+      `;
+    }
+  }}
+`;
+
+const moveText = keyframes`
+  from { height: 0; }
+      to   { height: 250px; }
 `;
 
 const Word = styled.div`
@@ -75,10 +89,20 @@ const Word = styled.div`
       : props.seamarq
       ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-4-1.png"})`
       : "none"};
+  ${props => {
+    if (props.fadeImg) {
+      return css`
+        animation: ${moveText} 2s 1;
+      `;
+    }
+  }}
 `;
 
-const HotelsTxt = styled(FirstWord.withComponent("div"))`
-  left: 75vw;
+const HotelsTxt = styled.div`
+  position: absolute;
+  width: 380px;
+  height: 300px;
+  right: 0;
   &:before {
     content: "";
     position: absolute;
@@ -128,9 +152,10 @@ const HotelIntro = styled.div`
   }
 `;
 
-const HotelsImg = styled(FirstWord.withComponent("div"))`
-  left: 25vw;
-  top: 75vh;
+const HotelsImg = styled.div`
+  position: absolute;
+  right: 13%;
+  top: 50%;
 `;
 
 const ImgSet = styled.div`
@@ -146,23 +171,24 @@ const ImgSet = styled.div`
 const SmqImg = styled.img`
   width: 210px;
   height: 280px;
-  bottom: -140px;
-  right: -660px;
+  top: -100px;
 `;
 
 const Letter = styled.div`
   position: absolute;
-  left: 27vw;
-  top: 60vh;
+  left: 0;
+  top: 50%;
   width: 250px;
   height: 250px;
   background-size: cover;
   background-image: url("https://www.lahanhotels.com/intro/images/txt_ani-4-3.png");
-`;
-
-const SecondWord = styled(FirstWord.withComponent("div"))`
-  left: 75vw;
-  top: 75vh;
+  ${props => {
+    if (props.fadeImg) {
+      return css`
+        animation: ${moveText} 2s 1;
+      `;
+    }
+  }}
 `;
 
 const Word2 = styled.div`
@@ -182,4 +208,11 @@ const Word2 = styled.div`
       : props.seamarq
       ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-4-2.png"})`
       : "none"};
+  ${props => {
+    if (props.fadeImg) {
+      return css`
+        animation: ${moveText} 2s 1;
+      `;
+    }
+  }}
 `;

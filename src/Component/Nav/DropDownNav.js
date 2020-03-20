@@ -19,7 +19,7 @@ export default class DropDownNav extends Component {
 
     return (
       <NavBoxLi onMouseEnter={this.mouseOn} onMouseLeave={this.mouseOn}>
-        <DropDownTitle>Find hotel</DropDownTitle>
+        <DropDownTitle>{this.props.title}</DropDownTitle>
         <DropDownUl hotel onOff={this.state.mouseToggle}>
           {this.props.menu.map((list, i) => {
             return <DropDownLi key={i}>{list}</DropDownLi>;

@@ -3,50 +3,178 @@ import SelectList from "Pages/Contact/Component/SelectList";
 import Qna from "Pages/Contact/Component/Qna";
 import { MdClose } from "react-icons/md";
 import styled from "styled-components";
+import { address } from "Config/config";
 
 export default class QnaList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       toggleClose: true,
-      posts: []
+      posts: [],
+      place: [],
+      promotion: [],
+      placeId: "",
+      promotionId: "",
+      placeName: "",
+      promotionName: "",
+      user: [],
+      title: "",
+      content: "",
+      id: "",
+      item: "",
+      open: false
     };
   }
 
-  componentWillMount() {
-    fetch("https://jsonplaceholder.typicode.com/posts")
+  getPlace = () => {
+    fetch(`${address}/users/branch`)
       .then(res => res.json())
-      .then(data =>
-        this.setState({
-          posts: data
-        })
+      .then(res => {
+        this.setState(
+          {
+            place: res.Branch
+          },
+          () => {
+            console.log("list", res.Branch);
+          }
+        );
+      });
+  };
+
+  getPromotion = () => {
+    fetch(`${address}/users/inquiry-type`)
+      .then(res => res.json())
+      .then(res => {
+        this.setState(
+          {
+            promotion: res.Inquiry_type
+            // promotion: res.
+          },
+          () => {
+            console.log("list", res.Inquiry_type);
+          }
+        );
+      });
+  };
+
+  test = () => {
+    fetch(`${address}/users/inquiry`, {
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoibWluamkxNDEyIn0.fd-R3LxjSZHw9mz5VrBAFCfeY6l1AZk6Gts31kdqmQQ"
+      }
+    })
+      .then(res => res.json())
+      .then(res =>
+        this.setState(
+          {
+            user: res.data
+          },
+          () => console.log("qna", res[0])
+        )
       );
+  };
+
+  onSubmit = () => {
+    fetch(`${address}/users/inquiry-edit`, {
+      method: "post",
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoibWluamkxNDEyIn0.fd-R3LxjSZHw9mz5VrBAFCfeY6l1AZk6Gts31kdqmQQ"
+      },
+      body: JSON.stringify({
+        id: this.state.id,
+        title: this.state.title,
+        content: this.state.content,
+        branch: this.state.selectPlace,
+        inquiry_type: this.state.selectPromotion
+      })
+    })
+      // .then(res => res.json())
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    // 에러나면 알려주는 거
+  };
+
+  onDelete = () => {
+    fetch(`${address}/users/inquiry`, {
+      method: "delete",
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoibWluamkxNDEyIn0.fd-R3LxjSZHw9mz5VrBAFCfeY6l1AZk6Gts31kdqmQQ"
+      },
+      body: JSON.stringify({
+        id: this.state.id
+      })
+    })
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          this.setState(
+            {
+              toggleClose: true
+            },
+            () => {
+              this.test();
+            }
+          );
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    // 에러나면 알려주는 거
+  };
+
+  componentDidMount() {
+    this.getPlace();
+    this.getPromotion();
+    this.test();
   }
 
-  // getDate = date => {
-  //   var year = date.getFullYear(); //yyyy
-  //   var month = 1 + date.getMonth(); //M
-  //   month = month >= 10 ? month : "0" + month; //month 두자리로 저장
-  //   var day = date.getDate(); //d
-  //   day = day >= 10 ? day : "0" + day; //day 두자리로 저장
-  //   return year + "" + month + "" + day;
+  onChangeItem = (selectId, selectName) => {
+    this.setState(
+      {
+        placeId: selectId,
+        promotionId: selectId,
+        placeName: selectName,
+        promotionName: selectName,
+        open: !this.state.open
+      },
+      () => {
+        console.log("selectid", selectId.target);
+      }
+    );
+    // setItem(e.target.innerText);
+    // setOpen(!open);
+    // console.log(e.target.innerText);
+    // props.onChangeItem(e.target.innerText);
+  };
 
-  //   date = new Date();
-  // };
+  openList = e => {};
 
-  ToggleClose = () => {
-    this.setState({ toggleClose: !this.state.toggleClose });
+  ToggleClose = (title, content, id) => {
+    this.setState({
+      toggleClose: !this.state.toggleClose,
+      title: title,
+      content: content,
+      id: id
+    });
+  };
+
+  handleInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   };
 
   render() {
-    const { posts, toggleClose } = this.state;
-    const postsList = posts.map(post => (
-      <tr onClick={this.ToggleClose} key={post.id} id={post.id}>
-        <Td1>2020.02.22</Td1>
-        <Td2>{post.title}</Td2>
-        <Td3>{post.body}</Td3>
-      </tr>
-    ));
+    const { toggleClose, place, promotion, user } = this.state;
+
     return (
       <>
         <Container>
@@ -61,7 +189,23 @@ export default class QnaList extends Component {
                     <Th3>문의 유형</Th3>
                   </tr>
                 </thead>
-                <tbody>{postsList}</tbody>
+                <tbody>
+                  {user.map(user => {
+                    return (
+                      <tr
+                        onClick={() =>
+                          this.ToggleClose(user.title, user.content, user.id)
+                        }
+                        key={user.id}
+                        id={user.id}
+                      >
+                        <Td1>{user.created_at.slice(0, 10)}</Td1>
+                        <Td2>{user.title}</Td2>
+                        <Td3>{user.content}</Td3>
+                      </tr>
+                    );
+                  })}
+                </tbody>
               </table>
             </Mid>
           </QnaTable>
@@ -84,32 +228,44 @@ export default class QnaList extends Component {
                 />
                 <ListContainer>
                   <SelectList
+                    onChangeItem={(placeId, placeName) =>
+                      this.onChangeItem(placeId, placeName)
+                    }
                     listTitle="지점"
-                    firstList="경주"
-                    secondList="울산"
-                    thirdList="목포"
-                    forthList="포항"
-                    fifthList="전주"
-                    sixthList="Seamarq"
+                    dropLists={place}
+                    open={this.state.open}
+                    value={this.state.placeName}
                   />
                   <SelectList
-                    listTitle="프로모션"
-                    firstList="멤버십"
-                    secondList="프로모션"
-                    thirdList="객실"
-                    forthList="시설"
-                    fifthList="기타"
+                    onChangeItem={(promotionId, promotionName) =>
+                      this.onChangeItem(promotionId, promotionName)
+                    }
+                    listTitle="문의 유형"
+                    dropLists={promotion}
+                    open={this.state.open}
+                    value={this.state.promotionName}
                   />
                 </ListContainer>
                 <Title>
-                  <input type="text" placeholder="제목" />
+                  <input
+                    onChange={this.handleInput}
+                    name="title"
+                    type="text"
+                    placeholder="제목"
+                    value={this.state.title}
+                  />
                 </Title>
                 <Content>
-                  <textarea placeholder="내용"></textarea>
+                  <textarea
+                    onChange={this.handleInput}
+                    name="content"
+                    placeholder="내용"
+                    value={this.state.content}
+                  ></textarea>
                 </Content>
 
-                <Button>수정</Button>
-                <Delete>삭제</Delete>
+                <Button onClick={this.onSubmit}>수정</Button>
+                <Delete onClick={this.onDelete}>삭제</Delete>
               </Form>
             </ModalContainer>
           </Modal>

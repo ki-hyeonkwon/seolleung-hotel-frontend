@@ -4,8 +4,36 @@ import LeftArea from "./Component/LeftArea";
 import RightArea from "./Component/RightArea";
 import Footer from "Components/Footer/Footer";
 import styled from "styled-components";
+import { address } from "Config/config";
 
 export default class Mypage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {}
+    };
+  }
+
+  componentDidMount() {
+    this.myPage();
+  }
+  myPage = () => {
+    fetch(`${address}/users/userinfo`, {
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Indld2V3ZXdlQG5hdmVyLmNvbSJ9.OgipvAxXiiAXajjYKIOlG7o9Ujc2Y4jxGxVeW0GsShs"
+      }
+    })
+      .then(res => res.json())
+      .then(res => {
+        this.setState(
+          {
+            user: res
+          },
+          () => console.log("ressss", res)
+        );
+      });
+  };
   render() {
     return (
       <>
@@ -13,8 +41,8 @@ export default class Mypage extends Component {
           <NavBar />
           <MypageContent>
             <MypageBox>
-              <LeftArea></LeftArea>
-              <RightArea></RightArea>
+              <LeftArea user={this.state.user}></LeftArea>
+              <RightArea userData={this.state.user}></RightArea>
             </MypageBox>
           </MypageContent>
           <Footer></Footer>

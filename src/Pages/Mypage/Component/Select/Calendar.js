@@ -12,16 +12,60 @@ export default class Calendar extends Component {
     this.test = React.createRef();
     this.state = {
       date: new Date(),
-      checkIn: true
+      checkIn: false,
+      checkInDay: "",
+      checkOutDay: "",
+      checkInMonth: "",
+      checkOutMonth: ""
     };
   }
-  handleClick = () => {
+  handleClick = e => {
     this.refs.refDatePicker.flatpickr.clear();
+    console.log(e);
   };
 
-  handleCheckIn = () => {
-    this.setState({ checkIn: !this.state.checkIn });
+  handelCheckBox = e => {
+    const checkInDate = Object.values(e)[0];
+    const checkOutDate = Object.values(e)[1];
+    if (checkInDate !== undefined && checkOutDate !== undefined) {
+      const checkInDay = checkInDate.getDate();
+      const checkOutDay = checkOutDate.getDate();
+      const checkInMonth = checkInDate.getMonth() + 1;
+      const checkOutMonth = checkOutDate.getMonth() + 1;
+      console.log(checkInDate);
+      console.log("checkIn", checkInDay);
+      console.log("checkOut", checkOutDay);
+      console.log("checkInMonth", checkInDate.getMonth() + 1);
+      console.log("checkOutMonth", checkOutDate.getMonth() + 1);
+      this.setState({ checkInDay: checkInDate.getDate() });
+      this.setState({ checkOutDay: checkOutDate.getDate() });
+      this.setState({ checkInMonth: checkInDate.getMonth() + 1 });
+      this.setState({ checkOutMonth: checkOutDate.getMonth() + 1 });
+    }
   };
+
+  // handleSubmit = () => {
+  //   fetch(, {
+  //         method: "post",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           // Authorization: localStorage.getItem("wtw-token")
+  //         },
+  //         body: JSON.stringify({
+  //           checkIn: `${this.state.checkInMonth}- ${this.state.checkInDay}`,
+  //           checkOut: `${this.state.checkOutMonth}- ${this.state.checkOutDay}`
+  //         })
+  //       })
+  //         // .then(res => res.json())
+  //         .then(res => {
+  //           console.log(res);
+  //         })
+  //         .catch(error => {
+  //           console.error(error);
+  //         });
+  //         // 에러나면 알려주는 거
+  //     };
+  // };
 
   render() {
     const { date } = this.state;
@@ -54,13 +98,19 @@ export default class Calendar extends Component {
                 zIndex: "3",
                 marginRight: "10px"
               }}
-              onChange={this.handleCheckIn}
+              value={date}
+              onChange={date => {
+                this.setState({ date });
+                // this.handelCheckBox();
+              }}
+              // eslint-disable-next-line react/jsx-no-duplicate-props
+              onChange={this.handelCheckBox}
             />
             <SecondRangeInput
               onClick={this.handleClick}
               className="secondRangeInput"
               placeholder="Check out"
-              onChange={this.handleCheckIn}
+              onChange={this.handelCheckBox}
             />
           </Calender>
         </CalendarBox>

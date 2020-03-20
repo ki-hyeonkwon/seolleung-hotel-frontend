@@ -8,11 +8,13 @@ export default class NavBar extends Component {
     this.test = React.createRef();
     this.state = {
       place: ["경주", "울산", "목포", "포항", "진주", "seanarQ"],
-      other: ["맴버십 소개", "로그인", "가입"]
+      other: ["맴버십 소개", "로그인", "가입"],
+      findHotel: "Find hotel",
+      clubLahan: "Club Lahan"
     };
   }
   render() {
-    const { place, other } = this.state;
+    const { place, other, findHotel, clubLahan } = this.state;
     return (
       <NavWrapper>
         <Pad>
@@ -27,11 +29,11 @@ export default class NavBar extends Component {
             </LogoBox>
             <NavBox>
               <NavBoxUl>
-                <DropDownNav menu={place} />
+                <DropDownNav menu={place} title={findHotel} />
                 <NavBoxLi>
                   <DropDownTitle>Brand story</DropDownTitle>
                 </NavBoxLi>
-                <DropDownNav menu={other} />
+                <DropDownNav menu={other} title={clubLahan} />
               </NavBoxUl>
             </NavBox>
           </TopRightMenu>

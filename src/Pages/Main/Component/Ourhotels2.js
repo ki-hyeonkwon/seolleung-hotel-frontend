@@ -50,8 +50,6 @@ export default class Ourhotels extends Component {
 }
 
 const OurhotelsContainer = styled.div`
-  scroll-snap-align: start;
-  scroll-snap-points-y: repeat(100vh);
   width: 100vw;
   height: 100vh;
 `;
@@ -60,8 +58,6 @@ const OurhotelsCnt = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
 `;
 
 const SuvnavPlaceContainer = styled.div`
@@ -69,7 +65,7 @@ const SuvnavPlaceContainer = styled.div`
   left: 50%;
   -webkit-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
-  bottom: 0;
+  bottom: 30px;
 `;
 
 const SuvnavPlace = styled.div`

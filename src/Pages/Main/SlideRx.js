@@ -44,18 +44,19 @@ export default class SlideRx extends Component {
     const styleY = {
       transition: "all ease",
       height: "200vh",
-      transitionDuration: "1400ms",
+      transitionDuration: "500ms",
       transform: `translateY(${transitionY}vh)`
+      // float: "left"
     };
 
     return (
       <div style={styleY}>
-        <section ref={ref => (this.section0 = ref)}>
-          <Mainvisual />
-        </section>
-        <section ref={ref => (this.section1 = ref)}>
-          <Ourhotels2 />
-        </section>
+        {/* <section ref={ref => (this.section0 = ref)}> */}
+        <Mainvisual />
+        {/* </section>
+        <section ref={ref => (this.section1 = ref)}> */}
+        <Ourhotels2 />
+        {/* </section> */}
       </div>
     );
   }

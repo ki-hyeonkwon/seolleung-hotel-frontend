@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { address } from "Config/config";
 import styled from "styled-components";
 
 export default class ChangePassword extends Component {
@@ -6,44 +7,76 @@ export default class ChangePassword extends Component {
     super(props);
     this.state = {
       passwordShow: "",
-      password: "",
       pwd: "",
-      pwdCheck: "",
+      newPwd: "",
+      newPwdCheck: "",
       error: {
-        password: "",
         pwd: "",
-        pwdCheck: ""
-      }
+        newPwd: "",
+        newPwdCheck: ""
+      },
+      review_toggle: false
     };
   }
+
+  reviewToggleClose = () => {
+    this.setState({ review_toggle: false });
+  };
+
+  onSubmit = () => {
+    fetch(`${address}/users/userpw`, {
+      method: "post",
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoibWluamkxNDEyIn0.fd-R3LxjSZHw9mz5VrBAFCfeY6l1AZk6Gts31kdqmQQ"
+      },
+      body: JSON.stringify({
+        password: this.state.pwd,
+        new_password: this.state.newPwd
+      })
+    })
+      // .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          this.setState({ review_toggle: true });
+        } else {
+          alert("비밀번호 틀렸어요");
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    // 에러나면 알려주는 거
+  };
 
   handleInput = e => {
     const target = e.target;
     const name = target.name;
     const error = this.state.error;
-    const { password, pwd, pwdCheck } = this.state;
+    const { pwd, newPwd, newPwdCheck } = this.state;
 
     // console.log(URL.SERVER_URL + "/dataId.json");
     console.log("첫번쨰", e.target.value);
 
     switch (name) {
-      case "password":
-        error.password =
+      case "pwd":
+        error.pwd =
           /^(?=.*[a-z])(?=.*[0-9]).{8,20}/.test(target.value) === false
             ? "현재 비밀번호와 일치하지 않습니다."
             : "";
 
         break;
-      case "pwd":
-        error.pwd =
+      case "newPwd":
+        error.newPwd =
           /^(?=.*[a-z])(?=.*[0-9]).{8,20}/.test(target.value) === false
             ? "8~20자의 영문과 숫자를 혼용하여 입력주세요."
             : "";
 
         break;
-      case "pwdCheck":
-        error.pwdCheck =
-          pwd === target.value
+      case "newPwdCheck":
+        error.newPwd =
+          newPwdCheck === target.value
             ? ""
             : pwd.length > 0 && "비밀번호가 일치하지 않습니다.";
 
@@ -59,67 +92,61 @@ export default class ChangePassword extends Component {
   };
 
   render() {
-    const { password, pwd, pwdCheck } = this.state;
+    const { pwd, newPwd, newPwdCheck } = this.state;
     const { handleInput, onSubmit } = this;
     return (
-      <Container>
-        <Form>
-          <InputContainer>
-            <input
-              type="password"
-              placeholder="현재 비밀번호"
-              onChange={handleInput}
-              name="password"
-              value={password}
-            />
-          </InputContainer>
-          <InputContainer>
-            <input
-              defaultValue={pwd}
-              onKeyUp={handleInput}
-              maxLength="20"
-              name="pwd"
-              placeholder="비밀번호"
-              type="password"
-            />
-            <ErrorMsg>{this.state.error.pwd}</ErrorMsg>
-          </InputContainer>
+      <>
+        <Container>
+          <Form>
+            <InputContainer>
+              <input
+                type="password"
+                placeholder="현재 비밀번호"
+                onkeyUp={handleInput}
+                onChange={handleInput}
+                name="pwd"
+                value={pwd}
+              />
+            </InputContainer>
+            <InputContainer>
+              <input
+                defaultValue={newPwd}
+                onChange={handleInput}
+                maxLength="20"
+                name="newPwd"
+                placeholder="비밀번호"
+                type="password"
+              />
+              <ErrorMsg>{this.state.error.rePwd}</ErrorMsg>
+            </InputContainer>
 
-          <InputContainer>
-            <input
-              onKeyUp={handleInput}
-              defaultValue={pwdCheck}
-              maxLength="20"
-              name="pwdCheck"
-              placeholder="비밀번호 확인"
-              type="password"
-            />
-            <ErrorMsg>{this.state.error.pwdCheck}</ErrorMsg>
-          </InputContainer>
-
-          {/* <InputContainer>
-            <input
-              type="password"
-              placeholder="새 비밀번호"
-              onChange={handleValueChange}
-              name="changePassword"
-              value={changePassword}
-            />
-          </InputContainer>
-          <InputContainer>
-            <input
-              type="password"
-              placeholder="새 비밀번호 확인"
-              onChange={handleValueChange}
-              name="reCheckPassword"
-              value={reCheckPassword}
-            />
-          </InputContainer> */}
-        </Form>
-        <Button type="submit" onClick={onSubmit}>
-          <span>변경 완료</span>
-        </Button>
-      </Container>
+            <InputContainer>
+              <input
+                onChange={handleInput}
+                defaultValue={newPwdCheck}
+                maxLength="20"
+                name="newPwdCheck"
+                placeholder="비밀번호 확인"
+                type="password"
+              />
+              {this.state.err ? (
+                <ErrorMsg>{this.state.error.rePwdCheck}</ErrorMsg>
+              ) : null}
+            </InputContainer>
+          </Form>
+          <Button type="submit" onClick={onSubmit}>
+            <span>변경 완료</span>
+          </Button>
+        </Container>
+        {this.state.review_toggle && (
+          <Alert onClick={this.reviewToggleClose}>
+            <div>
+              <p>비밀번호 변경이 완료 되었습니다.</p>
+              <button onClick={this.reviewToggleClose}>확인</button>
+            </div>
+          </Alert>
+        )}
+      </>
     );
   }
 }
@@ -228,4 +255,28 @@ margin-top: 50px;
     transition: color 0.5s ease;
    }
 }
+`;
+
+const Alert = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(122, 122, 122, 0.5);
+  z-index: 1000;
+  overflow: hidden;
+
+  div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
