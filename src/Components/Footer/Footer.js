@@ -1,8 +1,21 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import logo from "Images/logo.svg";
 
 export default class Footer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      buttonShow: true
+    };
+  }
+
+  handleButton = () => {
+    this.setState({
+      buttonShow: !this.state.buttonShow
+    });
+  };
+
   render() {
     return (
       <>
@@ -42,7 +55,11 @@ export default class Footer extends Component {
                 </ul>
                 <FooterSelectBox>
                   <button>Family Site</button>
-                  <ul>
+                  <ul
+                    style={{
+                      display: !this.state.buttonShow ? "block" : "none"
+                    }}
+                  >
                     <li>
                       <a href="">LAHAN</a>
                     </li>
@@ -115,7 +132,9 @@ const FooterCnt = styled.div`
 const FooterRight = styled.div`
   width: 100px;
   position: relative;
+
   > ul {
+    display: none;
     position: absolute;
     right: 20px;
     top: 10px;
@@ -129,6 +148,15 @@ const FooterRight = styled.div`
         transform: rotate(90deg);
       }
     }
+  }
+`;
+
+const boxShow = keyframes`
+  from {
+    height: 0;
+  }
+  to {
+    height: 170px;
   }
 `;
 
@@ -154,6 +182,7 @@ const FooterSelectBox = styled.div`
     bottom: 38px;
     width: 100%;
     background-color: #fff;
+    animation: ${boxShow} 1s 1;
   }
 
   li {
