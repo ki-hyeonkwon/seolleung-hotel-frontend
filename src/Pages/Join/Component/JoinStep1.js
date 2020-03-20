@@ -1,14 +1,80 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-class JoinContent1 extends Component {
+class JoinStep1 extends Component {
+  state = {
+    allCheck: false,
+    termsCheck: false,
+    personalCheck: false,
+    marketingCheck: false,
+    marketingReportCheck: false
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      this.props.onChange(this.state);
+    }
+  }
+
+  AllOnChange = () => {
+    const { allCheck } = this.state;
+    this.setState({
+      allCheck: !allCheck,
+      termsCheck: !allCheck,
+      personalCheck: !allCheck,
+      marketingCheck: !allCheck,
+      marketingReportCheck: !allCheck
+    });
+  };
+
+  partOnChange = e => {
+    const targetName = e.target.name;
+    const pointState = this.state[targetName];
+
+    if (
+      targetName === "marketingCheck" ||
+      targetName === "marketingReportCheck"
+    ) {
+      this.setState({
+        marketingCheck: !pointState,
+        marketingReportCheck: !pointState
+      });
+    } else {
+      this.setState({
+        [targetName]: !pointState
+      });
+    }
+
+    this.setState(previousState => {
+      return {
+        allCheck:
+          previousState.termsCheck &&
+          previousState.personalCheck &&
+          previousState.marketingCheck &&
+          previousState.marketingReportCheck
+      };
+    });
+  };
+
+  hanldeCancel = e => {
+    this.props.history.push("/joinStep1");
+  };
+
   render() {
+    const {
+      allCheck,
+      termsCheck,
+      personalCheck,
+      marketingCheck,
+      marketingReportCheck
+    } = this.state;
+
     return (
       <SectionCheckboxContainer>
         <li>
           <SectionCheckboxInput
-            checked={this.props.allCheck}
-            onChange={this.props.AllOnChange}
+            checked={allCheck}
+            onChange={this.AllOnChange}
             name="allCheck"
             id="allCheck"
             type="checkbox"
@@ -22,8 +88,8 @@ class JoinContent1 extends Component {
         </li>
         <li>
           <SectionCheckboxInput
-            checked={this.props.termsCheck}
-            onChange={this.props.partOnChange}
+            checked={termsCheck}
+            onChange={this.partOnChange}
             name="termsCheck"
             id="termsCheck"
             type="checkbox"
@@ -37,8 +103,8 @@ class JoinContent1 extends Component {
         </li>
         <li>
           <SectionCheckboxInput
-            checked={this.props.personalCheck}
-            onChange={this.props.partOnChange}
+            checked={personalCheck}
+            onChange={this.partOnChange}
             name="personalCheck"
             id="personalCheck"
             type="checkbox"
@@ -52,8 +118,8 @@ class JoinContent1 extends Component {
         </li>
         <li>
           <SectionCheckboxInput
-            checked={this.props.marketingCheck}
-            onChange={this.props.optionOnChange}
+            checked={marketingCheck}
+            onChange={this.partOnChange}
             name="marketingCheck"
             id="marketingCheck"
             type="checkbox"
@@ -67,8 +133,8 @@ class JoinContent1 extends Component {
         </li>
         <li>
           <SectionCheckboxInput
-            checked={this.props.marketingReportCheck}
-            onChange={this.props.optionOnChange}
+            checked={marketingReportCheck}
+            onChange={this.partOnChange}
             name="marketingReportCheck"
             id="marketingReportCheck"
             type="checkbox"
@@ -143,4 +209,4 @@ const SectionCheckboxIcon = styled.i`
   }
 `;
 
-export default JoinContent1;
+export default JoinStep1;
