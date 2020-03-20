@@ -107,6 +107,7 @@ export default class BookLeftTop extends Component {
     //     console.error(error);
     //   });
     // // 에러나면 알려주는 거
+
     this.props.getData(CheckIn, CheckOut);
   };
 
