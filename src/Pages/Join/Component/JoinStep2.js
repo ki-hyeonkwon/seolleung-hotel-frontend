@@ -31,6 +31,7 @@ class JoinStep2 extends Component {
       detailAddress: "",
       mail: "",
       selectValue: "",
+      selectArr: [],
       error: {
         id: "",
         idColor: "",
@@ -47,6 +48,10 @@ class JoinStep2 extends Component {
     };
   }
 
+  componentDidMount() {
+    this.selectJob();
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
       this.props.onKeyUp(this.state);
@@ -54,6 +59,20 @@ class JoinStep2 extends Component {
       this.props.onChange(this.state);
     }
   }
+
+  selectJob = async e => {
+    const selectFetch = await fetch(`${URL.SMS_URL}/job`, {
+      method: "GET"
+    });
+
+    const selectFetchJson = await selectFetch.json();
+
+    if (selectFetch.status === 200) {
+      this.setState({
+        selectArr: await selectFetchJson.jobDate
+      });
+    }
+  };
 
   handleChange = e => {
     this.setState({
@@ -296,6 +315,7 @@ class JoinStep2 extends Component {
       detailAddress,
       mail,
       selectValue,
+      selectArr,
       error
     } = this.state;
 
@@ -496,18 +516,13 @@ class JoinStep2 extends Component {
               value={selectValue}
             >
               <option value="">직업(선택)</option>
-              <option value="1">개발자</option>
-              <option value="2">관리자</option>
-              <option value="3">전문가 및 관련 종사자</option>
-              <option value="4">사무 종사자</option>
-              <option value="5">서비스 종사자</option>
-              <option value="6">판매 종사자</option>
-              <option value="7">농림어업 숙련 종사자</option>
-              <option value="8">기능원 및 관련 기능 종사자</option>
-              <option value="9">장치, 기계 조작 및 조립 종사자</option>
-              <option value="10">단순 노무 종사자</option>
-              <option value="11">군인</option>
-              <option value="12">기타</option>
+              {selectArr.map((item, idx) => {
+                return (
+                  <option key={idx} value={idx + 1}>
+                    {item.name}
+                  </option>
+                );
+              })}
             </SectionSelect>
           </div>
         </SectionInputContainer>
