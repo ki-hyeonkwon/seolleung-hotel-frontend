@@ -1,48 +1,39 @@
 import React, { Component, useState, useEffect } from "react";
 import styled, { css, keyframes } from "styled-components";
 import RoomListItem from "Pages/Reservation/Component/RoomListItem";
+// import BookModal from "Pages/Reservation/Component/BookModal";
 
 const RoomList = props => {
-  const [room, setRooms] = useState([]);
-  const [images, setImg] = useState("");
-  // const [iconicInfo, setIconic] = useState({});
-
-  useEffect(() => {
-    fetch("http://localhost:3000/Data/RoomList.json")
-      .then(res => res.json())
-      .then(res => {
-        setRooms(res.rooms);
-        console.log(
-          "anj :",
-          res.rooms[0].room_info.view,
-          "방 이름 :",
-          res.rooms[0].roomName
-        );
-      });
-  }, []);
-
-  console.log({ room });
   return (
-    <RoomListWrapper>
-      <RoomListContainer>
-        {/* 이 친구 맵돌려야된다 */}
-        {room.map((roomInfo, idx) => {
-          return (
-            <RoomListItem
-              roomName={roomInfo.roomName}
-              roomImage={roomInfo.images}
-              roomPrice={parseInt(Number(roomInfo.iconic_info.price))}
-            />
-          );
-        })}
-      </RoomListContainer>
-    </RoomListWrapper>
+    <>
+      {/* <BookModal /> */}
+      <RoomListWrapper>
+        <RoomListContainer>
+          {/* 이 친구 맵돌려야된다 */}
+          {props.room.map((roomInfo, idx) => {
+            // const roomId = roomInfo.id;
+            return (
+              <RoomListItem
+                key={idx + 1}
+                roomName={roomInfo.name}
+                roomImage={roomInfo.image}
+                roomPrice={parseInt(Number(roomInfo.price))}
+                modalOpenMid={(tog, id) => props.modalOpen(tog, id)}
+                roomId={roomInfo.id}
+                lookIdMid={id => props.lookId(id)}
+                selectedId={props.selectedId}
+              />
+            );
+          })}
+        </RoomListContainer>
+      </RoomListWrapper>
+    </>
   );
 };
 
 export default RoomList;
 
-const RoomListWrapper = styled.section`
+const RoomListWrapper = styled.div`
   width: 60vw;
   height: 670px;
   background-color: transparent;

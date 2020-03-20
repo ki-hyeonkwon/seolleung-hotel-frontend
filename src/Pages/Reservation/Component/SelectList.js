@@ -9,13 +9,21 @@ const SelectList = props => {
   const onChangeItem = e => {
     setItem(e.target.innerText);
     setOpen(!open);
-    // props.getNumPeo(e);
+    console.log("나는 자식", e.target.innerText);
+    props.getPlace(e.target.innerText);
   };
 
   const openList = e => {
-    console.log("open :", open);
+    // console.log("open :", open);
     setOpen(!open);
+    // console.log("list:", props.dropLists);
   };
+
+  // const handleListChange = e => {
+  //   props.getPlace(e.target.innerText);
+  //   props.getRoomKind(e.target.innerText);
+  //   props.getNumPeo(e.target.innerText);
+  // };
 
   return (
     <BookBox>
@@ -24,21 +32,13 @@ const SelectList = props => {
         {item}
       </BookButton>
       <BookUl open={open}>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.firstList && props.firstList}
-        </BookLi>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.secondList && props.secondList}
-        </BookLi>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.thirdList && props.thirdList}
-        </BookLi>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.forthList && props.forthList}
-        </BookLi>
-        <BookLi open={open} onClick={onChangeItem}>
-          {props.fifthList && props.fifthList}
-        </BookLi>
+        {props.dropLists.map((list, i) => {
+          return (
+            <BookLi open={open} key={i} onClick={e => onChangeItem(e)}>
+              {list}
+            </BookLi>
+          );
+        })}
       </BookUl>
     </BookBox>
   );
@@ -50,14 +50,14 @@ const BookBox = styled.div`
   /* background-color: #9ba2b3; */
   position: absolute;
   left: 20px;
-  width: 89%;
+  width: 100%;
   height: 100%;
 `;
 
 const BookButton = styled.button`
   position: relative;
   display: block;
-  width: 340px;
+  width: 100%;
   height: 50px;
   border: none;
   border-bottom: 2px solid white;
@@ -87,9 +87,11 @@ const BookUl = styled.ul`
   background-color: transparent;
   bottom: 0px;
   z-index: 15;
+  /* display: ${props => (props.open ? "block" : "none")}; */
 `;
 
 const BookLi = styled.li`
+  /* display:block; */
   display: ${props => (props.open ? "block" : "none")};
   /* ${props => (props.open ? { display: "block" } : { display: "none" })} */
   height: 60px;

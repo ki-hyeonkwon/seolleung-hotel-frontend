@@ -141,7 +141,6 @@ export default class Qna extends Component {
                 value={comments}
               ></textarea>
             </Content>
-
             <Button type="submit" onClick={onSubmit}>
               Send
             </Button>
@@ -151,12 +150,10 @@ export default class Qna extends Component {
     );
   }
 }
-
 const Container = styled.div`
   width: 100%;
   height: 96vh;
   position: relative;
-
   h3 {
     color: #1d212a;
     padding: 180px 60px 0 60px;
@@ -166,24 +163,18 @@ const Container = styled.div`
     line-height: 1;
   }
 `;
-
 const ContentsBody = styled.div`
   padding: 54px 60px;
   color: #1d212a;
 `;
-
 const Form = styled.div``;
-
 const ListContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
 const Title = styled.div`
   width: 100%;
-
   position: relative;
-
   input {
     width: 100%;
     border: none;
@@ -191,7 +182,6 @@ const Title = styled.div`
     font-size: 14px;
     padding: 10px 0;
     border-bottom: 1px solid #e7e3e2;
-
     &:after {
       position: absolute;
       content: "";
@@ -201,19 +191,16 @@ const Title = styled.div`
       height: 1px;
       background: #1d212a;
       transition: border-bottom 0.3s ease;
-
       &:focus {
         border-bottom: 1px solid #e7e3e2;
       }
     }
   }
 `;
-
 const Content = styled.div`
   margin-top: 15px;
   width: 100%;
   height: 160px;
-
   textarea {
     width: 100%;
     height: 100%;
@@ -225,7 +212,6 @@ const Content = styled.div`
     line-height: 1.6;
   }
 `;
-
 const Button = styled.button`
   display: inline-block;
   margin-top: 100px;
@@ -237,7 +223,6 @@ const Button = styled.button`
   color: #000;
   -webkit-transition: color 0.5s ease;
   transition: color 0.5s ease;
-
   &:after {
     content: "";
     position: absolute;
@@ -251,14 +236,12 @@ const Button = styled.button`
     transition: all 0.5s ease;
     z-index: -1;
   }
-
   &:hover:after {
     height: 100%;
     z-index: 1;
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
   }
-
   &:hover {
     color: #fff;
     transition: color 0.5s ease;

@@ -105,20 +105,16 @@ export default class PointBox extends Component {
 }
 
 const Container = styled.div`
-position:relative;
-  top: 20px; 
+  position: relative;
+  top: 20px;
   width: 100%;
-  height: 500px;   
-}
+  height: 500px;
 `;
 
 const PointTable = styled.div`
-position: absolute;
+  position: absolute;
   width: 100%;
   top: 80px;
-  
-
-}
 `;
 
 const Top = styled.div`
@@ -207,89 +203,73 @@ const Top = styled.div`
 `;
 
 const AblePoint = styled.div`
-      font-size: 12px;
-}
+  font-size: 12px;
 `;
 
 const AblePointScore = styled.div`
-    margin-top: 11px;
-    font-family: "MaisonNeue-Light";
-    font-size: 20px;
-  
-}
+  margin-top: 11px;
+  font-family: "MaisonNeue-Light";
+  font-size: 20px;
 `;
 
-const Point = styled(AblePoint.withComponent("div"))`
-  
-}
-`;
+const Point = styled(AblePoint.withComponent("div"))``;
 
-const PointScore = styled(AblePointScore.withComponent("div"))`
- 
-}
-`;
+const PointScore = styled(AblePointScore.withComponent("div"))``;
 
 const Mid = styled.div`
+  width: 100%;
+  margin-top: 19px;
+  padding: 10px 0;
+  height: 350px;
+  border-top: 1px solid #dbd6d2;
+  border-bottom: 1px solid #dbd6d2;
+  font-size: 12px;
+
+  table {
     width: 100%;
-    margin-top: 19px;
-    padding: 10px 0;
-    height: 350px;
-    border-top: 1px solid #dbd6d2;
-    border-bottom: 1px solid #dbd6d2;
-    font-size: 12px;
-    
-
-    table {
-        width: 100%;
-        text-align: center;
-        thead {
-            tr {
-                th {
-                    width: 25%;
-                    text-align: center;
-                    padding: 10px 0;
-                    font-weight: normal;
-                }
-            }
+    text-align: center;
+    thead {
+      tr {
+        th {
+          width: 25%;
+          text-align: center;
+          padding: 10px 0;
+          font-weight: normal;
         }
-
-        tbody {
-
-            tr {
-                td {
-                }
-            }
-            
-        }
+      }
     }
-}
+
+    tbody {
+      tr {
+        td {
+        }
+      }
+    }
+  }
 `;
 
 const Bg = styled.td`
-position: fixed;
-left: 0;
-top: 0;
-width: 100vw;
-height: 100vh;
-background: rgba(122,122,122,0.5);
-z-index: 1000;
-overflow: hidden;
-}
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(122, 122, 122, 0.5);
+  z-index: 1000;
+  overflow: hidden;
 `;
 
 const Modal = styled.td`
-position: absolute;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
-width: 470px;
-height: 570px;
-background: #fff;
-display: flex;
-align-items: center;
-justify-content: center;
-
-}
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 470px;
+  height: 570px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Form = styled.div`
@@ -303,52 +283,48 @@ const Form = styled.div`
 `;
 
 const LayerHeader = styled.td`
-margin-top: 40px;
- h3 {
-     font-weight: 400;
-    font-size: 28px;  
- }
+  margin-top: 40px;
+  h3 {
+    font-weight: 400;
+    font-size: 28px;
+  }
 
- p {
-     font-size: 13px;
-     line-height: 1.7;
-     margin-top: 20px;
+  p {
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 20px;
 
-     span {
-        color: #826d67;
-     }
- }
-}
+    span {
+      color: #826d67;
+    }
+  }
 `;
 
 const LayerBody = styled.td`
-margin-top: 40px;
-    input {
-        padding: 10px 0;
-        width: 100%;
-        border : none;
-        border-bottom: 1px solid #dbd6d2;
-        font-size: 14px;
-        &::placeholder {
-            color: #1d212a;
-        }
+  margin-top: 40px;
+  input {
+    padding: 10px 0;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #dbd6d2;
+    font-size: 14px;
+    &::placeholder {
+      color: #1d212a;
     }
+  }
 
-    textarea {
-        margin-top: 30px;
-        width: 100%;
-        height: 60px;
-        border : none;
-        border-bottom: 1px solid #dbd6d2;
-        resize: none;
-        font-size: 14px;
-        &::placeholder {
-            color: #1d212a;
-        }
-
+  textarea {
+    margin-top: 30px;
+    width: 100%;
+    height: 60px;
+    border: none;
+    border-bottom: 1px solid #dbd6d2;
+    resize: none;
+    font-size: 14px;
+    &::placeholder {
+      color: #1d212a;
     }
-
-}
+  }
 `;
 
 const Button = styled.button`
