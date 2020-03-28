@@ -47,7 +47,7 @@ export default class PrivacyEdit extends Component {
     }
   };
   onSubmit = () => {
-    fetch(`${address}/users/userinfo/change`, {
+    fetch(`${address}/users/userinfo`, {
       method: "post",
       headers: {
         Authorization:
@@ -67,6 +67,9 @@ export default class PrivacyEdit extends Component {
       // .then(res => res.json())
       .then(res => {
         console.log(res);
+        if (res.status === 200) {
+          alert("수정되었습니다!");
+        }
       })
       .catch(error => {
         console.error(error);

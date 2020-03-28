@@ -2,6 +2,7 @@ import React, { Component, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
 import BookList from "Component/Book/BookList.js";
 import Calendar from "Component/Book/Calendar.js";
+import { Link } from "react-router-dom";
 
 const Booking = () => {
   return (
@@ -39,7 +40,11 @@ const Booking = () => {
             sixthList="6"
           /> */}
         </BookingOn>
-        <BookButton>Book Now</BookButton>
+        <BookButton>
+          <Link to={"/reservation"} style={{ color: "white" }}>
+            Book Now
+          </Link>
+        </BookButton>
       </BookingArea>
     </BookingAreaWrapper>
   );
@@ -76,6 +81,6 @@ const BookButton = styled.div`
   bottom: 10px;
   color: white;
   font-size: 22px;
-  font-weight: 200;
+  font-weight: 600;
   cursor: pointer;
 `;
