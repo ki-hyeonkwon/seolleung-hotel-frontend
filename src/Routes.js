@@ -22,7 +22,6 @@ class Routes extends Component {
           <Route exact path="/" component={Main} />
           <Route exact path="/mypage" component={Mypage} />
           <Route exact path="/join" component={Join} />
-          <Route exact path="/reservation" component={Reservation} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/idfind" component={IdFind} />
           <Route exact path="/pwdfind" component={PwdFind} />

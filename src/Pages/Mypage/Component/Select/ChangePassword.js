@@ -25,7 +25,7 @@ export default class ChangePassword extends Component {
       method: "post",
       headers: {
         Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkxMjM0In0.G2kL2OT0royDbdIQCalgUIhYKsrcK1VB4unw4YV8umE"
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
       },
       body: JSON.stringify({
         password: this.state.pwd,

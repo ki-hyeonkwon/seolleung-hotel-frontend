@@ -93,6 +93,16 @@ export default class QnaList extends Component {
       // .then(res => res.json())
       .then(res => {
         console.log(res);
+        if (res.status === 200) {
+          this.setState(
+            {
+              toggleClose: true
+            },
+            () => {
+              this.test();
+            }
+          );
+        }
       })
       .catch(error => {
         console.error(error);
@@ -195,27 +205,28 @@ export default class QnaList extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {user.map(user => {
-                    return (
-                      <tr
-                        onClick={() =>
-                          this.ToggleClose(
-                            user.title,
-                            user.content,
-                            user.id,
-                            user.branch_id,
-                            user.inquiry_type_id
-                          )
-                        }
-                        key={user.id}
-                        id={user.id}
-                      >
-                        <Td1>{user.created_at.slice(0, 10)}</Td1>
-                        <Td2>{user.title}</Td2>
-                        <Td3>{user.content}</Td3>
-                      </tr>
-                    );
-                  })}
+                  {user &&
+                    user.map(user => {
+                      return (
+                        <tr
+                          onClick={() =>
+                            this.ToggleClose(
+                              user.title,
+                              user.content,
+                              user.id,
+                              user.branch_id,
+                              user.inquiry_type_id
+                            )
+                          }
+                          key={user.id}
+                          id={user.id}
+                        >
+                          <Td1>{user.created_at.slice(0, 10)}</Td1>
+                          <Td2>{user.title}</Td2>
+                          <Td3>{user.content}</Td3>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </Mid>

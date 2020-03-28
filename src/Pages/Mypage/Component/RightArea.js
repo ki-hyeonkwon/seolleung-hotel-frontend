@@ -10,7 +10,7 @@ export default class RightArea extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stage: 2
+      stage: 1
     };
   }
 
@@ -25,10 +25,10 @@ export default class RightArea extends Component {
       1: <QnaList />,
       2: <ReserveList />,
       3: <PointBox />,
-      4: <PrivacyEdit user={this.props.userData} />,
+      4: <PrivacyEdit user={this.props.userData && this.props.userData} />,
       5: <ChangePassword />
     };
-
+    console.log(this.props.userData, "data");
     const { stage } = this.state;
 
     return (

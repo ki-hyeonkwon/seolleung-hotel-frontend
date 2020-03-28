@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import DropDownNav from "../Nav/DropDownNav";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export default class NavBar extends Component {
   constructor() {
@@ -8,7 +9,7 @@ export default class NavBar extends Component {
     this.test = React.createRef();
     this.state = {
       place: ["경주", "울산", "목포", "포항", "진주", "seanarQ"],
-      other: ["맴버십 소개", "로그인", "가입"],
+      other: ["멤버십 소개", "로그인", "가입"],
       findHotel: "Find hotel",
       clubLahan: "Club Lahan"
     };
@@ -17,8 +18,8 @@ export default class NavBar extends Component {
   componentDidMount() {
     this.setState({
       other: window.sessionStorage.getItem("Authorization")
-        ? ["맴버십 소개", "마이페이지"]
-        : ["맴버십 소개", "로그인", "가입"]
+        ? ["멤버십 소개", "마이페이지"]
+        : ["멤버십 소개", "로그인", "가입"]
     });
   }
 
@@ -38,11 +39,21 @@ export default class NavBar extends Component {
             </LogoBox>
             <NavBox>
               <NavBoxUl>
-                <DropDownNav menu={place} title={findHotel} />
+                <Link
+                  to={"/book"}
+                  style={{ display: "block", color: "#181a1c" }}
+                >
+                  <DropDownNav menu={place} title={findHotel}></DropDownNav>
+                </Link>
                 <NavBoxLi>
                   <DropDownTitle>Brand story</DropDownTitle>
                 </NavBoxLi>
-                <DropDownNav menu={other} title={clubLahan} />
+                <Link
+                  to={"/login"}
+                  style={{ display: "block", color: "#181a1c" }}
+                >
+                  <DropDownNav menu={other} title={clubLahan} />
+                </Link>
               </NavBoxUl>
             </NavBox>
           </TopRightMenu>

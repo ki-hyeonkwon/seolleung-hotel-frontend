@@ -128,6 +128,10 @@ const ContentWrap = styled.div`
   transform: translateX(-50%);
   box-sizing: border-box;
   z-index: 10;
+
+  li {
+    cursor: pointer;
+  }
 `;
 
 const Slogan = styled.div`
@@ -200,6 +204,7 @@ const Sns = styled.span`
     opacity: 1;
     img {
         width: 19px;
+        cursor: pointer;
     }
 
     &:hover {
@@ -257,14 +262,14 @@ const FamilySite = styled.div`
 }
 `;
 
-const boxShow = keyframes`
-  from {
-    height: 0;
-  }
-  to {
-    height: 170px;
-  }
-`;
+// const boxShow = keyframes`
+//   from {
+//     height: 0;
+//   }
+//   to {
+//     height: 170px;
+//   }
+// `;
 
 const SelectBox = styled.ul`
     position: absolute;
@@ -278,7 +283,6 @@ const SelectBox = styled.ul`
     line-height: 25px;
     padding: 15px 20px;
     color: #232937;
-    animation: ${boxShow} 1s 1;
     z-index: -1;
 
     li {
