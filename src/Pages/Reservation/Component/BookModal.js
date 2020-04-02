@@ -1,8 +1,8 @@
-import React, { Component, useState, useEffect } from "react";
-import styled, { css, keyframes } from "styled-components";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import * as URL from "../../../config";
+import { address } from "../../../Config/config";
 
 const BookModal = props => {
   // const [modalOpen, setModalOpen] = useState(props.modal);
@@ -18,7 +18,7 @@ const BookModal = props => {
   useEffect(() => {
     // props.roomId &&
     /* 여기는 http://localhost:8000/room/details/${props.roomId}로 주소 바꿔줘야함*/
-    fetch(`http://10.58.3.163:8000/room/detail/${props.roomId && props.roomId}`)
+    fetch(`${address}/${props.roomId && props.roomId}`)
       .then(res => res.json())
       .then(res => {
         console.log(res);
