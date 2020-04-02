@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import RoomList from "./RoomList";
-import * as URL from "../../../config";
+// import RoomList from "./RoomList";
+import { address } from "../../../Config/config";
 
 const BookLeftBottom = props => {
   const [index, setIndex] = useState(props.pickRoomId);
   const [roomInfo, setRoomInfo] = useState(props.room);
+
   const postInfo = () => {
-    fetch("http://10.58.3.163:8000/reservation", {
+    fetch(`${address}/reservation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

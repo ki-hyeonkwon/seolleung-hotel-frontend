@@ -1,1 +1,1 @@
-export const address = "http://10.58.7.23:8008";
+export const address = "http://52.79.185.94:8000";
