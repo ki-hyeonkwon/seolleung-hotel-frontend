@@ -315,7 +315,6 @@ const BookNowButtonContainer = styled.button`
   left: 55px;
   border: 1px solid white;
   color: white;
-  background-color: transparent;
   font-family: "PerpetuaStd";
   text-align: left;
   font-size: 22px;
