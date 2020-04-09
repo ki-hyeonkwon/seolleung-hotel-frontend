@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import BookLeftTop from "Pages/Reservation/Component/BookLeftTop";
 import RoomList from "Pages/Reservation/Component/RoomList";
@@ -72,7 +73,9 @@ const Reservation = () => {
   return (
     <ReservationWrapper>
       {/* 여기에 홈으로 가는 라우터 연결 */}
-      <HomeIconBox></HomeIconBox>
+      <Link to="/">
+        <HomeIconBox></HomeIconBox>
+      </Link>
       <ReservationContainer>
         <OpacityBox></OpacityBox>
         <FinalBookOpacity></FinalBookOpacity>
