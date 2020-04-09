@@ -17,9 +17,9 @@ export default class NavBar extends Component {
 
   componentDidMount() {
     this.setState({
-      other: window.sessionStorage.getItem("Authorization")
-        ? ["멤버십 소개", "마이페이지"]
-        : ["멤버십 소개", "로그인", "가입"]
+      other: window.localStorage.getItem("Authorization")
+        ? ["맴버십 소개", "마이페이지"]
+        : ["맴버십 소개", "로그인", "가입"]
     });
   }
 
