@@ -17,7 +17,7 @@ export default class Mypage extends Component {
   componentDidMount() {
     this.myPage();
   }
-  myPage = () => {
+  myPage = async () => {
     fetch(`${address}/users/userinfo`, {
       headers: {
         Authorization:
