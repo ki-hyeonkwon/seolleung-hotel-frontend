@@ -6,6 +6,7 @@ import BookEnter from "./Pages/Book/BookEnter";
 import Mypage from "Pages/Mypage/Mypage";
 import Join from "Pages/Join/Join";
 import Reservation from "Pages/Reservation/Reservation";
+import Intro from "Pages/MembershipIntro/MembershipIntro";
 import Login from "Pages/Login/Login";
 import IdFind from "Pages/Login/IdFind";
 import PwdFind from "Pages/Login/pwdFind";
@@ -21,6 +22,7 @@ class Routes extends Component {
           <Route exact path="/reservation" component={Reservation} />
           <Route exact path="/" component={Main} />
           <Route exact path="/mypage" component={Mypage} />
+          <Route exact path="/intro" component={Intro} />
           <Route exact path="/join" component={Join} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/idfind" component={IdFind} />
