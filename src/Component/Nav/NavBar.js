@@ -9,7 +9,7 @@ export default class NavBar extends Component {
     this.test = React.createRef();
     this.state = {
       place: ["경주", "울산", "목포", "포항", "진주", "seanarQ"],
-      other: ["멤버십 소개", "로그인", "가입"],
+      other: ["membership", "로그인", "가입"],
       findHotel: "Find hotel",
       clubLahan: "Club Lahan"
     };
@@ -17,9 +17,11 @@ export default class NavBar extends Component {
 
   componentDidMount() {
     this.setState({
-      other: window.localStorage.getItem("Authorization")
-        ? ["맴버십 소개", "마이페이지"]
-        : ["맴버십 소개", "로그인", "가입"]
+
+      other: window.sessionStorage.getItem("Authorization")
+        ? ["membership", "mypage"]
+        : ["membership", "login", "join"]
+
     });
   }
 
@@ -48,12 +50,12 @@ export default class NavBar extends Component {
                 <NavBoxLi>
                   <DropDownTitle>Brand story</DropDownTitle>
                 </NavBoxLi>
-                <Link
+                {/* <Link
                   to={"/login"}
                   style={{ display: "block", color: "#181a1c" }}
-                >
-                  <DropDownNav menu={other} title={clubLahan} />
-                </Link>
+                > */}
+                <DropDownNav menu={other} title={clubLahan} />
+                {/* </Link> */}
               </NavBoxUl>
             </NavBox>
           </TopRightMenu>

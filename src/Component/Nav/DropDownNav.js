@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import styled, { css, keyframes } from "styled-components";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
-export default class DropDownNav extends Component {
+class DropDownNav extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,6 +15,10 @@ export default class DropDownNav extends Component {
       : this.setState({ mouseToggle: true });
   };
 
+  changePage = go => {
+    this.props.history.push(`/${go}`);
+  };
+
   render() {
     console.log("hi", this.props.menu);
 
@@ -23,13 +27,18 @@ export default class DropDownNav extends Component {
         <DropDownTitle>{this.props.title}</DropDownTitle>
         <DropDownUl hotel onOff={this.state.mouseToggle}>
           {this.props.menu.map((list, i) => {
-            return <DropDownLi key={i}>{list}</DropDownLi>;
+            return (
+              <DropDownLi onClick={() => this.changePage(list)} key={i}>
+                {list}
+              </DropDownLi>
+            );
           })}
         </DropDownUl>
       </NavBoxLi>
     );
   }
 }
+export default withRouter(DropDownNav);
 
 // 공용CSS
 const Center = styled.div`
