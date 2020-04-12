@@ -1,6 +1,7 @@
 import React, { useState, useReducer } from "react";
 import { BrowserRouter as Route, withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
+import Kakao from "kakaojs";
 import * as URL from "../../config";
 import NavBar from "../../Component/Nav/NavBar";
 import Footer from "../../Components/Footer/Footer";
@@ -15,6 +16,7 @@ const Login = ({ location, history }) => {
 
   const [idErrorStatus, SetIdError] = useState("");
   const [pwdErrorStatus, SetPwdError] = useState("");
+  const [kakaoLogin, setKaKaoLogin] = useState({ accessToken: "" });
 
   const [state, dispatch] = useReducer(reducer, {
     id: "",
@@ -45,7 +47,7 @@ const Login = ({ location, history }) => {
       const res = await loginCheck.json();
 
       if (resStatus === 200) {
-        window.sessionStorage.setItem("Authorization", res.Authorization);
+        window.localStorage.setItem("Authorization", res.Authorization);
         history.push("/");
       } else {
         SetIdError("");
@@ -53,6 +55,46 @@ const Login = ({ location, history }) => {
           "아이디, 비밀번호를 확인해주세요. 클럽 라한에 등록되지 않았거나 가입정보와 일치하지 않습니다."
         );
       }
+    }
+  };
+
+  const kakaoPromise = () => {
+    return new Promise((onSuccess, onReject) => {
+      Kakao.init("491463a162c9cd3badb8930d575989e5");
+      Kakao.Auth.login({
+        success: params => {
+          onSuccess(params);
+        },
+        fail: errorObj => {
+          onReject(errorObj);
+        }
+      });
+    });
+  };
+  const kakaoLoginFnc = async () => {
+    try {
+      const kakaoResult = await kakaoPromise();
+      setKaKaoLogin({ accessToken: kakaoResult.access_token });
+
+      const requestFromKaKao = await fetch(`${URL.SMS_URL}/kakao`, {
+        method: "POST",
+        headers: { Authorization: kakaoResult.access_token }
+      });
+
+      if (requestFromKaKao.status === 200) {
+        const authorization = await requestFromKaKao.json();
+
+        window.localStorage.setItem(
+          "Authorization",
+          authorization.Authorization
+        );
+        history.push("/");
+      }
+
+      console.dir(requestFromKaKao);
+    } catch (error) {
+      console.log(error);
+      alert("다시 시도 바랍니다.");
     }
   };
 
@@ -120,13 +162,19 @@ const Login = ({ location, history }) => {
             </div>
             <div>
               <JoinBoxIntro>
-                <dt>SNS로 가입은 어떠신가요?</dt>
+                <dt>SNS로 로그인은 어떠신가요?</dt>
                 <dd>
                   간단하게 SNS로 가입을 진행할 수 있으며, 호텔에서 제공하는
                   포인트 및 특전도 제공받으실 수 있습니다.
                 </dd>
               </JoinBoxIntro>
-              <JoinBoxButton href="">카카오로 가입하기</JoinBoxButton>
+              <JoinBoxButton
+                id="kakaoLogin"
+                type="button"
+                onClick={kakaoLoginFnc}
+              >
+                카카오로 로그인하기
+              </JoinBoxButton>
             </div>
           </JoinBox>
         </LoginCont>
@@ -279,7 +327,7 @@ const JoinBoxText = styled.ul`
   }
 `;
 
-const JoinBoxButton = styled.span`
+const JoinBoxButton = styled.button`
   display: block;
   margin-top: 30px;
   width: 100%;

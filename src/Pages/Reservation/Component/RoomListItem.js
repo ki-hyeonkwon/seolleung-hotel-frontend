@@ -39,7 +39,7 @@ const RoomListItem = props => {
     } else {
       props.lookIdMid(props.roomId);
     }
-    e.target.innerText === "Select" ? setSelect("Calcel") : setSelect("Select");
+    e.target.innerText === "Select" ? setSelect("Cancel") : setSelect("Select");
     // console.log(e.target.innerText);
     // console.log("나는 각각 아이템 아이디 :", itemId);
     // console.log("나는 토글 아이디:", props.selectedId);

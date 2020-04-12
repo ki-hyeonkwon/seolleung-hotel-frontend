@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import RoomList from "./RoomList";
-import * as URL from "../../../config";
+// import RoomList from "./RoomList";
+import { address } from "../../../Config/config";
 
 const BookLeftBottom = props => {
   const [index, setIndex] = useState(props.pickRoomId);
   const [roomInfo, setRoomInfo] = useState(props.room);
+
   const postInfo = () => {
-    fetch("http://10.58.3.163:8000/reservation", {
+    fetch(`${address}/reservation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,21 +49,21 @@ const BookLeftBottom = props => {
     <FinalWrapper pickRoomId={props.pickRoomId && props.pickRoomId}>
       <FinalContainer>
         <FianlTop>
-          <FinalTopLocaCon>Hotel :</FinalTopLocaCon>
+          <FinalTopLocaCon>Hotel </FinalTopLocaCon>
           <FinalTopLoca>{props.gotLocation && props.gotLocation}</FinalTopLoca>
-          <FinalTopBoxCon>Room:</FinalTopBoxCon>
+          {/* <FinalTopBoxCon>Room:</FinalTopBoxCon>
           <FinalTopBox>
             {props.room &&
               props.room[props.pickRoomId] &&
               props.pickRoomId &&
               props.room[props.pickRoomId] &&
               props.pickRoomId.name}
-          </FinalTopBox>
+          </FinalTopBox> */}
         </FianlTop>
         <FianlMid>
-          <FinalMidPeoCon>Number of People :</FinalMidPeoCon>
-          <FinalMidPeo>{props.gotPeo && props.gotPeo}</FinalMidPeo>
-          <FinalMidDateCon>Date:</FinalMidDateCon>
+          {/* <FinalMidPeoCon>Number of People :</FinalMidPeoCon>
+          <FinalMidPeo>{props.gotPeo && props.gotPeo}</FinalMidPeo> */}
+          <FinalMidDateCon>Date</FinalMidDateCon>
           <FinalMidDate>
             2020.{props.dateData[0] && props.dateData[0]}.
             {props.dateData[1] && props.dateData[1]} ~ 2020.
@@ -71,23 +72,24 @@ const BookLeftBottom = props => {
           </FinalMidDate>
         </FianlMid>
         <FianlBottom>
-          <DaysNightsCon>How many days :</DaysNightsCon>
+          <DaysNightsCon>How many days </DaysNightsCon>
           <DaysNights>
             {props.room &&
               props.room[props.pickRoomId - 1] &&
               props.room[props.pickRoomId - 1].stay_nights}{" "}
-            -
+            Days -
             {props.room &&
               props.room[props.pickRoomId - 1] &&
               props.room[props.pickRoomId - 1].stay_nights + 1}
+            Nights
           </DaysNights>
-          <MoneyCon>Fee :</MoneyCon>
+          {/* <MoneyCon>Fee :</MoneyCon>
           <Money>
             {props.room &&
               props.room[props.pickRoomId - 1] &&
               Math.floor(props.room[props.pickRoomId - 1].price) *
                 props.room[props.pickRoomId - 1].stay_nights}
-          </Money>
+          </Money> */}
         </FianlBottom>
         <BookNow onClick={postInfo}>Book Now</BookNow>
       </FinalContainer>
@@ -128,97 +130,102 @@ const FianlTop = styled.div`
   width: 100%;
   text-align: center;
   display: flex;
+  margin-top: 10px;
 `;
 
-const FinalTopBoxCon = styled.div`
-  width: 20%;
-  text-align: center;
+// const FinalTopBoxCon = styled.div`
+//   width: 20%;
+//   text-align: center;
 
-  padding-left: 5px;
-  padding-top: 15px;
-`;
+//   padding-left: 5px;
+//   padding-top: 15px;
+// `;
 
-const FinalTopBox = styled.div`
-  width: 80%;
-  text-align: left;
+// const FinalTopBox = styled.div`
+//   width: 80%;
+//   text-align: left;
 
-  padding-top: 15px;
-  padding-bottom: 10px;
-`;
+//   padding-top: 15px;
+//   padding-bottom: 10px;
+// `;
 
 const FinalTopLocaCon = styled.div`
-  width: 20%;
+  width: 40%;
   text-align: center;
-
   padding-left: 3px;
-  padding-top: 15px;
-  padding-bottom: 10px;
 `;
 const FinalTopLoca = styled.div`
-  width: 30%;
-  text-align: left;
-
-  padding-top: 15px;
+  width: 50%;
+  text-align: center;
+  padding-left: 45px;
 `;
 
 const FianlMid = styled.div`
   width: 100%;
   display: flex;
+  margin-top: 10px;
 `;
 
-const FinalMidPeoCon = styled.div`
-  width: 70%;
-  text-align: center;
-  padding-top: 10px;
-`;
-const FinalMidPeo = styled.div`
-  width: 30%;
-  text-align: left;
-  padding-top: 10px;
-`;
+// const FinalMidPeoCon = styled.div`
+//   width: 70%;
+//   text-align: center;
+//   padding-top: 10px;
+// `;
+// const FinalMidPeo = styled.div`
+//   width: 30%;
+//   text-align: left;
+//   padding-top: 10px;
+// `;
 
 const FinalMidDateCon = styled.div`
-  width: 30%;
+  width: 41%;
   text-align: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
 `;
 const FinalMidDate = styled.div`
-  width: 70%;
-  text-align: left;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  width: 50%;
+  text-align: center;
+  padding-left: 45px;
 `;
 
 const FianlBottom = styled.div`
   width: 100%;
   display: flex;
+  margin-top: 10px;
 `;
 
 const DaysNightsCon = styled.div`
-  width: 60%;
-  padding: 11px;
+  width: 40%;
+  text-align: center;
 `;
 const DaysNights = styled.div`
-  width: 20%;
-  text-align: left;
-  padding: 11px;
+  width: 50%;
+  text-align: center;
+  padding-left: 45px;
 `;
 
-const MoneyCon = styled.div`
-  width: 20%;
-  padding: 11px;
-  text-align: right;
-`;
+// const MoneyCon = styled.div`
+//   width: 20%;
+//   padding: 11px;
+//   text-align: right;
+// `;
 
-const Money = styled.div`
-  width: 70%;
-  padding: 11px;
-`;
+// const Money = styled.div`
+//   width: 70%;
+//   padding: 11px;
+// `;
 
 const BookNow = styled.div`
   width: 40%;
-  padding: 11px;
-  padding-bottom: 5px;
+  padding: 6px 0;
+  margin-top: 20px;
   text-align: center;
+  cursor: pointer;
+  border: 1px solid white;
+  background-color: rgba(168, 186, 230, 0.4);
+  :hover {
+    color: #a8bae6;
+    font-weight: 700;
+    border: 1px solid #a8bae6;
+    background-color: transparent;
+  }
 `;

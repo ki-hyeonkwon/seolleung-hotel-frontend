@@ -1,10 +1,11 @@
 import React, { Component, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import BookLeftTop from "Pages/Reservation/Component/BookLeftTop";
 import RoomList from "Pages/Reservation/Component/RoomList";
 import BookModal from "Pages/Reservation/Component/BookModal";
 import BookLeftBottom from "Pages/Reservation/Component/BookLeftBottom";
-import * as URL from "../../config";
+import { address } from "../../Config/config";
 
 const Reservation = () => {
   const [room, setRooms] = useState([]);
@@ -60,25 +61,21 @@ const Reservation = () => {
   // };
 
   console.log(date[0]);
-  useEffect(
-    () => {
-      fetch(
-        `http://52.79.185.94:8000/room?CheckIn=${date[0]}&CheckOut=${date[1]}`
-      )
-        // fetch("http://localhost:3000/Data/RoomList.json")
-        .then(res => res.json())
-        .then(res => {
-          setRooms(res.room_list);
-        });
-    },
-    // [date]);
-    [date]
-  );
+  useEffect(() => {
+    fetch(`${address}/room?CheckIn=${date[0]}&CheckOut=${date[1]}`)
+      // fetch("http://localhost:3000/Data/RoomList.json")
+      .then(res => res.json())
+      .then(res => {
+        setRooms(res.room_list);
+      });
+  }, [date]);
 
   return (
     <ReservationWrapper>
       {/* 여기에 홈으로 가는 라우터 연결 */}
-      <HomeIconBox></HomeIconBox>
+      <Link to="/">
+        <HomeIconBox></HomeIconBox>
+      </Link>
       <ReservationContainer>
         <OpacityBox></OpacityBox>
         <FinalBookOpacity></FinalBookOpacity>
