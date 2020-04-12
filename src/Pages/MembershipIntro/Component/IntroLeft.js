@@ -9,7 +9,7 @@ class IntroLeft extends Component {
     super(props);
 
     this.state = {
-      tabText: ""
+      tabText: "Information"
     };
   }
 
@@ -49,17 +49,29 @@ class IntroLeft extends Component {
         <div>
           <IntroButtonList>
             <li>
-              <IntroButton data-name="Information" onClick={this.TabClick}>
+              <IntroButton
+                color={this.state.tabText === "Information" ? "yellow" : "gray"}
+                data-name="Information"
+                onClick={this.TabClick}
+              >
                 Information
               </IntroButton>
             </li>
             <li>
-              <IntroButton data-name="Points" onClick={this.TabClick}>
+              <IntroButton
+                color={this.state.tabText === "Points" ? "yellow" : "gray"}
+                data-name="Points"
+                onClick={this.TabClick}
+              >
                 Points
               </IntroButton>
             </li>
             <li>
-              <IntroButton data-name="Benefits" onClick={this.TabClick}>
+              <IntroButton
+                color={this.state.tabText === "Benefits" ? "yellow" : "gray"}
+                data-name="Benefits"
+                onClick={this.TabClick}
+              >
                 Benefits
               </IntroButton>
             </li>
@@ -111,7 +123,7 @@ const IntroButtonList = styled.ul`
 const IntroButton = styled.button`
   font-size: 16px;
   font-family: "MaisonNeue-Light";
-  color: #1d212a;
+  color: ${props => (props.color === "yellow" ? "#a68164" : "#1d212a")};
   outline: 0;
   border: 0;
   cursor: pointer;
