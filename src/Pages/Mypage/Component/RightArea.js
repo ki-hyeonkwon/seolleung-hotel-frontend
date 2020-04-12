@@ -25,7 +25,12 @@ export default class RightArea extends Component {
       1: <QnaList />,
       2: <ReserveList />,
       3: <PointBox />,
-      4: <PrivacyEdit user={this.props.userData && this.props.userData} />,
+      4: (
+        <PrivacyEdit
+          user={this.props.userData && this.props.userData}
+          myPage={this.props.myPage}
+        />
+      ),
       5: <ChangePassword />
     };
     console.log(this.props.userData, "data");

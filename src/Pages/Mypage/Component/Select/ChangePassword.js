@@ -14,11 +14,15 @@ export default class ChangePassword extends Component {
         newPwd: "",
         newPwdCheck: ""
       },
-      review_toggle: false
+      review_show: false,
+      toggle_button: false
     };
   }
   reviewToggleClose = () => {
-    this.setState({ review_toggle: false });
+    this.setState({
+      toggle_button: !this.state.toggle_button,
+      review_show: !this.state.review_show
+    });
   };
   onSubmit = () => {
     fetch(`${address}/users/userpw`, {
@@ -36,7 +40,18 @@ export default class ChangePassword extends Component {
       .then(res => {
         console.log(res);
         if (res.status === 200) {
-          this.setState({ review_toggle: true });
+          this.setState(
+            {
+              review_show: true,
+              toggle_button: true,
+              pwd: "",
+              newPwd: "",
+              newPwdCheck: ""
+            }
+            // () => {
+            //   this.state.toggle_button && window.location.reload();
+            // }
+          );
         } else {
           this.setState(previousState => {
             return {
@@ -59,6 +74,7 @@ export default class ChangePassword extends Component {
               }
             };
           });
+          alert("잘못된 비밀번호 입니다.");
         }
       })
       .catch(error => {
@@ -98,7 +114,7 @@ export default class ChangePassword extends Component {
             </InputContainer>
             <InputContainer>
               <input
-                defaultValue={newPwd}
+                value={newPwd}
                 onChange={handleInput}
                 maxLength="20"
                 name="newPwd"
@@ -110,7 +126,7 @@ export default class ChangePassword extends Component {
             <InputContainer>
               <input
                 onChange={handleInput}
-                defaultValue={newPwdCheck}
+                value={newPwdCheck}
                 maxLength="20"
                 name="newPwdCheck"
                 placeholder="비밀번호 확인"
@@ -123,8 +139,8 @@ export default class ChangePassword extends Component {
             <span>변경 완료</span>
           </Button>
         </Container>
-        {this.state.review_toggle && (
-          <Alert onClick={this.reviewToggleClose}>
+        {this.state.review_show && (
+          <Alert>
             <div>
               <p>비밀번호 변경이 완료 되었습니다.</p>
               <button onClick={this.reviewToggleClose}>확인</button>
@@ -233,18 +249,37 @@ const Alert = styled.div`
   width: 100vw;
   height: 100vh;
   background: rgba(122, 122, 122, 0.5);
-  z-index: 1000;
+  z-index: 10;
   overflow: hidden;
   div {
-    position: absolute;
+    position: relative;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 300px;
-    height: 300px;
+    height: 170px;
     background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    p {
+      position: absolute;
+      top: 50px;
+    }
+    button {
+      position: absolute;
+      bottom: 30px;
+      width: 80px;
+      height: 40px;
+      background: none;
+      border: 1px solid #dbd6d2;
+      cursor: pointer;
+
+      &:hover {
+        border: none;
+        background: #a68164;
+      }
+    }
   }
 `;

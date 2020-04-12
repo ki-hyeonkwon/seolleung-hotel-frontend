@@ -67,6 +67,10 @@ export default class Calendar extends Component {
   //     };
   // };
 
+  // handleDate = () => {
+  //   this.props.getDate(checkIn, checkOut);
+  // };
+
   render() {
     const { date } = this.state;
     // console.log(this.test);

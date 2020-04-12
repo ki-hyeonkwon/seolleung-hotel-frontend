@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SelectList from "./SelectList";
+import PromotionList from "./PromotionList";
 import styled from "styled-components";
 import { address } from "Config/config";
 
@@ -7,25 +8,23 @@ export default class Qna extends Component {
   constructor() {
     super();
     this.state = {
+      alert_show: false,
       title: "",
       comments: "",
       place: [],
       promotion: [],
       selectPlace: "",
-      selectPromotion: ""
+      selectPromotion: "",
+      open: false
     };
+  }
+  componentDidMount() {
+    this.getPlace();
+    this.getPromotion();
   }
 
   handleValueChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-  };
-  handleItem = place => {
-    this.setState(
-      {
-        place: place
-      },
-      () => console.log("place", place)
-    );
   };
 
   getPlace = () => {
@@ -51,7 +50,6 @@ export default class Qna extends Component {
         this.setState(
           {
             promotion: res.Inquiry_type
-            // promotion: res.
           },
           () => {
             console.log("list", res.Inquiry_type);
@@ -60,10 +58,7 @@ export default class Qna extends Component {
       });
   };
 
-  componentDidMount() {
-    this.getPlace();
-    this.getPromotion();
-  }
+  // 보내기 api
   onSubmit = () => {
     fetch(`${address}/inquiry`, {
       method: "post",
@@ -81,6 +76,11 @@ export default class Qna extends Component {
       // .then(res => res.json())
       .then(res => {
         console.log(res);
+        if (res.status === 200) {
+          this.setState({
+            alert_show: true
+          });
+        }
       })
       .catch(error => {
         console.error(error);
@@ -88,15 +88,11 @@ export default class Qna extends Component {
     // 에러나면 알려주는 거
   };
 
-  onChangeItem = selected => {
+  onChangePlace = selected => {
     this.setState(
       {
         selectPlace: selected,
-        selectPromotion: selected
-        // setItem(e.target.innerText);
-        // setOpen(!open);
-        // console.log(e.target.innerText);
-        // props.onChangeItem(e.target.innerText);
+        open: !this.state.open
       },
       () => {
         console.log("selectPlace", selected);
@@ -104,49 +100,90 @@ export default class Qna extends Component {
     );
   };
 
+  onChangePromotion = selected => {
+    this.setState(
+      {
+        selectPromotion: selected,
+        open: !this.state.open
+      },
+      () => {
+        console.log("selectPromotion", selected);
+      }
+    );
+  };
+
+  //모달 창
+  alertClose = () => {
+    this.setState(
+      {
+        alert_show: false
+      },
+      () => {
+        window.location.reload();
+      }
+    );
+  };
+
   render() {
+    console.log("alert_show", this.state.alert_show);
     const { title, comments, place, promotion } = this.state;
     const { isSelected, handleValueChange, onSubmit } = this;
     return (
-      <Container>
-        <h3>Q&A</h3>
-        <ContentsBody>
-          <Form>
-            <ListContainer>
-              <SelectList
-                onChangeItem={placeId => this.onChangeItem(placeId)}
-                listTitle="지점"
-                dropLists={place}
-              />
-              <SelectList
-                onChangeItem={promotionId => this.onChangeItem(promotionId)}
-                listTitle="문의 유형"
-                dropLists={promotion}
-              />
-            </ListContainer>
-            <Title>
-              <input
-                type="text"
-                placeholder="제목"
-                onChange={handleValueChange}
-                name="title"
-                value={title}
-              />
-            </Title>
-            <Content>
-              <textarea
-                placeholder="내용"
-                onChange={handleValueChange}
-                name="comments"
-                value={comments}
-              ></textarea>
-            </Content>
-            <Button type="submit" onClick={onSubmit}>
-              Send
-            </Button>
-          </Form>
-        </ContentsBody>
-      </Container>
+      <>
+        <Container>
+          <h3>Q&A</h3>
+          <ContentsBody>
+            <Form>
+              <ListContainer>
+                <SelectList
+                  onChangeItem={placeId => this.onChangePlace(placeId)}
+                  listTitle="지점"
+                  dropLists={place}
+                  open={this.state.open}
+                  value={this.state.selectPlace}
+                />
+                <PromotionList
+                  onChangeItem={promotionId =>
+                    this.onChangePromotion(promotionId)
+                  }
+                  listTitle="문의 유형"
+                  dropLists={promotion}
+                  open={this.state.open}
+                  value={this.state.selectPromotion}
+                />
+              </ListContainer>
+              <Title>
+                <input
+                  type="text"
+                  placeholder="제목"
+                  onChange={handleValueChange}
+                  name="title"
+                  value={title}
+                />
+              </Title>
+              <Content>
+                <textarea
+                  placeholder="내용"
+                  onChange={handleValueChange}
+                  name="comments"
+                  value={comments}
+                ></textarea>
+              </Content>
+              <Button type="submit" onClick={onSubmit}>
+                Send
+              </Button>
+            </Form>
+          </ContentsBody>
+        </Container>
+        {this.state.alert_show && (
+          <Alert>
+            <div>
+              <p>Q&A가 등록되었습니다.</p>
+              <button onClick={this.alertClose}>확인</button>
+            </div>
+          </Alert>
+        )}
+      </>
     );
   }
 }
@@ -246,5 +283,47 @@ const Button = styled.button`
     color: #fff;
     transition: color 0.5s ease;
     z-index: 10;
+  }
+`;
+
+const Alert = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(122, 122, 122, 0.5);
+  z-index: 10;
+  overflow: hidden;
+  div {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 170px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      position: absolute;
+      top: 50px;
+    }
+    button {
+      position: absolute;
+      bottom: 30px;
+      width: 80px;
+      height: 40px;
+      background: none;
+      border: 1px solid #dbd6d2;
+      cursor: pointer;
+
+      &:hover {
+        border: none;
+        background: #a68164;
+      }
+    }
   }
 `;

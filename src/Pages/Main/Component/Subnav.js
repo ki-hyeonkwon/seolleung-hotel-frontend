@@ -3,22 +3,6 @@ import { SubnavData } from "./SubnavData";
 import styled, { css } from "styled-components";
 
 export default class Subnav extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     index: 0
-  //   };
-  // }
-  // handleClick = () => {
-  //   console.log(this.props.example);
-
-  //   this.props.example &&
-  //     this.props.example.scrollIntoView({
-  //       block: "start",
-  //       behavior: "smooth"
-  //     });
-  // };
-
   state = {
     movePX: 0,
     moveTitle: false,

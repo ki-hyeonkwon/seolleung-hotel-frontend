@@ -18,7 +18,7 @@ const SelectList = props => {
         name="room"
         onClick={openList}
       >
-        {item}
+        {props.listTitle}
       </BookButton>
       <BookUl open={open}>
         {props.dropLists.map((list, i) => {
@@ -27,7 +27,7 @@ const SelectList = props => {
               open={open}
               key={i}
               onClick={() => {
-                props.onChangeItem(list.id);
+                props.onChangeItem(list.id, list.name);
                 setItem(list.name);
                 setOpen(!open);
               }}

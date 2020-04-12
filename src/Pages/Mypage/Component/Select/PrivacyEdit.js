@@ -6,6 +6,7 @@ export default class PrivacyEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      alert_show: false,
       userData: this.props.user,
       koreanName: "",
       englishName: this.props.user.name_eng,
@@ -17,7 +18,7 @@ export default class PrivacyEdit extends Component {
       realAddress: this.props.user.address,
       detailAddress: this.props.user.detailed_address,
       mail: this.props.user.email,
-      selectValue: "",
+      selectValue: 1,
       selectArr: [],
       marketingAgree: 1,
       job: 1,
@@ -68,7 +69,9 @@ export default class PrivacyEdit extends Component {
       .then(res => {
         console.log(res);
         if (res.status === 200) {
-          alert("수정되었습니다!");
+          this.setState({
+            alert_show: true
+          });
         }
       })
       .catch(error => {
@@ -143,6 +146,14 @@ export default class PrivacyEdit extends Component {
       error
     });
   };
+
+  //개인정보 수정 확인 창
+  alertClose = () => {
+    this.setState({
+      alert_show: false
+    });
+  };
+
   render() {
     const {
       open,
@@ -160,172 +171,187 @@ export default class PrivacyEdit extends Component {
       selectArr
     } = this.state;
     return (
-      <Container>
-        <Form>
-          <SectionInputContainer>
-            <SectionInputTitle>개인 정보</SectionInputTitle>
-            <div>
-              <SectionInput
-                onChange={this.handleInput}
-                defaultValue={koreanName}
-                name="koreanName"
-                placeholder="성함"
-                type="text"
-                value={this.props.user.name_kr}
-                readonly
-              />
-              <SectionInputText>{this.state.error.koreanName}</SectionInputText>
-            </div>
-            <div>
-              <SectionInput
-                onChange={this.handleInput}
-                defaultValue={englishName}
-                name="englishName"
-                placeholder="성함(영문)"
-                type="text"
-                value={this.state.englishName}
-              />
-              <SectionInputText>
-                {this.state.error.englishName}
-              </SectionInputText>
-            </div>
-            <SectionInputBox_v2>
-              <SectionInputBox_v2_InputBox>
+      <>
+        <Container>
+          <Form>
+            <SectionInputContainer>
+              <SectionInputTitle>개인 정보</SectionInputTitle>
+              <div>
                 <SectionInput
                   onChange={this.handleInput}
-                  defaultValue={birthDate}
-                  maxLength="10"
-                  name="birthDate"
-                  placeholder="생년월일"
+                  defaultValue={koreanName}
+                  name="koreanName"
+                  placeholder="성함"
                   type="text"
-                  value={this.props.user.birth}
+                  value={this.props.user.name_kr}
+                  readonly
                 />
                 <SectionInputText>
-                  {this.state.error.birthDate}
+                  {this.state.error.koreanName}
                 </SectionInputText>
-              </SectionInputBox_v2_InputBox>
-              <SectionInputBox_v2_CheckboxBox>
-                <SectionInputBox_v2_Checkbox
-                  onChange={e => this.handleChange(e)}
-                  value={"2"}
-                  checked={this.state.gender === "2"}
-                  id="gender_male"
-                  name="gender"
-                  type="radio"
+              </div>
+              <div>
+                <SectionInput
+                  onChange={this.handleInput}
+                  defaultValue={englishName}
+                  name="englishName"
+                  placeholder="성함(영문)"
+                  type="text"
+                  value={this.state.englishName}
                 />
-                <label htmlFor="gender_male">
-                  <SectionInputBox_v2_CheckboxIcon>
-                    checkbox
-                  </SectionInputBox_v2_CheckboxIcon>
-                  남자
-                </label>
-                <SectionInputBox_v2_Checkbox
-                  onChange={e => this.handleChange(e)}
-                  value={"1"}
-                  checked={this.state.gender === "1"}
-                  id="gender_female"
-                  name="gender"
-                  type="radio"
+                <SectionInputText>
+                  {this.state.error.englishName}
+                </SectionInputText>
+              </div>
+              <SectionInputBox_v2>
+                <SectionInputBox_v2_InputBox>
+                  <SectionInput
+                    onChange={this.handleInput}
+                    defaultValue={birthDate}
+                    maxLength="10"
+                    name="birthDate"
+                    placeholder="생년월일"
+                    type="text"
+                    value={this.props.user.birth}
+                  />
+                  <SectionInputText>
+                    {this.state.error.birthDate}
+                  </SectionInputText>
+                </SectionInputBox_v2_InputBox>
+                <SectionInputBox_v2_CheckboxBox>
+                  <SectionInputBox_v2_Checkbox
+                    onChange={e => this.handleChange(e)}
+                    value={"2"}
+                    checked={this.state.gender === "2"}
+                    id="gender_male"
+                    name="gender"
+                    type="radio"
+                  />
+                  <label htmlFor="gender_male">
+                    <SectionInputBox_v2_CheckboxIcon>
+                      checkbox
+                    </SectionInputBox_v2_CheckboxIcon>
+                    남자
+                  </label>
+                  <SectionInputBox_v2_Checkbox
+                    onChange={e => this.handleChange(e)}
+                    value={"1"}
+                    checked={this.state.gender === "1"}
+                    id="gender_female"
+                    name="gender"
+                    type="radio"
+                  />
+                  <label htmlFor="gender_female">
+                    <SectionInputBox_v2_CheckboxIcon>
+                      checkbox
+                    </SectionInputBox_v2_CheckboxIcon>
+                    여자
+                  </label>
+                </SectionInputBox_v2_CheckboxBox>
+              </SectionInputBox_v2>
+              <SectionInputBox>
+                <SectionInput
+                  onChange={this.handleInput}
+                  defaultValue={cpNum}
+                  maxLength="11"
+                  name="cpNum"
+                  placeholder="휴대전화번호 11자"
+                  type="text"
+                  value={this.props.user.mobile}
+                  readonly
                 />
-                <label htmlFor="gender_female">
-                  <SectionInputBox_v2_CheckboxIcon>
-                    checkbox
-                  </SectionInputBox_v2_CheckboxIcon>
-                  여자
-                </label>
-              </SectionInputBox_v2_CheckboxBox>
-            </SectionInputBox_v2>
-            <SectionInputBox>
-              <SectionInput
-                onChange={this.handleInput}
-                defaultValue={cpNum}
-                maxLength="11"
-                name="cpNum"
-                placeholder="휴대전화번호 11자"
-                type="text"
-                value={this.props.user.mobile}
-                readonly
-              />
-              <SectionInputText>{this.state.error.cpNum}</SectionInputText>
-            </SectionInputBox>
+                <SectionInputText>{this.state.error.cpNum}</SectionInputText>
+              </SectionInputBox>
+              <div>
+                <SectionInput
+                  onChange={this.handleInput}
+                  defaultValue={pNum}
+                  name="pNum"
+                  placeholder="유선전화"
+                  type="text"
+                  value={this.state.pNum}
+                />
+                <SectionInputText>{this.state.error.pNum}</SectionInputText>
+              </div>
+              <SectionInputBox>
+                <SectionInput
+                  placeholder="우편번호"
+                  value={this.state.zipCode}
+                  readOnly
+                  type="text"
+                />
+                <SectionInputButton
+                  type="button"
+                  onClick={this.handleAddressClick}
+                >
+                  주소 찾기
+                </SectionInputButton>
+              </SectionInputBox>
+              {open && (
+                <DaumPostcode
+                  onComplete={this.handleAddress}
+                  autoClose={true}
+                />
+              )}
+              <div>
+                <SectionInput
+                  value={this.state.realAddress}
+                  onChange={this.handleInput}
+                  placeholder="기본 주소"
+                  type="text"
+                />
+              </div>
+              <div>
+                <SectionInput
+                  onChange={this.handleInput}
+                  name="detailAddress"
+                  placeholder="상세 주소(선택)"
+                  type="text"
+                  value={this.state.detailAddress}
+                />
+              </div>
+              <div>
+                <SectionInput
+                  onChange={this.handleInput}
+                  name="mail"
+                  placeholder="이메일"
+                  type="text"
+                  value={this.state.mail}
+                />
+                <SectionInputText>{this.state.error.mail}</SectionInputText>
+              </div>
+              <div>
+                <SectionSelect
+                  name=""
+                  id=""
+                  onChange={this.handleSelect}
+                  value={selectValue}
+                >
+                  <option value="">직업(선택)</option>
+                  {selectArr.map((item, idx) => {
+                    return (
+                      <option key={idx} value={idx + 1}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
+                </SectionSelect>
+              </div>
+            </SectionInputContainer>
+          </Form>
+          <Button onClick={this.onSubmit}>
+            <span>변경 완료</span>
+          </Button>
+        </Container>
+        {this.state.alert_show && (
+          <Alert>
             <div>
-              <SectionInput
-                onChange={this.handleInput}
-                defaultValue={pNum}
-                name="pNum"
-                placeholder="유선전화"
-                type="text"
-                value={this.state.pNum}
-              />
-              <SectionInputText>{this.state.error.pNum}</SectionInputText>
+              <p>개인정보가 수정되었습니다.</p>
+              <button onClick={this.alertClose}>확인</button>
             </div>
-            <SectionInputBox>
-              <SectionInput
-                placeholder="우편번호"
-                value={this.state.zipCode}
-                readOnly
-                type="text"
-              />
-              <SectionInputButton
-                type="button"
-                onClick={this.handleAddressClick}
-              >
-                주소 찾기
-              </SectionInputButton>
-            </SectionInputBox>
-            {open && (
-              <DaumPostcode onComplete={this.handleAddress} autoClose={true} />
-            )}
-            <div>
-              <SectionInput
-                value={this.state.realAddress}
-                onChange={this.handleInput}
-                placeholder="기본 주소"
-                type="text"
-              />
-            </div>
-            <div>
-              <SectionInput
-                onChange={this.handleInput}
-                name="detailAddress"
-                placeholder="상세 주소(선택)"
-                type="text"
-                value={this.state.detailAddress}
-              />
-            </div>
-            <div>
-              <SectionInput
-                onChange={this.handleInput}
-                name="mail"
-                placeholder="이메일"
-                type="text"
-                value={this.state.mail}
-              />
-              <SectionInputText>{this.state.error.mail}</SectionInputText>
-            </div>
-            <div>
-              <SectionSelect
-                name=""
-                id=""
-                onChange={this.handleSelect}
-                value={selectValue}
-              >
-                <option value="">직업(선택)</option>
-                {selectArr.map((item, idx) => {
-                  return (
-                    <option key={idx} value={idx + 1}>
-                      {item.name}
-                    </option>
-                  );
-                })}
-              </SectionSelect>
-            </div>
-          </SectionInputContainer>
-        </Form>
-        <Button onClick={this.onSubmit}>
-          <span>변경 완료</span>
-        </Button>
-      </Container>
+          </Alert>
+        )}
+      </>
     );
   }
 }
@@ -464,4 +490,46 @@ margin-top: 50px;
     transition: color 0.5s ease;
    }
 }
+`;
+
+const Alert = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(122, 122, 122, 0.5);
+  z-index: 1000;
+  overflow: hidden;
+  div {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 170px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      position: absolute;
+      top: 50px;
+    }
+    button {
+      position: absolute;
+      bottom: 30px;
+      width: 80px;
+      height: 40px;
+      background: none;
+      border: 1px solid #dbd6d2;
+      cursor: pointer;
+
+      &:hover {
+        border: none;
+        background: #a68164;
+      }
+    }
+  }
 `;

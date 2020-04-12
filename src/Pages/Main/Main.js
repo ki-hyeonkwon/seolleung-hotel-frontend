@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import NavBar from "Component/Nav/NavBar";
 import Mainvisual from "./Component/Mainvisual";
-import Ourhotels2 from "./Component/Ourhotels2";
+import Ourhotels from "./Component/Ourhotels";
 import Offers from "./Component/Offers";
 import Instagram from "./Component/Instagram";
 import Subnav from "./Component/Subnav";
@@ -61,7 +61,7 @@ export default class Main extends Component {
           <Mainvisual />
         </section>
         <section ref={ref => (this.section1 = ref)}>
-          <Ourhotels2 />
+          <Ourhotels />
         </section>
         <section ref={ref => (this.section2 = ref)}>
           <Offers />

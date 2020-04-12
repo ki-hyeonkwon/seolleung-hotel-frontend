@@ -42,7 +42,10 @@ export default class Mypage extends Component {
           <MypageContent>
             <MypageBox>
               <LeftArea user={this.state.user}></LeftArea>
-              <RightArea userData={this.state.user}></RightArea>
+              <RightArea
+                userData={this.state.user}
+                mypage={this.myPage}
+              ></RightArea>
             </MypageBox>
           </MypageContent>
           <Footer></Footer>

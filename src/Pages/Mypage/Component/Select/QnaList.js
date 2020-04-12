@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import SelectList from "Pages/Contact/Component/SelectList";
-// import Qna from "Pages/Contact/Component/Qna";
+import SelectList from "./List/SelectList";
+import PromotionList from "./List/PromotionList";
 import { MdClose } from "react-icons/md";
 import styled from "styled-components";
 import { address } from "Config/config";
@@ -10,13 +10,27 @@ export default class QnaList extends Component {
     super(props);
     this.state = {
       toggleClose: true,
+      modify_show: false,
+      delete_show: false,
       posts: [],
       place: [],
       promotion: [],
       placeId: "",
       promotionId: "",
-      placeName: "",
-      promotionName: "",
+      branch: {
+        1: "경주",
+        2: "울산",
+        3: "목포",
+        4: "포항",
+        5: "seamarQ"
+      },
+      inquiry_type: {
+        1: "멤버십",
+        2: "프로모션",
+        3: "객실",
+        4: "시설",
+        5: "기타"
+      },
       user: [],
       title: "",
       content: "",
@@ -24,6 +38,12 @@ export default class QnaList extends Component {
       item: "",
       open: false
     };
+  }
+
+  componentDidMount() {
+    this.getPlace();
+    this.getPromotion();
+    this.test();
   }
 
   getPlace = () => {
@@ -76,27 +96,27 @@ export default class QnaList extends Component {
   };
 
   onSubmit = () => {
-    fetch(`${address}/inquiry/${this.state.user.id}`, {
+    fetch(`${address}/inquiry/${this.state.id}`, {
       method: "post",
       headers: {
         Authorization:
           "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
       },
       body: JSON.stringify({
-        id: this.state.id,
+        branch: this.state.placeId,
+        inquiry_type: this.state.promotionId,
         title: this.state.title,
-        content: this.state.content,
-        branch: this.state.selectPlace,
-        inquiry_type: this.state.selectPromotion
+        content: this.state.content
       })
     })
-      // .then(res => res.json())
       .then(res => {
         console.log(res);
+        console.log(res.message);
         if (res.status === 200) {
           this.setState(
             {
-              toggleClose: true
+              toggleClose: true,
+              modify_show: true
             },
             () => {
               this.test();
@@ -126,7 +146,8 @@ export default class QnaList extends Component {
         if (res.status === 200) {
           this.setState(
             {
-              toggleClose: true
+              toggleClose: true,
+              delete_show: true
             },
             () => {
               this.test();
@@ -137,32 +158,20 @@ export default class QnaList extends Component {
       .catch(error => {
         console.error(error);
       });
-    // 에러나면 알려주는 거
   };
 
-  componentDidMount() {
-    this.getPlace();
-    this.getPromotion();
-    this.test();
-  }
+  onChangeItem = selected => {
+    this.setState({
+      placeId: selected,
+      open: !this.state.open
+    });
+  };
 
-  onChangeItem = (selectId, selectName) => {
-    this.setState(
-      {
-        placeId: selectId,
-        promotionId: selectId,
-        placeName: selectName,
-        promotionName: selectName,
-        open: !this.state.open
-      },
-      () => {
-        console.log("selectid", selectId.target);
-      }
-    );
-    // setItem(e.target.innerText);
-    // setOpen(!open);
-    // console.log(e.target.innerText);
-    // props.onChangeItem(e.target.innerText);
+  onChangePromotion = selected => {
+    this.setState({
+      promotionId: selected,
+      open: !this.state.open
+    });
   };
 
   ToggleClose = (title, content, id, branch, typeId) => {
@@ -172,11 +181,15 @@ export default class QnaList extends Component {
         title: title,
         content: content,
         id: id,
-        placeName: branch,
-        promotionName: typeId
+        placeId: branch,
+        promotionId: typeId
       },
       () => {
-        console.log(branch, typeId);
+        console.log(
+          "setState 후: ",
+          this.state.promotionId,
+          this.state.placeId
+        );
       }
     );
   };
@@ -187,8 +200,19 @@ export default class QnaList extends Component {
     });
   };
 
+  //포인트 요청 확인 창
+  alertClose = () => {
+    this.setState({
+      modify_show: false,
+      delete_show: false
+    });
+  };
+
   render() {
+    console.log("유저", this.state.user[0] && this.state.user[0].branch_id);
     const { toggleClose, place, promotion, user } = this.state;
+    console.log("placeId: ", this.state.placeId);
+    console.log("promotionId: ", this.state.promotionId);
 
     return (
       <>
@@ -251,24 +275,26 @@ export default class QnaList extends Component {
                 <ListContainer>
                   {place.length > 0 && (
                     <SelectList
-                      onChangeItem={(placeId, placeName) =>
-                        this.onChangeItem(placeId, placeName)
-                      }
-                      listTitle="경주"
+                      onChangeItem={placeId => this.onChangeItem(placeId)}
+                      listTitle={this.state.branch[this.state.placeId]}
                       dropLists={place}
                       open={this.state.open}
-                      value={this.state.placeName}
+                      value={this.state.placeId}
                     />
                   )}
-                  <SelectList
-                    onChangeItem={(promotionId, promotionName) =>
-                      this.onChangeItem(promotionId, promotionName)
-                    }
-                    listTitle="프로모션"
-                    dropLists={promotion}
-                    open={this.state.open}
-                    value={this.state.promotionName}
-                  />
+                  {promotion.length > 0 && (
+                    <PromotionList
+                      onChangeItem={promotionId =>
+                        this.onChangePromotion(promotionId)
+                      }
+                      listTitle={
+                        this.state.inquiry_type[this.state.promotionId]
+                      }
+                      dropLists={promotion}
+                      open={this.state.open}
+                      value={this.state.promotionId}
+                    />
+                  )}
                 </ListContainer>
                 <Title>
                   <input
@@ -294,6 +320,22 @@ export default class QnaList extends Component {
             </ModalContainer>
           </Modal>
         </Bg>
+        {this.state.modify_show && (
+          <Alert>
+            <div>
+              <p>수정 되었습니다.</p>
+              <button onClick={this.alertClose}>확인</button>
+            </div>
+          </Alert>
+        )}
+        {this.state.delete_show && (
+          <Alert>
+            <div>
+              <p>삭제 되었습니다.</p>
+              <button onClick={this.alertClose}>확인</button>
+            </div>
+          </Alert>
+        )}
       </>
     );
   }
@@ -384,7 +426,7 @@ const Bg = styled.td`
   width: 100vw;
   height: 100vh;
   background: rgba(122, 122, 122, 0.5);
-  z-index: 1000;
+  z-index: 10;
   overflow: hidden;
 `;
 
@@ -512,4 +554,46 @@ const Button = styled.button`
 
 const Delete = styled(Button.withComponent("button"))`
   margin-left: 20px;
+`;
+
+const Alert = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(122, 122, 122, 0.5);
+  z-index: 1000;
+  overflow: hidden;
+  div {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 170px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      position: absolute;
+      top: 50px;
+    }
+    button {
+      position: absolute;
+      bottom: 30px;
+      width: 80px;
+      height: 40px;
+      background: none;
+      border: 1px solid #dbd6d2;
+      cursor: pointer;
+
+      &:hover {
+        border: none;
+        background: #a68164;
+      }
+    }
+  }
 `;

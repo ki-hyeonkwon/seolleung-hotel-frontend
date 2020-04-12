@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 class LeftArea extends Component {
   handleLogout = () => {
-    window.sessionStorage.clear();
+    window.localStorage.clear();
     this.props.history.push("/");
     window.location.reload();
   };
@@ -24,7 +24,7 @@ class LeftArea extends Component {
             </li>
             <li>
               <AblePoint>적립 포인트</AblePoint>
-              <AblePointScore>0P</AblePointScore>
+              <AblePointScore>{this.props.user.point}P</AblePointScore>
             </li>
           </ul>
         </MyInfo>
