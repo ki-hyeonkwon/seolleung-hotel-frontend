@@ -85,6 +85,7 @@ const Header = styled.div`
   span {
     font-family: "PerpetuaStd";
     font-size: 27px;
+    cursor: pointer;
   }
   img {
     position: absolute;

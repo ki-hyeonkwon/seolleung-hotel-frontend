@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled, { keyframes } from "styled-components";
 import logo from "Images/logo.svg";
+import { Link } from "react-router-dom";
 
 export default class Footer extends Component {
   constructor(props) {
@@ -29,7 +30,12 @@ export default class Footer extends Component {
               </ul>
               <ul>
                 <li>Notice</li>
-                <li>Contact us</li>
+                <li>
+                  {" "}
+                  <Link to={"/contact"} style={{ color: "#fff" }}>
+                    Contact Us
+                  </Link>
+                </li>
                 <li>Career</li>
               </ul>
               <ul>
@@ -123,6 +129,7 @@ const FooterCnt = styled.div`
 
     li {
       margin-top: 10px;
+      cursor: pointer;
     }
     &:nth-child(2) {
     }

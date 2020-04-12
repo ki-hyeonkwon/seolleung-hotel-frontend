@@ -67,10 +67,10 @@ const moveImg = keyframes`
       to   { top: 0; }
 `;
 
-const fadeout = keyframes`
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-`;
+// const fadeout = keyframes`
+//   0% { opacity: 0; }
+//   100% { opacity: 1; }
+// `;
 
 const SnsContainer = styled.div`
   box-sizing: border-box;
@@ -92,7 +92,7 @@ const Title = styled.div`
   ${props => {
     if (props.movetitle) {
       return css`
-        animation-name: ${moveTitle}, ${fadeout};
+        animation-name: ${moveTitle};
         animation-duration: 2s;
         animation-iteration-count: linear infinite;
       `;
@@ -147,7 +147,7 @@ const ItemList = styled.div`
   ${props => {
     if (props.moveImg) {
       return css`
-        animation-name: ${fadeout}, ${moveImg};
+        animation-name: ${moveImg};
         animation-duration: 2s;
         animation-iteration-count: linear infinite;
       `;

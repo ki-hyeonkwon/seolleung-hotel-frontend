@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled, { keyframes } from "styled-components";
+import { Link } from "react-router-dom";
 
 export default class Footer extends Component {
   constructor(props) {
@@ -49,7 +50,11 @@ export default class Footer extends Component {
               <MenuWrap>
                 <Menu1>
                   <li>Notice</li>
-                  <li>Contact Us</li>
+                  <li>
+                    <Link to={"/contact"} style={{ color: "#fff" }}>
+                      Contact Us
+                    </Link>
+                  </li>
                   <li>Career</li>
                 </Menu1>
                 <Menu2>
