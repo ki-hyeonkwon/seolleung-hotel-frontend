@@ -260,6 +260,7 @@ const Button = styled.button`
   color: #000;
   -webkit-transition: color 0.5s ease;
   transition: color 0.5s ease;
+
   &:after {
     content: "";
     position: absolute;
@@ -273,12 +274,14 @@ const Button = styled.button`
     transition: all 0.5s ease;
     z-index: -1;
   }
+
   &:hover:after {
     height: 100%;
     z-index: 1;
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
   }
+
   &:hover {
     color: #fff;
     transition: color 0.5s ease;
