@@ -2,23 +2,26 @@ import React, { Component } from "react";
 import Calendar from "./Calendar";
 import { MdClose } from "react-icons/md";
 import styled from "styled-components";
+import { address } from "Config/config";
 
 export default class ReserveList extends Component {
   constructor() {
     super();
     this.state = {
       toggleClose: true,
+      alert_show: false,
       reserve: [],
       name: "",
       price: "",
       checkIn: "",
       stayNights: "",
       adult: "",
-      userId: ""
+      userId: "",
+      code: ""
     };
   }
 
-  ToggleClose = (name, price, checkIn, stayNights, adult, userId) => {
+  ToggleClose = (name, price, checkIn, stayNights, adult, userId, code) => {
     this.setState({
       toggleClose: !this.state.toggleClose,
       name: name,
@@ -26,15 +29,16 @@ export default class ReserveList extends Component {
       checkIn: checkIn,
       stayNights: stayNights,
       adult: adult,
-      userId: userId
+      userId: userId,
+      code: code
     });
   };
 
   reserveList = () => {
-    fetch("http://52.79.185.94:8000/reservation", {
+    fetch(`${address}/reservation`, {
       headers: {
         Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtheTEyMzRAZ21haWwuY29tIn0.kNDcEe5QCzZ4fC5gFI5ndz7l3_5OqGuy1kBxmWRaEpw"
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
       }
     })
       .then(res => res.json())
@@ -56,21 +60,19 @@ export default class ReserveList extends Component {
   }
 
   onDelete = () => {
-    fetch(
-      `http://52.79.185.94:8000/reservation/${this.state.reserve.reservation_code}`,
-      {
-        method: "delete",
-        headers: {
-          Authorization:
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtheTEyMzRAZ21haWwuY29tIn0.kNDcEe5QCzZ4fC5gFI5ndz7l3_5OqGuy1kBxmWRaEpw"
-        }
+    fetch(`${address}/reservation/delete/${this.state.code}`, {
+      method: "delete",
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
       }
-    )
+    })
       .then(res => {
         console.log(res);
         if (res.status === 200) {
           this.setState({
-            toggleClose: true
+            toggleClose: true,
+            alert_show: true
           });
           this.reserveList();
         }
@@ -80,6 +82,19 @@ export default class ReserveList extends Component {
       });
     // 에러나면 알려주는 거
   };
+
+  //취소 확인 창
+  alertClose = () => {
+    this.setState(
+      {
+        alert_show: false
+      },
+      () => {
+        window.location.reload();
+      }
+    );
+  };
+
   render() {
     const { toggleClose, reserve } = this.state;
 
@@ -109,7 +124,8 @@ export default class ReserveList extends Component {
                             reserve.check_in,
                             reserve.stay_nights,
                             reserve.adult,
-                            reserve.user_id
+                            reserve.user_id,
+                            reserve.reservation_code
                           )
                         }
                       >
@@ -125,7 +141,7 @@ export default class ReserveList extends Component {
             </Mid>
           </ReserveTable>
         </Container>
-        <Bg style={{ display: !this.state.toggleClose ? "block" : "none" }}>
+        <Bg style={{ display: !toggleClose ? "block" : "none" }}>
           <Modal>
             <Form>
               <MdClose
@@ -166,12 +182,20 @@ export default class ReserveList extends Component {
               </LayerHeader>
               <LayerBody>
                 <p>객실료</p>
-                <p>₩{Math.floor(this.state.price)}</p>
+                <p>₩{Math.floor(this.state.price).toLocaleString()}</p>
               </LayerBody>
               <Button onClick={this.onDelete}>취소 요청</Button>
             </Form>
           </Modal>
         </Bg>
+        {this.state.alert_show && (
+          <Alert>
+            <div>
+              <p>취소 요청 되었습니다.</p>
+              <button onClick={this.alertClose}>확인</button>
+            </div>
+          </Alert>
+        )}
       </>
     );
   }
@@ -199,6 +223,7 @@ const Mid = styled.div`
     margin-top: 19px;
     padding: 10px 0;
     height: 350px;
+    overflow: scroll;
     border-top: 1px solid #dbd6d2;
     border-bottom: 1px solid #dbd6d2;
     font-size: 12px;
@@ -209,19 +234,16 @@ const Mid = styled.div`
         text-align: center;
         thead {
             tr {
-                
                 th {
                     width: 25%;
                     text-align: center;
                     padding: 10px 0;
-                    font-weight: normal;
-                  
+                    font-weight: normal;      
                 }
             }
         }
 
         tbody {
-
             tr {
                 cursor: pointer;
                 td {
@@ -242,7 +264,7 @@ top: 0;
 width: 100vw;
 height: 100vh;
 background: rgba(122,122,122,0.5);
-z-index: 1000;
+z-index: 10;
 overflow: hidden;
 }
 `;
@@ -358,5 +380,47 @@ const Button = styled.button`
     color: #fff;
     transition: color 0.5s ease;
     z-index: 10;
+  }
+`;
+
+const Alert = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(122, 122, 122, 0.5);
+  z-index: 1000;
+  overflow: hidden;
+  div {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 170px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      position: absolute;
+      top: 50px;
+    }
+    button {
+      position: absolute;
+      bottom: 30px;
+      width: 80px;
+      height: 40px;
+      background: none;
+      border: 1px solid #dbd6d2;
+      cursor: pointer;
+
+      &:hover {
+        border: none;
+        background: #a68164;
+      }
+    }
   }
 `;

@@ -18,7 +18,7 @@ const SelectList = props => {
         name="room"
         onClick={openList}
       >
-        {item}
+        {props.listTitle}
       </BookButton>
       <BookUl open={open}>
         {props.dropLists.map((list, i) => {

@@ -95,7 +95,7 @@ export default class Footer extends Component {
 
 const FooterContainer = styled.div`
   width: 100vw;
-  height: 76vh;
+  height: 100vh;
 `;
 
 const FooterCnt = styled.div`
@@ -103,7 +103,7 @@ const FooterCnt = styled.div`
   left: 0;
   top: 24vh;
   width: 100%;
-  height: 100%;
+  height: 76vh;
   color: #fff;
 `;
 
@@ -262,15 +262,6 @@ const FamilySite = styled.div`
 }
 `;
 
-// const boxShow = keyframes`
-//   from {
-//     height: 0;
-//   }
-//   to {
-//     height: 170px;
-//   }
-// `;
-
 const SelectBox = styled.ul`
     position: absolute;
     background-color: #fff;
@@ -287,6 +278,7 @@ const SelectBox = styled.ul`
 
     li {
         font-size: 10px;
+        letter-spacing: .01em;
     }
 }
 `;

@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import styled, { keyframes, css } from "styled-components";
+import insta1 from "Images/lahan_insta1.jpeg";
+import insta2 from "Images/lahan_insta2.jpg";
+import insta3 from "Images/lahan_insta3.jpg";
+import insta4 from "Images/lahan_insta4.jpg";
+import insta5 from "Images/lahan_insta5.jpg";
 
 export default class Instagram extends Component {
   state = {
@@ -17,7 +22,7 @@ export default class Instagram extends Component {
 
   handleScroll = e => {
     const scrollTop = ("scroll", e.srcElement.scrollingElement.scrollTop);
-    if (scrollTop > 3000) {
+    if (scrollTop > 2950) {
       this.setState({ moveTitle: true });
       this.setState({ moveList: true });
     } else {
@@ -39,26 +44,11 @@ export default class Instagram extends Component {
                 src="https://www.lahanhotels.com/intro/images/sns_img-1.jpg"
                 alt=""
               />
-              <img
-                src="https://www.lahanhotels.com/intro/images/sns_img-1.jpg"
-                alt=""
-              />
-              <img
-                src="https://www.lahanhotels.com/intro/images/sns_img-1.jpg"
-                alt=""
-              />
-              <img
-                src="https://www.lahanhotels.com/intro/images/sns_img-1.jpg"
-                alt=""
-              />
-              <img
-                src="https://www.lahanhotels.com/intro/images/sns_img-1.jpg"
-                alt=""
-              />
-              <img
-                src="https://www.lahanhotels.com/intro/images/sns_img-1.jpg"
-                alt=""
-              />
+              <img src={insta1} alt="" />
+              <img src={insta2} alt="" />
+              <img src={insta3} alt="" />
+              <img src={insta4} alt="" />
+              <img src={insta5} alt="" />
             </ItemList>
           </Panel>
         </Sns>
@@ -68,16 +58,22 @@ export default class Instagram extends Component {
 }
 
 const moveTitle = keyframes`
-  from { margin-top: 100px; }
-      to   { margin-top: 0; }
+  from { padding-top: 200px; }
+      to   { padding-top: 100px; }
+`;
+
+const moveImg = keyframes`
+  from { top: 10vh; }
+      to   { top: 0; }
 `;
 
 const fadeout = keyframes`
-  from { opacity: 0; }
-      to   { opacity: 1; }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 `;
 
 const SnsContainer = styled.div`
+  box-sizing: border-box;
   width: 100vw;
   height: 100vh;
 `;
@@ -91,9 +87,8 @@ const Sns = styled.div`
 `;
 
 const Title = styled.div`
-  padding-top: 14vw;
+  padding-top: 100px;
   text-align: center;
-
   ${props => {
     if (props.movetitle) {
       return css`
@@ -115,7 +110,6 @@ const Title = styled.div`
     transform: translateX(-50%);
     color: #a68164;
     font-size: 14px;
-    margin-top: 2.78vw;
     display: block;
     padding-bottom: 2px;
     border: none;
@@ -138,34 +132,34 @@ const Title = styled.div`
 `;
 
 const Panel = styled.div`
+  position: absolute;
   display: block;
   width: 100%;
-
   max-width: 1140px;
-  margin-left: auto;
-  margin-right: auto;
   font-size: 0;
+  margin-left: -570px;
+  left: 50%;
+  top: 15vh;
 `;
 
 const ItemList = styled.div`
-  opacity: 0;
+  position: absolute;
   ${props => {
     if (props.moveImg) {
       return css`
-        animation-name: ${fadeout};
-        animation-duration: 4s;
+        animation-name: ${fadeout}, ${moveImg};
+        animation-duration: 2s;
         animation-iteration-count: linear infinite;
       `;
     }
   }}
 
-  margin-top: 5vh;
-
   img {
     width: 30%;
+    height: 350px;
     float: left;
     margin-right: 5%;
-    margin-top: 5%;
+    margin-top: 50px;
     &:nth-child(3n) {
       margin-right: 0;
     }

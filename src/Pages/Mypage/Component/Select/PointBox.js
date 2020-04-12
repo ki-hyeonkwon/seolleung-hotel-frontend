@@ -2,17 +2,87 @@ import React, { Component } from "react";
 import Calendar from "./Calendar";
 import { MdClose } from "react-icons/md";
 import styled from "styled-components";
+import { address } from "Config/config";
 
 export default class PointBox extends Component {
   constructor() {
     super();
     this.state = {
-      toggleClose: true
+      toggleClose: true,
+      alert_show: false,
+      checkIn: "",
+      checkOut: "",
+      pointList: [],
+      comments: "",
+      img: ""
     };
+  }
+
+  componentDidMount() {
+    this.test();
   }
 
   ToggleClose = () => {
     this.setState({ toggleClose: !this.state.toggleClose });
+  };
+
+  test = () => {
+    fetch(`${address}/reservation/point`, {
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
+        //
+      }
+    })
+      .then(res => res.json())
+      .then(res =>
+        this.setState(
+          {
+            pointList: res.Inquiry_type
+          },
+          () => console.log("pointList", this.state.pointList[0].total_point)
+        )
+      );
+  };
+
+  handleValueChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onSubmit = () => {
+    fetch(`${address}/reservation/point`, {
+      method: "post",
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
+        // localStorage.getItem("Authorization")
+      },
+      body: JSON.stringify({
+        request_img: this.state.img,
+        request: this.state.comments
+      })
+    })
+      // .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          this.setState({
+            toggleClose: true,
+            alert_show: true
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    // 에러나면 알려주는 거
+  };
+
+  //포인트 요청 확인 창
+  alertClose = () => {
+    this.setState({
+      alert_show: false
+    });
   };
 
   render() {
@@ -20,12 +90,19 @@ export default class PointBox extends Component {
       <>
         <Container>
           <Calendar />
+          <CalendarBtn onClick={this.handleDate} />
           <PointTable>
             <Top>
               <ul>
                 <li>
                   <AblePoint>적립 포인트</AblePoint>
-                  <AblePointScore>0P</AblePointScore>
+                  <AblePointScore>
+                    {this.state.pointList.length > 0 &&
+                      this.state.pointList[
+                        this.state.pointList.length - 1
+                      ].total_point.toLocaleString()}{" "}
+                    P
+                  </AblePointScore>
                 </li>
                 <li>
                   <Point>사용 포인트</Point>
@@ -49,12 +126,17 @@ export default class PointBox extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
+                  {this.state.pointList &&
+                    this.state.pointList.map(point => {
+                      return (
+                        <tr>
+                          <td>{point.date}</td>
+                          <td>{point.branch}</td>
+                          <td>{point.saved_point.toLocaleString()}P</td>
+                          <td>{point.used_point.toLocaleString()}P</td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </Mid>
@@ -82,7 +164,7 @@ export default class PointBox extends Component {
                   <span>3개월 이내</span>에 이용하신 내역에 한하여 영수증 사본을
                   첨부해 주시면 검토
                   <br />후 포인트가 적립됩니다. 첨부 파일에
-                  <span>영수증 사본을 첨부</span>하여 주시기
+                  <span> 영수증 사본을 첨부 </span>하여 주시기
                   <br />
                   바랍니다.
                 </p>
@@ -91,14 +173,30 @@ export default class PointBox extends Component {
                 <input
                   type="file"
                   placeholder="첨부파일 (jpg, png/10mb 이하)"
+                  onChange={this.handleValueChange}
+                  name="img"
+                  value={this.state.img}
                 />
 
-                <textarea placeholder="요청 사항 (선택)"></textarea>
+                <textarea
+                  placeholder="요청 사항 (선택)"
+                  onChange={this.handleValueChange}
+                  name="comments"
+                  value={this.state.comments}
+                ></textarea>
               </LayerBody>
-              <Button>포인트 적립 요청</Button>
+              <Button onClick={this.onSubmit}>포인트 적립 요청</Button>
             </Form>
           </Modal>
         </Bg>
+        {this.state.alert_show && (
+          <Alert>
+            <div>
+              <p>포인트 적립 요청이 완료 되었습니다.</p>
+              <button onClick={this.alertClose}>확인</button>
+            </div>
+          </Alert>
+        )}
       </>
     );
   }
@@ -109,6 +207,19 @@ const Container = styled.div`
   top: 20px;
   width: 100%;
   height: 500px;
+`;
+
+const CalendarBtn = styled.span`
+  position: absolute;
+  right: -10px;
+  top: 12px;
+  background: url("https://www.lahanhotels.com/club/images/ico_my_search.png")
+    no-repeat 0 0;
+  width: 12px;
+  height: 12px;
+  display: block;
+  background-size: 100%;
+  cursor: pointer;
 `;
 
 const PointTable = styled.div`
@@ -241,7 +352,10 @@ const Mid = styled.div`
 
     tbody {
       tr {
+        cursor: pointer;
         td {
+          background: #dcdcdc;
+          padding: 10px 0;
         }
       }
     }
@@ -366,5 +480,47 @@ const Button = styled.button`
     color: #fff;
     transition: color 0.5s ease;
     z-index: 10;
+  }
+`;
+
+const Alert = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(122, 122, 122, 0.5);
+  z-index: 1000;
+  overflow: hidden;
+  div {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 170px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      position: absolute;
+      top: 50px;
+    }
+    button {
+      position: absolute;
+      bottom: 30px;
+      width: 80px;
+      height: 40px;
+      background: none;
+      border: 1px solid #dbd6d2;
+      cursor: pointer;
+
+      &:hover {
+        border: none;
+        background: #a68164;
+      }
+    }
   }
 `;
