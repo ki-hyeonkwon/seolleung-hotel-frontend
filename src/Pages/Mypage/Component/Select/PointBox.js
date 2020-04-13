@@ -29,9 +29,7 @@ export default class PointBox extends Component {
   test = () => {
     fetch(`${address}/reservation/point`, {
       headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
-        //
+        Authorization: localStorage.getItem("Authorization")
       }
     })
       .then(res => res.json())
@@ -53,9 +51,7 @@ export default class PointBox extends Component {
     fetch(`${address}/reservation/point`, {
       method: "post",
       headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
-        // localStorage.getItem("Authorization")
+        Authorization: localStorage.getItem("Authorization")
       },
       body: JSON.stringify({
         request_img: this.state.img,

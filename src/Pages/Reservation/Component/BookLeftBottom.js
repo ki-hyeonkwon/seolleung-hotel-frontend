@@ -13,8 +13,7 @@ const BookLeftBottom = props => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtheTEyMzRAZ21haWwuY29tIn0.kNDcEe5QCzZ4fC5gFI5ndz7l3_5OqGuy1kBxmWRaEpw"
+        Authorization: localStorage.getItem("Authorization")
       },
       body: JSON.stringify({
         adult: props.gotPeo,

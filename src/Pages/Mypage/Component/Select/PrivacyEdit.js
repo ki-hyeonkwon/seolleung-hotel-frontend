@@ -51,8 +51,7 @@ export default class PrivacyEdit extends Component {
     fetch(`${address}/users/userinfo`, {
       method: "post",
       headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
+        Authorization: localStorage.getItem("Authorization")
       },
       body: JSON.stringify({
         name_eng: this.state.englishName,

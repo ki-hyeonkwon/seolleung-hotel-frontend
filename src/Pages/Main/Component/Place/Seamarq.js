@@ -87,7 +87,7 @@ const Word = styled.div`
       : props.pohang
       ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-3-1.png"})`
       : props.seamarq
-      ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-4-1.png"})`
+      ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-5-1.png"})`
       : "none"};
   ${props => {
     if (props.fadeImg) {
@@ -206,7 +206,7 @@ const Word2 = styled.div`
       : props.pohang
       ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-3-2.png"})`
       : props.seamarq
-      ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-4-2.png"})`
+      ? `url(${"https://www.lahanhotels.com/intro/images/txt_ani-5-2.png"})`
       : "none"};
   ${props => {
     if (props.fadeImg) {
