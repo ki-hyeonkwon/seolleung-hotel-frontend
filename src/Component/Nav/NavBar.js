@@ -17,11 +17,9 @@ export default class NavBar extends Component {
 
   componentDidMount() {
     this.setState({
-
-      other: window.sessionStorage.getItem("Authorization")
-        ? ["membership", "mypage"]
+      other: window.localStorage.getItem("Authorization")
+        ? ["mypage"]
         : ["membership", "login", "join"]
-
     });
   }
 

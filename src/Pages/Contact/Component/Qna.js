@@ -63,8 +63,7 @@ export default class Qna extends Component {
     fetch(`${address}/inquiry`, {
       method: "post",
       headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
+        Authorization: localStorage.getItem("Authorization")
       },
       body: JSON.stringify({
         title: this.state.title,

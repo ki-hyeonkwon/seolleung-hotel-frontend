@@ -80,8 +80,7 @@ export default class QnaList extends Component {
   test = () => {
     fetch(`${address}/inquiry`, {
       headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
+        Authorization: localStorage.getItem("Authorization")
       }
     })
       .then(res => res.json())
@@ -99,8 +98,7 @@ export default class QnaList extends Component {
     fetch(`${address}/inquiry/${this.state.id}`, {
       method: "post",
       headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
+        Authorization: localStorage.getItem("Authorization")
       },
       body: JSON.stringify({
         branch: this.state.placeId,
@@ -134,8 +132,7 @@ export default class QnaList extends Component {
     fetch(`${address}/inquiry`, {
       method: "delete",
       headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50IjoiZXVubWkwNSJ9.FHwnXoeIUr6E-CbAb96bMYO-vdWbxpGDZw1HIQm-g0I"
+        Authorization: localStorage.getItem("Authorization")
       },
       body: JSON.stringify({
         id: this.state.id
