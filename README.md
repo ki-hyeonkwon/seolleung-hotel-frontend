@@ -3,12 +3,12 @@
 ## 소개
 
 - Wecode 6기 수강생들의 [라한호텔](https://www.lahanhotels.com/) 클론 프로젝트 입니다.
-- 기간: 2주 (2020.03.08 ~ )
+- 기간: 2주 (2020.03.08 ~ 2020.03.22)
 - 팀원: 프론트엔드 3명, 백엔드 2명 [(Back-End Repository)](https://github.com/wecode-bootcamp-korea/seolleung-hotel-backend)
 
 ## 목표
 
-- 실제 Back-End API를 통해 원하는 데이터를 GET/POST하여 원하는 사이트에 구현.
+- 실제 Back-End API를 통해 원하는 데이터를 GET, POST하여 원하는 사이트에 구현.
 - kakao 로그인, calendar 라이브러리, 동적라우터 구현.
 - Styled-Component를 사용하여 스타일 적용.
 
@@ -16,7 +16,7 @@
 ## 적용 기술
 
 - Front-End: HTML, Styled Component, ReactJS
-- Back-End: Python, Django, MySQL
+- Back-End: Python, Django, MySQL, CORS headers, AWS, Docker
 
 ## 기능
 
