@@ -13,6 +13,10 @@ export default class Mypage extends Component {
     };
   }
 
+  componentDidMount() {
+    // window.scrollTop(0, 0);
+  }
+
   changeStage = num => {
     this.setState({
       stage: num
