@@ -91,7 +91,7 @@ const Login = ({ location, history }) => {
           "Authorization",
           authorization.Authorization
         );
-        //history.push("/");
+        history.push("/");
       }
     } catch (error) {
       console.log(error);
