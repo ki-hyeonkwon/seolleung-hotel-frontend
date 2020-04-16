@@ -84,15 +84,14 @@ const Login = ({ location, history }) => {
       if (requestFromKaKao.status === 200) {
         const authorization = await requestFromKaKao.json();
 
-        console.log(kakaoResult);
-        console.log(authorization);
-
         window.localStorage.setItem(
           "Authorization",
           authorization.Authorization
         );
-        //history.push("/");
+        history.push("/");
       }
+
+      console.dir(requestFromKaKao);
     } catch (error) {
       console.log(error);
       alert("다시 시도 바랍니다.");
