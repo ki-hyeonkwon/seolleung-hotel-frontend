@@ -4,7 +4,7 @@
 
 - Wecode 6기 수강생들의 [라한호텔](https://www.lahanhotels.com/) 클론 프로젝트 입니다.
 - 기간: 2주 (2020.03.08 ~ 2020.03.22)
-- 팀원: 프론트엔드 3명, 백엔드 2명 [(Back-End Repository)](https://github.com/wecode-bootcamp-korea/seolleung-hotel-backend)
+- 팀원: 프론트엔드 3명, 백엔드 2명 ([Back-End Repository](https://github.com/wecode-bootcamp-korea/seolleung-hotel-backend))
 
 ## 목표
 
@@ -51,3 +51,6 @@
 - 예약 조회에서는 Reservation 페이지에서 한 예약 내역을 볼 수 있고, 예약 내역을 누르면 예약 내역이 담긴 모달창이 생성, 삭제가 가능하도록 fetch 함.
 - 포인트 내역도 Reservation 페이지에서 예약을 하면 포인트가 쌓이고, 포인트 적립 요청을 누르면 이미지와 내용이 fetch를 통해 post 됨.
 - 개인 정보 수정 및 비밀번호 변경도 fetch를 통해 수정 가능하게 구현함.
+
+## 데모영상
+[클론 영상 보러가기](https://youtu.be/HULscwbnHyw)
